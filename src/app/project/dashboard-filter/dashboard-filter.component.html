@@ -1,0 +1,49 @@
+<mat-nav-list>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
+    <mat-label>Enter a date range</mat-label>
+    <mat-form-field style="width: 100%;">
+      <mat-date-range-input [formGroup]="filterForm" [rangePicker]="picker">
+        <input matStartDate formControlName="dateFrom" placeholder="Start date">
+        <input matEndDate formControlName="dateTo" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      @if (filterForm.get('dateFrom').hasError('matStartDateInvalid')) {
+        <mat-error>Invalid start date</mat-error>
+      }
+      @if (filterForm.get('dateTo').hasError('matEndDateInvalid')) {
+        <mat-error>Invalid end date</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-label>Select Project</mat-label>
+    <!-- <mat-form-field style="width: 100%;">
+      <mat-select formControlName="projectId" >
+        @for (f of projects; track f) {
+          <mat-option [value]="f.id">{{f.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field> -->
+      <mat-form-field class="example-full-width" style="width: 100%;">
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option.name">{{option.name}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+    <div style="text-align: center;">
+      <button   type="submit" mat-raised-button color="primary"
+      [disabled]="!filterForm.valid">Filter</button>
+    </div>
+
+  </form>
+</mat-nav-list>

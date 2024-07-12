@@ -1,0 +1,58 @@
+<mat-card style="margin: 5px;">
+  <mat-card-title style="margin: 10px;">Advance Filter
+    <button (click)="resetFilter()" mat-mini-fab color="warn" style="margin-left: 60px;">
+      <mat-icon >power_settings_new</mat-icon>
+
+    </button>
+
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+      <mat-label>Enter a date range</mat-label>
+      <mat-form-field style="width: 100%;">
+        <mat-date-range-input [formGroup]="filterForm" [rangePicker]="picker">
+          <input matStartDate formControlName="dateFrom" placeholder="Start date">
+          <input matEndDate formControlName="dateTo" placeholder="End date">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        @if (filterForm.get('dateFrom').hasError('matStartDateInvalid')) {
+          <mat-error>Invalid start date</mat-error>
+        }
+        @if (filterForm.get('dateTo').hasError('matEndDateInvalid')) {
+          <mat-error>Invalid end date</mat-error>
+        }
+      </mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-form-field style="width: 100%;">
+        <mat-select formControlName="typeIds" multiple>
+          @for (f of typeData; track f) {
+            <mat-option [value]="f.id">{{f.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-label>Telemarketers</mat-label>
+      <mat-form-field style="width: 100%;">
+        <mat-select formControlName="createdBy" multiple>
+          @for (f of employeeData; track f) {
+            <mat-option [value]="f.userName">{{f.userName}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+
+
+
+
+
+
+
+
+      <button  type="submit" mat-raised-button color="primary">Filter</button>
+    </form>
+  </mat-card-content>
+</mat-card>

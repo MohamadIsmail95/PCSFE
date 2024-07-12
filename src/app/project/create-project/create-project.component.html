@@ -1,0 +1,114 @@
+<mat-card style="margin: 5px;">
+  <mat-card-title>Create New Project</mat-card-title>
+  <mat-card-content>
+    <mat-stepper linear  labelPosition="bottom" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Fill out project details</ng-template>
+
+          <mat-card style="margin: 5px;">
+            <mat-label>Name</mat-label>
+            <mat-form-field >
+              <input matInput placeholder="Enter your project name" formControlName="name" required>
+            </mat-form-field>
+            <mat-label>Quota</mat-label>
+            <mat-form-field>
+              <input type="number" matInput placeholder="Enter quota project" formControlName="quota" required>
+            </mat-form-field>
+            <mat-label>Date From</mat-label>
+            <mat-form-field class="example-full-width">
+              <input matInput  [matDatepicker]="picker" formControlName="dateFrom">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>Date To</mat-label>
+            <mat-form-field class="example-full-width">
+              <input  matInput  [matDatepicker]="picker2" formControlName="dateTo">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            @if (firstFormGroup.get("dateTo").errors?.['confirmedValidator'])
+            {
+              <h5 style=" color: red;">
+                DateTo must greater than DateFrom
+              </h5>
+
+            }
+
+            <mat-label>Type</mat-label>
+            <mat-form-field>
+              <mat-select formControlName="TypeId">
+                @for (f of typeData; track f) {
+                  <mat-option [value]="f.id">{{f.name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+
+          </mat-card>
+
+          <div>
+            <button mat-button matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <mat-label>Download template</mat-label>
+       <a href="assets/GSMs.xlsx">
+        <mat-icon>file_download</mat-icon>
+       </a>
+
+        <br><br>
+
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Upload GSM file</ng-template>
+          <button  mat-stroked-button color="primary">
+            <input type="file" accept=".xlsx" (change)="readExcelFile($event)" formControlName="file" />
+          </button>
+          <br>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext [disabled]="!secondFormGroup.valid">Next</button>
+          </div>
+        </form>
+
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>File out telemarketers</ng-template>
+          <mat-form-field style="width: 40%;">
+            <mat-label>Telemarketers</mat-label>
+            <mat-select formControlName="employeeIDS" multiple>
+              @for (f of employeeData; track f) {
+                <mat-option [value]="f.id">{{f.userName}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+
+        <ng-template matStepLabel>Done</ng-template>
+        <mat-progress-bar mode="indeterminate" *ngIf="(projservice.loadingCreate$ | async)"></mat-progress-bar>
+
+        <p>Congratulations ,You are now done.</p>
+        <div class="btnClass">
+          <button mat-raised-button matStepperPrevious style="margin: 5px;">Back</button>
+          <button mat-raised-button color="warn" (click)="stepper.reset()" style="margin: 5px;">Reset</button>
+          <button mat-raised-button color="primary"  style="margin: 5px;" (click)="createProject()" [disabled]="(projservice.loadingCreate$ | async)">Save</button>
+
+        </div>
+      </mat-step>
+    </mat-stepper>
+
+  </mat-card-content>
+</mat-card>

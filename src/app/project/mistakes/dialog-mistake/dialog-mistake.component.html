@@ -1,0 +1,61 @@
+
+<mat-card style="margin: 5px;">
+  <mat-card-title style="margin: 10px;">Advance Filter
+    <button (click)="resetFilter()" mat-mini-fab color="warn" style="margin-left: 60px;">
+      <mat-icon >power_settings_new</mat-icon>
+
+    </button>
+
+  </mat-card-title>
+
+  <mat-card-content>
+<mat-nav-list>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
+    <mat-label>Telemarketers</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="telemarketrerIds" multiple>
+        @for (f of employeeData; track f) {
+          <mat-option [value]="f.id">{{f.userName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-label>Mistake Type</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="mistakeTypeIds" multiple>
+        @for (f of employeeData; track f) {
+          <mat-option [value]="f.id">{{f.userName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-label>Controller</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="controllerIds" multiple>
+        @for (f of typeData; track f) {
+          <mat-option [value]="f.id">{{f.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-label>GSM</mat-label><br>
+    <mat-form-field>
+      <input  matInput formControlName="gsm">
+    </mat-form-field><br>
+
+
+    <div style="text-align: center;">
+      <button   type="submit" mat-raised-button color="primary"
+      [disabled]="!filterForm.valid">Filter</button>
+    </div>
+
+  </form>
+</mat-nav-list>
+  </mat-card-content>
+</mat-card>

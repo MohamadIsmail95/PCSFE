@@ -1,0 +1,36 @@
+<mat-dialog-content>
+
+  <mat-form-field style="width: 100%;" *ngIf="isAdmin">
+    <mat-label>Employee</mat-label>
+    <mat-select [(ngModel)]="data.details.employeeID">
+
+      @for (state of data.employeelis; track state) {
+
+        <mat-option [value]="state.id">{{state.userName}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%;">
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="data.details.callStatusId">
+
+      @for (state of data.status; track state) {
+
+        <mat-option [value]="state.id">{{state.name}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 100%;" class="example-full-width">
+    <mat-label>Leave a Note</mat-label>
+    <textarea [(ngModel)]="data.details.note" matInput placeholder="Ex. It makes me feel..."></textarea>
+  </mat-form-field>
+
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

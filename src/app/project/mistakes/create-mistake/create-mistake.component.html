@@ -1,0 +1,89 @@
+<mat-card>
+<mat-card-title>New Mistake</mat-card-title>
+<form [formGroup]="mistakeForm" (ngSubmit)="onSubmit()">
+
+<mat-grid-list cols="4" rowHeight="100px">
+
+  <mat-grid-tile [colspan]="2" [rowspan]="5">
+   <div class="misForm">
+    <mat-label>Telemarketers</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="telemarketerId">
+        @for (f of employeeData; track f) {
+          <mat-option [value]="f.id">{{f.userName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+    <mat-label>Mistake Type</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="mistakeTypeId">
+        @for (f of employeeData; track f) {
+          <mat-option [value]="f.id">{{f.userName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-label>Controller</mat-label>
+
+    <mat-form-field>
+
+      <mat-select formControlName="controllerId">
+        @for (f of typeData; track f) {
+          <mat-option [value]="f.id">{{f.name}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field><br>
+
+    <mat-label>GSM</mat-label><br>
+    <mat-form-field>
+      <input  matInput formControlName="gsm">
+    </mat-form-field><br>
+
+    <mat-label>Serial</mat-label><br>
+    <mat-form-field>
+      <input  matInput formControlName="serial">
+    </mat-form-field>
+
+
+   </div>
+  </mat-grid-tile >
+
+  <mat-grid-tile [colspan]="2" [rowspan]="5">
+    <div class="misForm">
+    <mat-label>Question Number</mat-label><br>
+    <mat-form-field>
+      <input  matInput formControlName="questionNumber">
+    </mat-form-field><br>
+
+    <mat-label>Segment</mat-label><br>
+    <mat-form-field>
+      <input  matInput formControlName="segment">
+    </mat-form-field><br>
+
+    <mat-label>Description</mat-label><br>
+    <mat-form-field>
+      <input matInput formControlName="description">
+
+    </mat-form-field><br>
+
+    <mat-label>Wieght</mat-label><br>
+    <mat-form-field>
+      <input type="number" matInput formControlName="wieght">
+    </mat-form-field><br>
+
+    <mat-label>Admin Remark</mat-label><br>
+    <mat-form-field>
+      <input type="number"  matInput formControlName="adminRemark">
+    </mat-form-field><br>
+    </div>
+  </mat-grid-tile>
+
+</mat-grid-list>
+<button style="margin: 20px;"  mat-raised-button color="primary" type="submit" [disabled]="mistakeForm.invalid" >Save</button>
+
+</form>
+</mat-card>
