@@ -35,82 +35,48 @@ export const items: IconNavItemWithRoles[] = [
 
     ],
   },
-  // {
-  //   title: 'Statistics',
-  //   svgIcon: DASHBOARD_ICON,
-  //   postition: 'top',
-  //   roles: ['admin','Researcher'],
-  //   children: [
-  //     {
-  //       title: 'General Report',
-  //       svgIcon: REPORT_ICON,
-  //       routerLink: 'charts'
-  //     },
-  //     {
-  //       title: 'Targets',
-  //       svgIcon: KPI_ICON,
-  //       routerLink: 'evaluations'
-  //     }
+  {
+    title: 'Statistics',
+    svgIcon: DASHBOARD_ICON,
+    postition: 'top',
+    roles: ['admin','Researcher'],
+    children: [
+      {
+        title: 'General Report',
+        svgIcon: REPORT_ICON,
+        routerLink: 'charts'
+      },
+      {
+        title: 'Hourly Targets',
+        svgIcon: KPI_ICON,
+        routerLink: 'evaluations'
+      }
 
-  //   ],
-  // },
-  // {
-  //   title: 'Mistake Report',
-  //   svgIcon: SUBSET_ICON,
-  //   postition: 'top',
-  //   roles: ['admin','Researcher'],
-  //   children: [
-
-
-  //   ],
-  // },
-  // {
-  //   title: 'Evaluations',
-  //   svgIcon: COUNTER_ICON,
-  //   postition: 'top',
-  //   roles: ['admin','Researcher'],
-  //   children: [
+    ],
+  },
+   {
+    title: 'Mistake Report',
+    svgIcon: SUBSET_ICON,
+    postition: 'top',
+    roles: ['admin','Researcher'],
+    children: [
 
 
-  //   ],
-  // },
+    ],
+  },
+  {
+    title: 'Evaluations',
+    svgIcon: COUNTER_ICON,
+    postition: 'top',
+    roles: ['admin','Researcher'],
+    children: [
+
+
+    ],
+  },
 
 
 
-  // {
-  //   title: 'Reports',
-  //   svgIcon: REPORT_ICON,
-  //   postition: 'top',
-  //   children: [
-  //     {
-  //       title: 'All Reports',
-  //       svgIcon: LIST_ICON,
-  //     },
-  //     {
-  //       title: 'Create New',
-  //       svgIcon: ADD_ICON,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Dashboards',
-  //   svgIcon: DASHBOARD_ICON,
-  //   postition: 'top',
-  //   children: [
-  //     {
-  //       title: 'My Dashboards',
-  //       svgIcon: LIST_ICON,
-  //     },
-  //     {
-  //       title: 'Shared Dashboards',
-  //       svgIcon: SHARE_ICON,
-  //     },
-  //     {
-  //       title: 'Create New',
-  //       svgIcon: ADD_ICON,
-  //     },
-  //   ],
-  // },
   // {
   //   title: 'Admin',
   //   routerLink: 'admin',

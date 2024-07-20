@@ -19,7 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { DashboardFilterComponent } from '../dashboard-filter/dashboard-filter.component';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../http.service';
-import { StatisticsReportViewModel, categoryCounter, statusCard } from '../project.const';
+import { StatisticsReportViewModel, categoryCounter, productivityVewModel, statusCard } from '../project.const';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxCaptureService } from 'ngx-capture';
 import { NgxCaptureModule } from 'ngx-capture';
@@ -44,8 +44,10 @@ export class AllchartsComponent implements OnInit  {
     private captureService: NgxCaptureService, private localStorageService:LocalStorageService ) {}
 
   displayedColumns = ['category', 'count'];
+  productivityDisplayedColumns = ['employee', 'assigned','complated','closed','closedRate','complatedRate'];
+
   dataSource : categoryCounter[]=[];
-  productivitySource : categoryCounter[]=[];
+  productivityDataSource : productivityVewModel[]=[];
   projectDetails:any;
   xLineBar:string[];
   yLineBar:number[];
@@ -88,7 +90,7 @@ export class AllchartsComponent implements OnInit  {
    bottom.afterDismissed().subscribe(result => {
     this.projectDetails = result != null ? result.card :this.projectDetails;
     this.dataSource = this.projectDetails.callStatuses
-    this.productivitySource = this.projectDetails.telemarketersProductivity;
+    this.productivityDataSource = this.projectDetails.telemarketersProductivity;
     this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
     this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
     this.xLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.category)
@@ -116,7 +118,7 @@ getLocalStorageData()
 {
   this.projectDetails=JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
   this.dataSource = this.projectDetails.callStatuses;
-  this.productivitySource = this.projectDetails.telemarketersProductivity;
+  this.productivityDataSource = this.projectDetails.telemarketersProductivity;
   this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
   this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
   this.xLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.category)

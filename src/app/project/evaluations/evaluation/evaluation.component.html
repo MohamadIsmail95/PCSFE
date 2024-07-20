@@ -1,5 +1,5 @@
 <mat-grid-list cols="4" rowHeight="100px">
-  <mat-grid-tile [colspan]="4" [rowspan]="3">
+  <mat-grid-tile [colspan]="4" [rowspan]="4">
     <mat-card class="example-card" appearance="outlined">
       <mat-card-content>
         <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
@@ -24,6 +24,24 @@
               <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
             </mat-select>
           </mat-form-field>
+
+          <mat-label >Select Day</mat-label>
+      <mat-form-field class="example-full-width">
+        <input  matInput  [matDatepicker]="picker" formControlName="targetDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+          <mat-label>Select Hour</mat-label>
+          <mat-form-field>
+            <input matInput  [ngxMatTimepicker]="picker2" formControlName="targetTime">
+            <ngx-mat-timepicker #picker2></ngx-mat-timepicker>
+
+          </mat-form-field>
+
+
+
 
           <button  mat-raised-button color="primary" type="submit" [disabled]="filterForm.invalid" >Filter</button>
         </form>

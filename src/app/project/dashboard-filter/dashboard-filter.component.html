@@ -1,6 +1,23 @@
 <mat-nav-list>
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
-    <mat-label>Enter a date range</mat-label>
+
+    <mat-label>Select Project</mat-label>
+
+      <mat-form-field class="example-full-width" style="width: 100%;">
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="sendTheNewValue($event)">
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option.name" >{{option.name}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-label>Enter a date range</mat-label>
     <mat-form-field style="width: 100%;">
       <mat-date-range-input [formGroup]="filterForm" [rangePicker]="picker">
         <input matStartDate formControlName="dateFrom" placeholder="Start date">
@@ -17,29 +34,6 @@
         <mat-error>Invalid end date</mat-error>
       }
     </mat-form-field>
-
-    <mat-label>Select Project</mat-label>
-    <!-- <mat-form-field style="width: 100%;">
-      <mat-select formControlName="projectId" >
-        @for (f of projects; track f) {
-          <mat-option [value]="f.id">{{f.name}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field> -->
-      <mat-form-field class="example-full-width" style="width: 100%;">
-        <input type="text"
-               placeholder="Pick one"
-               aria-label="Number"
-               matInput
-               [formControl]="myControl"
-               [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
-          @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="option.name">{{option.name}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-
     <div style="text-align: center;">
       <button   type="submit" mat-raised-button color="primary"
       [disabled]="!filterForm.valid">Filter</button>

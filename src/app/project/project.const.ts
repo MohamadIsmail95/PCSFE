@@ -148,3 +148,13 @@ export interface generalDashboard
   telemarketersProductivity:categoryCounter[];
   completedQuotaPerDays:progressQuotaVm[];
 }
+
+export interface productivityVewModel
+{
+  employee : string;
+  assigned : number;
+  complated :number;
+  closed:number;
+  closedRate:number;
+  complatedRate:number;
+}

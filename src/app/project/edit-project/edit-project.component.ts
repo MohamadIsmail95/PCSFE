@@ -40,7 +40,7 @@ import { Unsubscriber } from 'techteec-lib/common';
   templateUrl: './edit-project.component.html',
   styleUrl: './edit-project.component.scss'
 })
-export class EditProjectComponent extends Unsubscriber implements OnInit {
+export class EditProjectComponent  implements OnInit {
 
   projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   excelFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
@@ -74,7 +74,6 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
     protected projectService:HttpService,private _snackBar: MatSnackBar,public dialog: MatDialog,
     private router: Router,private accountService:AccountService ,private changeDetectorRefs: ChangeDetectorRef)
     {
-    super();
   }
 
   ngOnInit(): void
@@ -88,7 +87,8 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
     this.getStataus();
     this.getProjectType();
     this.IsAdminRole();
-
+    this.dataSource.paginator = this.paginator;
+     this.dataSource.sort = this.sort;
   }
 
   get sortingList$(): Observable<string> {
@@ -154,7 +154,7 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
   onSubmit()
   {
     this.addItem(this.newDataSource);
-    this._otherSubscription = this.projectService.update(this.firstFormGroup.value).subscribe((data)=>{
+    this.projectService.update(this.firstFormGroup.value).subscribe((data)=>{
       this.router.navigate(['/projects']);
     },(error)=>{
       this.openSnackBar(error.error.message,'Close')
@@ -165,7 +165,7 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
 
   getEmployeeList()
   {
-    this._otherSubscription = this.projectService.getEmployees().subscribe((data)=>
+   this.projectService.getEmployees().subscribe((data)=>
     {
       this.employeeData=data;
     }
@@ -206,12 +206,10 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
 
   getById(filter:FilterModel)
   {
-    this._otherSubscription = this.projectService.getById(this.empId ,filter).subscribe((response: { data: projectDetailsList; dataSize: number })=>{
+    this.projectService.getById(this.empId ,filter).subscribe((response: { data: projectDetailsList; dataSize: number })=>{
       this.empDetails = response.data;
       this.dataSource = new MatTableDataSource( this.empDetails.projectDetails);
       this.currentEmp.next(this.empDetails.projectDetails);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       this.totalItems = response.dataSize;
       this.changeDetectorRefs.detectChanges();
 
@@ -263,14 +261,14 @@ export class EditProjectComponent extends Unsubscriber implements OnInit {
 
  getStataus()
  {
-  this._otherSubscription =this.projectService.getStatus().subscribe((res)=>{
+  this.projectService.getStatus().subscribe((res)=>{
     this.statusData=res
   })
  }
 
   getProjectType()
   {
-    this._otherSubscription =this.projectService.getTypes().subscribe((res)=>{
+   this.projectService.getTypes().subscribe((res)=>{
       this.typeData=res;
     })
   }

@@ -68,35 +68,56 @@
         <app-bar [xLineData]="xLineBar" [yLineData]="yLineBar" ></app-bar>
       </app-card>
    </mat-grid-tile>
-   <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
+   <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
     <app-card title="Telamarketers Productivity">
       <section class="example-container mat-elevation-z8" tabindex="0">
-        <table mat-table [dataSource]="productivitySource">
+        <table mat-table [dataSource]="productivityDataSource">
           <!-- Name Column -->
-          <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef> Telemarketer </th>
-            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+          <ng-container matColumnDef="employee">
+            <th mat-header-cell *matHeaderCellDef> Employee </th>
+            <td mat-cell *matCellDef="let element"> {{element.employee}} </td>
           </ng-container>
 
           <!-- count Column -->
-          <ng-container matColumnDef="count">
-            <th mat-header-cell *matHeaderCellDef> Productivity </th>
-            <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+          <ng-container matColumnDef="assigned">
+            <th mat-header-cell *matHeaderCellDef> Assigned </th>
+            <td mat-cell *matCellDef="let element"> {{element.assigned}} </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <ng-container matColumnDef="complated">
+            <th mat-header-cell *matHeaderCellDef> Complated </th>
+            <td mat-cell *matCellDef="let element"> {{element.complated}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="closed">
+            <th mat-header-cell *matHeaderCellDef> Closed </th>
+            <td mat-cell *matCellDef="let element"> {{element.closed}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="closedRate">
+            <th mat-header-cell *matHeaderCellDef> Closed Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.closedRate}} </td>
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="complatedRate">
+            <th mat-header-cell *matHeaderCellDef> Complated Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.complatedRate}} </td>
+          </ng-container>
+
+
+
+          <tr mat-header-row *matHeaderRowDef="productivityDisplayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: productivityDisplayedColumns;"></tr>
         </table>
       </section>
 
     </app-card>
   </mat-grid-tile>
 
-  <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
-    <app-card title="Telamarketers Productivity Chart">
-      <app-pie [xPieLineData]="xLinePie" [yPieLineData]="yLinePie"></app-pie>
-    </app-card>
-  </mat-grid-tile>
+
       <!--Table-->
       <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
         <app-card title="Quota Progress">

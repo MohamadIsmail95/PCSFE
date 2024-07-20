@@ -38,7 +38,7 @@ export class DashboardFilterComponent implements OnInit {
   options: projectListDto[];
   filteredOptions: Observable<projectListDto[]>;
   dashStatics:StatisticsReportViewModel;
-
+  newValue : any;
   constructor(private _bottomSheetRef: MatBottomSheetRef<DashboardFilterComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private fb:FormBuilder , protected projectService:HttpService,
@@ -56,7 +56,7 @@ export class DashboardFilterComponent implements OnInit {
   ngOnInit(): void {
     this.getProjects();
 
-
+    console.log(this.newValue)
   }
 
   openLink(event: MouseEvent): void {
@@ -65,8 +65,9 @@ export class DashboardFilterComponent implements OnInit {
 
   onSubmit()
   {
-    let pid=this.projects.filter(x=>x.name===this.myControl.value)[0].id;
-     this.filterForm.get('projectId').setValue(pid);
+    let pid=this.projects.filter(x=>x.name===this.myControl.value)[0];
+     this.filterForm.get('projectId').setValue(pid.id);
+
     this.projectService.getStatistics(this.filterForm.value).subscribe((res)=>{
      this.data = {card:res , filter:this.filterForm.value}
       this.checkOnlocalStorage(this.data);
@@ -103,5 +104,12 @@ export class DashboardFilterComponent implements OnInit {
 
       this.localStorageService.setItem('dashboardData',JSON.stringify(data))
   }
+
+  sendTheNewValue(event){
+    let project = this.projects.filter(x=>x.name ===  event.option.value)[0];
+    this.filterForm.get('dateFrom').setValue(project.dateFrom);
+    this.filterForm.get('dateTo').setValue(project.dateTo);
+
+    }
 
 }

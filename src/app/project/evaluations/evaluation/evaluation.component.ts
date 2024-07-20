@@ -14,12 +14,18 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-evaluation',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [MatGridListModule,MatCardModule,ReactiveFormsModule,MatButtonModule,
-    MatFormFieldModule,MatSelectModule,MatAutocompleteModule,CommonModule,FormsModule,MatInputModule,MatTableModule],
+    MatFormFieldModule,MatSelectModule,MatAutocompleteModule,CommonModule,FormsModule,MatInputModule,MatTableModule,
+    NgxMatTimepickerModule,MatDatepickerModule
+    ],
   templateUrl: './evaluation.component.html',
   styleUrl: './evaluation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,7 +48,9 @@ constructor(private fb:FormBuilder , private httpService:HttpService){
 
   this.filterForm = this.fb.group({
     'projectId':[''],
-    'telemarId':['',Validators.required]
+    'telemarId':['',Validators.required],
+    'targetDate':['',Validators.required],
+    'targetTime':['',Validators.required]
   });
 }
   ngOnInit(): void {

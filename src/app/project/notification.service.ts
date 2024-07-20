@@ -32,7 +32,7 @@ export class NotificationService  {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl('https://192.168.5.139:4001/Notify',{ skipNegotiation: true,
+                            .withUrl('https://localhost:44343/Notify',{ skipNegotiation: true,
                             transport: signalR.HttpTransportType.WebSockets})
                             .build();
     this.hubConnection
