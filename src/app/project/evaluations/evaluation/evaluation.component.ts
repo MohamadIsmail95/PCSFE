@@ -41,16 +41,17 @@ filteredOptions: Observable<projectListDto[]>;
 employeeData:employeeList[];
 selectedTeleName : string;
 selectedTeleId:number;
-targetData:targetReport={target:3.5,avgCall:11.5,data:[{status:'Complated',totalHour:123.32,hourPercentage:37,rate:22.11}]}
-displayedColumns: string[] = ['status', 'totalHour','hourPercentage','rate'];
+targetData:targetReport;
+displayedColumns: string[] = ['status', 'totalMinutes','hourPercentage','rate','target'];
+hourList:string[]=["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]
 
 constructor(private fb:FormBuilder , private httpService:HttpService){
 
   this.filterForm = this.fb.group({
     'projectId':[''],
-    'telemarId':['',Validators.required],
+    'telemarketerId':['',Validators.required],
     'targetDate':['',Validators.required],
-    'targetTime':['',Validators.required]
+    'hour':['',Validators.required]
   });
 }
   ngOnInit(): void {
@@ -62,10 +63,11 @@ onSubmit()
 {
   let pid=this.projects.filter(x=>x.name===this.myControl.value)[0].id;
   this.filterForm.get('projectId').setValue(pid);
-  this.selectedTeleName = this.employeeData.filter((x)=>x.id == this.selectedTeleId)[0].userName;
-  console.log(this.filterForm.value)
- console.log(this.selectedTeleName)
 
+  this.selectedTeleName = this.employeeData.filter((x)=>x.id == this.selectedTeleId)[0].userName;
+  this.httpService.getHourlyTraget(this.filterForm.value).subscribe((res)=>{
+    this.targetData = res;
+  })
 }
 getProjects()
 {
@@ -95,7 +97,9 @@ getEmployeeList()
 }
 
 getTotalCost() {
-  return this.targetData.data.map(t => t.totalHour).reduce((acc, value) => acc + value, 0);
+  return this.targetData.data.map(t => t.totalMinutes).reduce((acc, value) => acc + value, 0);
 }
+
+
 
 }

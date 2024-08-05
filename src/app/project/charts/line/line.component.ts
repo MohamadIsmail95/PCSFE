@@ -15,9 +15,11 @@ import { CommonModule } from '@angular/common';
 export class LineComponent  implements  OnInit ,OnChanges ,AfterViewInit{
 
   projectDetails:any;
-  protected chart = new BehaviorSubject<any>(null);
+  protected chart = new BehaviorSubject<Chart>(null);
   @Input() xLineData :string[];
   @Input() yLineData : number[];
+   lineChart : Chart;
+   @Input() chartId : number;
 
    constructor(){}
 
@@ -25,18 +27,20 @@ export class LineComponent  implements  OnInit ,OnChanges ,AfterViewInit{
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['xLineData'] && changes['yLineData']) {
+      this.lineChart.destroy();
 
       this.createChart(this.xLineData,this.yLineData)
     }
   }
   ngOnInit(): void {
+
     this.createChart(this.xLineData,this.yLineData)
 
   }
 
   createChart(xLineData:string[],yLineData:number[]){
-
-    this.chart.next( new Chart("lineChart", {
+          console.log('ssss')
+     this.lineChart = new Chart("lineChart", {
       type: 'line', //this denotes tha type of chart
 
       data: {// values on X-Axis
@@ -73,7 +77,9 @@ export class LineComponent  implements  OnInit ,OnChanges ,AfterViewInit{
 
       }
 
-    }));
+    })
+    this.chart.next( this.lineChart);
+
   }
 
 

@@ -6,7 +6,7 @@
     <mat-card-header>
 
       <mat-card-title>{{projectDetails!=null?projectDetails.projectName:''}}</mat-card-title>
-      <mat-card-subtitle>{{projectDetails!=null?projectDetails.createdBy:''}}  {{projectDetails!=null?projectDetails.createdAt:'' | date}}</mat-card-subtitle>
+      <mat-card-subtitle>{{projectDetails!=null?projectDetails.createdBy:''}}  {{projectDetails!=null?projectDetails.addedOn:'' | date : 'dd/MM/yyyy'}}</mat-card-subtitle>
     </mat-card-header>
     <button mat-button (click)="capture()">
       <mat-icon>camera_alt</mat-icon>
@@ -20,7 +20,7 @@
     </mat-grid-tile> -->
 
 
-      <mat-grid-tile *ngFor="let i of projectDetails.projectGeneralDetails" [colspan]="( cardLayout | async )?.miniCard.cols"
+      <mat-grid-tile *ngFor="let i of projectDetails.generalDetails" [colspan]="( cardLayout | async )?.miniCard.cols"
         [rowspan]="( cardLayout | async )?.miniCard.rows">
         <app-card title="{{i.category}}" bgColor="#E8F0F4" titleColor="#972ED1">
 
@@ -65,7 +65,7 @@
 
      <mat-grid-tile    [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
       <app-card    title="Calls Chart" >
-        <app-bar [xLineData]="xLineBar" [yLineData]="yLineBar" ></app-bar>
+        <app-bar [xLineData]="xLineBar" [yLineData]="yLineBar"  [chartId]="1"></app-bar>
       </app-card>
    </mat-grid-tile>
    <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
@@ -73,20 +73,20 @@
       <section class="example-container mat-elevation-z8" tabindex="0">
         <table mat-table [dataSource]="productivityDataSource">
           <!-- Name Column -->
-          <ng-container matColumnDef="employee">
-            <th mat-header-cell *matHeaderCellDef> Employee </th>
-            <td mat-cell *matCellDef="let element"> {{element.employee}} </td>
+          <ng-container matColumnDef="telemarketer">
+            <th mat-header-cell *matHeaderCellDef> <Table></Table>Telemarketer </th>
+            <td mat-cell *matCellDef="let element"> {{element.telemarketer}} </td>
           </ng-container>
 
           <!-- count Column -->
-          <ng-container matColumnDef="assigned">
+          <ng-container matColumnDef="assignedGSMs">
             <th mat-header-cell *matHeaderCellDef> Assigned </th>
-            <td mat-cell *matCellDef="let element"> {{element.assigned}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.assignedGSMs}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="complated">
+          <ng-container matColumnDef="completed">
             <th mat-header-cell *matHeaderCellDef> Complated </th>
-            <td mat-cell *matCellDef="let element"> {{element.complated}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.completed}} </td>
           </ng-container>
 
           <ng-container matColumnDef="closed">
@@ -102,9 +102,9 @@
 
 
 
-          <ng-container matColumnDef="complatedRate">
+          <ng-container matColumnDef="completedRate">
             <th mat-header-cell *matHeaderCellDef> Complated Rate </th>
-            <td mat-cell *matCellDef="let element"> {{element.complatedRate}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.completedRate}} </td>
           </ng-container>
 
 
@@ -121,7 +121,7 @@
       <!--Table-->
       <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
         <app-card title="Quota Progress">
-         <app-line></app-line>
+         <app-line [xLineData]="xLineLine" [yLineData]="yLineLine"  [chartId]="2"></app-line>
         </app-card>
       </mat-grid-tile>
     </mat-grid-list>

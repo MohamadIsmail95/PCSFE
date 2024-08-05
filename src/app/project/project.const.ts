@@ -82,9 +82,10 @@ export interface StatisticsReportViewModel
 {
   projectName:string;
   createdBy : string;
-  projectGeneralDetails:categoryCounter[];
+  addedOn:string;
+  generalDetails:categoryCounter[];
   callStatuses:categoryCounter[];
-  telemarketersProductivity:categoryCounter[];
+  telemarketerProductivities:productivityVewModel[];
   completedQuotaPerDays:progressQuotaVm[];
 }
 
@@ -104,15 +105,14 @@ export interface categoryCounter
 export interface targetViewModel
 {
   status:string;
-  totalHour:number;
+  totalMinutes:number;
   hourPercentage:number;
-  rate:number;
+  target:number;
 }
 
 export interface  targetReport
 {
-  target:number;
-  avgCall:number;
+  averageCompletedCalls:number;
   data:targetViewModel[];
 }
 
@@ -151,10 +151,18 @@ export interface generalDashboard
 
 export interface productivityVewModel
 {
-  employee : string;
-  assigned : number;
-  complated :number;
+  telemarketer : string;
+  assignedGSMs : number;
+  completed :number;
   closed:number;
+  completedRate:number;
   closedRate:number;
-  complatedRate:number;
+}
+
+export interface hourlyTargetFilter
+{
+  projectId:number;
+  telemarketerId : number;
+  targetDate:Date;
+  hour:number;
 }

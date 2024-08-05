@@ -13,29 +13,35 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class BarComponent implements OnInit ,OnChanges ,AfterViewInit {
   projectDetails:any;
-  protected chart = new BehaviorSubject<any>(null);
+  protected chart = new BehaviorSubject<Chart>(null);
   @Input() xLineData :string[];
   @Input() yLineData : number[];
+  @Input() chartId : number;
 
+   bar : Chart = null;
   constructor() {
 
   }
   ngAfterViewInit(): void {
   }
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['xLineData'] && changes['yLineData']) {
+      this.bar.destroy();
 
       this.createChart(this.xLineData,this.yLineData)
     }
   }
 
   ngOnInit(): void {
+
     this.createChart(this.xLineData,this.yLineData)
 
   }
-  createChart(xLineData:string[],yLineData:number[]){
+  createChart(xLineData:string[],yLineData:number[])
+  {
 
-    this.chart.next(new Chart("BarChart", {
+     this.bar = new Chart("BarChart", {
       type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
@@ -72,7 +78,10 @@ export class BarComponent implements OnInit ,OnChanges ,AfterViewInit {
         maintainAspectRatio: false
       }
 
-    }));
+    })
+
+    this.chart.next(this.bar);
+
   }
 
 

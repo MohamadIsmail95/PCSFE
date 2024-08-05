@@ -1,7 +1,7 @@
 import { Component, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map, tap } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import {CardComponent} from '../charts/card/card.component';
 import{BarComponent} from '../charts/bar/bar.component';
 import { LineComponent } from '../charts/line/line.component';
@@ -44,7 +44,7 @@ export class AllchartsComponent implements OnInit  {
     private captureService: NgxCaptureService, private localStorageService:LocalStorageService ) {}
 
   displayedColumns = ['category', 'count'];
-  productivityDisplayedColumns = ['employee', 'assigned','complated','closed','closedRate','complatedRate'];
+  productivityDisplayedColumns = ['telemarketer', 'assignedGSMs','completed','closed','closedRate','completedRate'];
 
   dataSource : categoryCounter[]=[];
   productivityDataSource : productivityVewModel[]=[];
@@ -90,11 +90,9 @@ export class AllchartsComponent implements OnInit  {
    bottom.afterDismissed().subscribe(result => {
     this.projectDetails = result != null ? result.card :this.projectDetails;
     this.dataSource = this.projectDetails.callStatuses
-    this.productivityDataSource = this.projectDetails.telemarketersProductivity;
+    this.productivityDataSource = this.projectDetails.telemarketerProductivities;
     this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
     this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
-    this.xLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.category)
-    this.yLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.count)
     this.xLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.date)
     this.yLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.count)
    })
@@ -117,14 +115,14 @@ capture() {
 getLocalStorageData()
 {
   this.projectDetails=JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
+
   this.dataSource = this.projectDetails.callStatuses;
-  this.productivityDataSource = this.projectDetails.telemarketersProductivity;
+  this.productivityDataSource = this.projectDetails.telemarketerProductivities;
   this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
   this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
-  this.xLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.category)
-  this.yLinePie = this.projectDetails.telemarketersProductivity.map((x)=>x.count)
   this.xLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.date)
   this.yLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.count)
+
 }
 
 }

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
-import { BehaviorSubject, Observable, catchError, finalize, throwError } from 'rxjs';
-import { DashboardFilter, StatisticsReportViewModel, employeeList, projectDetails, projectDetailsList, projectListDto, statusCard, typeList } from './project.const';
+import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
+import { DashboardFilter, StatisticsReportViewModel, employeeList, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -142,6 +142,14 @@ export class HttpService {
       "getProjectStatistics?projectId="+input.projectId+"&dateFrom="
       +formatDate(input.dateFrom,'yyyy-MM-dd', "en-US")+"&dateTo="+formatDate(input.dateTo,'yyyy-MM-dd', "en-US"))
       .pipe(finalize(() => this.dashboardLoading.next(false)));
+  }
+
+
+  getHourlyTraget(input:hourlyTargetFilter) : Observable<targetReport>
+  {
+    return this.httpClient.get<targetReport>(this.dashboardUrl+'hourlyTelemarketerTarget'+'?projectId='+
+      input.projectId+'&telemarketerId='+input.telemarketerId+'&targetDate='+formatDate(input.targetDate,'yyyy-MM-dd', "en-US").toString()+'&hour='
+      + Number(input.hour) )
   }
 
 
