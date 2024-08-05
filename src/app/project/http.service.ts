@@ -47,6 +47,20 @@ export class HttpService {
       return this.dashboardLoading.asObservable();
     }
 
+    private loadingEvaluationList = new BehaviorSubject<boolean>(false);
+    get loadingEvaluationList$(): Observable<boolean> {
+      return this.loadingEvaluationList.asObservable();
+    }
+
+
+
+
+
+
+
+
+
+
     getProjects(filterM:FilterModel):Observable<{ data: projectListDto[]; dataSize: number }>
   {
     this.loadingList.next(true);
@@ -149,7 +163,7 @@ export class HttpService {
   {
     return this.httpClient.get<targetReport>(this.dashboardUrl+'hourlyTelemarketerTarget'+'?projectId='+
       input.projectId+'&telemarketerId='+input.telemarketerId+'&targetDate='+formatDate(input.targetDate,'yyyy-MM-dd', "en-US").toString()+'&hour='
-      + Number(input.hour) )
+      + Number(input.hour) ).pipe(finalize(() => this.loadingEvaluationList.next(true)));
   }
 
 

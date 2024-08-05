@@ -45,7 +45,7 @@ targetData:targetReport;
 displayedColumns: string[] = ['status', 'totalMinutes','hourPercentage','rate','target'];
 hourList:string[]=["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]
 
-constructor(private fb:FormBuilder , private httpService:HttpService){
+constructor(private fb:FormBuilder , protected httpService:HttpService){
 
   this.filterForm = this.fb.group({
     'projectId':[''],
@@ -67,6 +67,7 @@ onSubmit()
   this.selectedTeleName = this.employeeData.filter((x)=>x.id == this.selectedTeleId)[0].userName;
   this.httpService.getHourlyTraget(this.filterForm.value).subscribe((res)=>{
     this.targetData = res;
+
   })
 }
 getProjects()

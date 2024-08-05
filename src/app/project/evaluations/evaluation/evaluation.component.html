@@ -55,9 +55,8 @@
     </mat-card>
   </mat-grid-tile>
 
-  @if (targetData)
-  {
-  <mat-grid-tile [colspan]="4" [rowspan]="5">
+
+  <mat-grid-tile [colspan]="4" [rowspan]="5" *ngIf="(httpService.loadingEvaluationList$ | async)">
     <mat-card class="example-card" appearance="outlined">
       <mat-card-header>
         <div  mat-card-avatar class="example-header-image" style="background-image: url(http://mysite/User%20Photos/Profile%20Pictures/{{selectedTeleName}}_SThumb.jpg?t=1709204573458)">
@@ -148,6 +147,6 @@
     </mat-card>
 
   </mat-grid-tile>
-}
+
 </mat-grid-list>
 
