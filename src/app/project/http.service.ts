@@ -159,11 +159,9 @@ export class HttpService {
   }
 
 
-  getHourlyTraget(input:hourlyTargetFilter) : Observable<targetReport>
+  getHourlyTraget(input:any) : Observable<targetReport>
   {
-    return this.httpClient.get<targetReport>(this.dashboardUrl+'hourlyTelemarketerTarget'+'?projectId='+
-      input.projectId+'&telemarketerId='+input.telemarketerId+'&targetDate='+formatDate(input.targetDate,'yyyy-MM-dd', "en-US").toString()+'&hour='
-      + Number(input.hour) ).pipe(finalize(() => this.loadingEvaluationList.next(true)));
+    return this.httpClient.post<targetReport>(this.dashboardUrl+'hourlyTelemarketerTarget',input).pipe(finalize(() => this.loadingEvaluationList.next(true)));
   }
 
 

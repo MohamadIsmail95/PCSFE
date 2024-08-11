@@ -5,8 +5,10 @@
   <mat-card   style="margin: 5px;" >
     <mat-card-header>
 
-      <mat-card-title>{{projectDetails!=null?projectDetails.projectName:''}}</mat-card-title>
-      <mat-card-subtitle>{{projectDetails!=null?projectDetails.createdBy:''}}  {{projectDetails!=null?projectDetails.addedOn:'' | date : 'dd/MM/yyyy'}}</mat-card-subtitle>
+      <mat-card-title>Project Name : {{projectDetails!=null?projectDetails.projectName:''}}</mat-card-title>
+      <mat-card-subtitle>Creator Project : {{projectDetails!=null?projectDetails.createdBy:''}}</mat-card-subtitle>
+      <mat-card-subtitle>Creation Date : {{projectDetails!=null?projectDetails.addedOn :'' | date : 'dd/MM/yyyy'}}</mat-card-subtitle>
+
     </mat-card-header>
     <button mat-button (click)="capture()">
       <mat-icon>camera_alt</mat-icon>

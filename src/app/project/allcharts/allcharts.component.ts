@@ -25,6 +25,7 @@ import { NgxCaptureService } from 'ngx-capture';
 import { NgxCaptureModule } from 'ngx-capture';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../local-storage.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-allcharts',
@@ -34,7 +35,9 @@ import { LocalStorageService } from '../local-storage.service';
     MatTableModule,MatCardModule,MatBottomSheetModule,MatButtonModule,
      MatBottomSheetModule,MatIconModule,MatProgressBarModule,NgxCaptureModule],
   templateUrl: './allcharts.component.html',
-  styleUrl: './allcharts.component.scss'
+  styleUrl: './allcharts.component.scss',
+  providers: [DatePipe]
+
 })
 export class AllchartsComponent implements OnInit  {
   imgBase64 = '';
@@ -55,6 +58,7 @@ export class AllchartsComponent implements OnInit  {
   yLinePie:number[];
   xLineLine:string[];
   yLineLine:number[];
+  creationDate : Date;
   ngOnInit(): void {
     this.getLocalStorageData();
 
@@ -89,6 +93,7 @@ export class AllchartsComponent implements OnInit  {
    const bottom= this._bottomSheet.open(DashboardFilterComponent);
    bottom.afterDismissed().subscribe(result => {
     this.projectDetails = result != null ? result.card :this.projectDetails;
+    this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
     this.dataSource = this.projectDetails.callStatuses
     this.productivityDataSource = this.projectDetails.telemarketerProductivities;
     this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
@@ -115,6 +120,7 @@ capture() {
 getLocalStorageData()
 {
   this.projectDetails=JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
+  this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
 
   this.dataSource = this.projectDetails.callStatuses;
   this.productivityDataSource = this.projectDetails.telemarketerProductivities;

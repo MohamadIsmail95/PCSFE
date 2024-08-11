@@ -164,5 +164,4 @@ export interface hourlyTargetFilter
   projectId:number;
   telemarketerId : number;
   targetDate:Date;
-  hour:number;
 }
