@@ -43,6 +43,7 @@ export interface projectDetails
    generation:string;
    region:string;
    city:string;
+   lastUpdateDate: Date;
 }
 
 export interface projectDetailsList extends projectListDto

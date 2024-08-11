@@ -144,6 +144,11 @@
           <td mat-cell *matCellDef="let row"> {{row.note}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="lastUpdateDate">
+          <th mat-header-cell *matHeaderCellDef > Last Update   </th>
+          <td mat-cell *matCellDef="let row"> {{row.lastUpdateDate | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row (click)="openDialog(row)" matRipple *matRowDef="let row; columns: displayedColumns;"></tr>

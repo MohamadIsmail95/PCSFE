@@ -60,7 +60,7 @@ export class EditProjectComponent  implements OnInit {
   statusData:typeList[];
   isLoad:boolean=false;
   displayedColumns: string[] = ['gsm','employeeUserName','callStatus','lineType','generation',
-  'region','city','segment','subSegment','bundle','contract','alternativeNumber','note'];
+  'region','city','segment','subSegment','bundle','contract','alternativeNumber','note','lastUpdateDate'];
   dataSource= new MatTableDataSource<projectDetails>([]);
   ConvertedData:projectDetails[];
   newDataSource:projectDetails[]=[];
