@@ -70,9 +70,8 @@ onSubmit()
   this.combineDateTime()
 
    this.hourlyFilter.projectId = this.filterForm.get('projectId').value;
-   this.hourlyFilter.telemarketerId = this.filterForm.get('telemarketerIds').value;
+   this.hourlyFilter.telemarketerIds = this.filterForm.get('telemarketerIds').value;
    this.hourlyFilter.targetDate = this.formattedDate
-
 
   this.httpService.getHourlyTraget(this.hourlyFilter).subscribe((res)=>{
     this.targetData = res;
@@ -121,7 +120,7 @@ combineDateTime() {
     this.combinedDateTime.setHours(hours);
     this.combinedDateTime.setMinutes(minutes);
 
-    this.formattedDate = this.datePipe.transform(this.combinedDateTime, 'dd/MM/yyyy HH:mm');
+    this.formattedDate = new Date(this.datePipe.transform(this.combinedDateTime, 'dd/MM/yyyy HH:mm')).toISOString().slice(0, 19);
 
   }
 }
