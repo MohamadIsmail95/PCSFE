@@ -51,9 +51,7 @@
   <mat-grid-tile [colspan]="4" [rowspan]="5" *ngIf="(httpService.loadingEvaluationList$ | async)">
     <mat-card class="example-card" appearance="outlined">
       <mat-card-header>
-        <div  mat-card-avatar class="example-header-image" style="background-image: url(http://mysite/User%20Photos/Profile%20Pictures/{{selectedTeleName}}_SThumb.jpg?t=1709204573458)">
 
-        </div>
         <mat-card-title>Telemarketer Target</mat-card-title>
         <mat-card-subtitle>Average Calls : {{targetData.averageCompletedCalls}} </mat-card-subtitle>
       </mat-card-header>
@@ -110,7 +108,7 @@
                       <span>Traget</span>
 
                     </th>
-                    <td mat-cell *matCellDef="let request">{{ request.target }}</td>
+                    <td mat-cell *matCellDef="let request">{{ request.target | number:"1.0-2" }}</td>
                     <td mat-footer-cell *matFooterCellDef></td>
                   </ng-container>
 
