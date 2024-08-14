@@ -120,7 +120,7 @@ combineDateTime() {
     this.combinedDateTime.setHours(hours);
     this.combinedDateTime.setMinutes(minutes);
 
-    this.formattedDate = this.datePipe.transform(this.combinedDateTime, 'yyyy-MM-ddThh:mm:ss');
+    this.formattedDate = this.datePipe.transform(this.combinedDateTime, 'yyyy-MM-ddTHH:mm:ss');
 
   }
 }

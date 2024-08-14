@@ -48,12 +48,12 @@
   </mat-grid-tile>
 
 
-  <mat-grid-tile [colspan]="4" [rowspan]="5" *ngIf="(httpService.loadingEvaluationList$ | async)">
+  <mat-grid-tile [colspan]="4" [rowspan]="5" *ngIf="(httpService.loadingEvaluationList$ | async) && targetData">
     <mat-card class="example-card" appearance="outlined">
       <mat-card-header>
 
         <mat-card-title>Telemarketers Target</mat-card-title>
-        <mat-card-subtitle *ngIf="targetData.averageCompletedCalls">Average Calls : {{targetData.averageCompletedCalls | number : '1.0-2'}} </mat-card-subtitle>
+        <mat-card-subtitle >Average Calls : {{targetData.averageCompletedCalls | number : '1.0-2'}} </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
 
