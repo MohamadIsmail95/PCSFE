@@ -47,7 +47,7 @@ displayedColumns: string[] = ['status', 'totalMinutes','hourPercentage','rate','
 hourList:string[]=["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]
 hourlyFilter : any = {};
 combinedDateTime: Date | null = null;
-formattedDate: string;
+formattedDate: Date;
 
 constructor(private fb:FormBuilder , protected httpService:HttpService ,private datePipe: DatePipe){
 
@@ -120,7 +120,7 @@ combineDateTime() {
     this.combinedDateTime.setHours(hours);
     this.combinedDateTime.setMinutes(minutes);
 
-    this.formattedDate = this.datePipe.transform(this.combinedDateTime, 'yyyy-MM-ddTHH:mm:ss');
+    this.formattedDate = this.combinedDateTime;
 
   }
 }
