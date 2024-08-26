@@ -34,6 +34,63 @@
         <mat-error>Invalid end date</mat-error>
       }
     </mat-form-field>
+
+    <mat-label>Telemarketer</mat-label>
+    <mat-form-field style="width: 100%;">
+      <mat-select placeholder="Select Telemarketer" formControlName="telemarketerIds" multiple>
+        @for (emp of employees; track employees) {
+          <mat-option [value]="emp.id">{{emp.userName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-label>Line Type</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="lineType">
+    </mat-form-field>
+
+    <mat-label>Class Status</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="callStatus">
+    </mat-form-field>
+
+    <mat-label>Generation</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="generation">
+    </mat-form-field>
+
+    <mat-label>Region</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="region">
+    </mat-form-field>
+
+    <mat-label>City</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="city" >
+    </mat-form-field>
+
+    <mat-label>Segment</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="segment">
+    </mat-form-field>
+
+    <mat-label>SubSegment</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="bundle">
+    </mat-form-field>
+
+    <mat-label>Contract</mat-label>
+    <mat-form-field style="width: 100%;">
+      <input matInput formControlName="contract">
+    </mat-form-field>
+
+    <mat-label>Bundle</mat-label>
+    <mat-form-field style="width: 100%;">
+      <mat-label>Input</mat-label>
+      <input matInput formControlName="bundle">
+    </mat-form-field>
+
+
     <div style="text-align: center;">
       <button   type="submit" mat-raised-button color="primary"
       [disabled]="!filterForm.valid">Filter</button>

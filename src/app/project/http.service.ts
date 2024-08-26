@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, StatisticsReportViewModel, employeeList, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, StatisticsReportViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -51,13 +51,6 @@ export class HttpService {
     get loadingEvaluationList$(): Observable<boolean> {
       return this.loadingEvaluationList.asObservable();
     }
-
-
-
-
-
-
-
 
 
 
@@ -161,8 +154,15 @@ export class HttpService {
 
   getHourlyTraget(input:any) : Observable<targetReport>
   {
-    return this.httpClient.post<targetReport>(this.dashboardUrl+'hourlyTelemarketerTarget',input).pipe(finalize(() => this.loadingEvaluationList.next(true)));
+    return this.httpClient.post<targetReport>(this.dashboardUrl+'hourlyTarget',input).pipe(finalize(() => this.loadingEvaluationList.next(true)));
   }
+
+
+ getGeneralReport(input : generalDashboardFilter) : Observable<statsticReportData>
+ {
+    return this.httpClient.post<statsticReportData>(this.dashboardUrl+'generalReport',input);
+ }
+
 
 
 }

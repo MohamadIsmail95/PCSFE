@@ -1,158 +1,132 @@
-<div  #screen>
-<mat-progress-bar mode="indeterminate" *ngIf="(projectService.dashboardLoading$ | async)"></mat-progress-bar>
-@if (projectDetails!=null)
-{
-  <mat-card   style="margin: 5px;" >
+<div #screen>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="projectService.dashboardLoading$ | async"
+  ></mat-progress-bar>
+  @if (projectDetails!=null) {
+  <mat-card style="margin: 5px">
     <mat-card-header>
-
-      <mat-card-title>Project Name : {{projectDetails!=null?projectDetails.projectName:''}}</mat-card-title>
-      <mat-card-subtitle>Creator Project : {{projectDetails!=null?projectDetails.createdBy:''}}</mat-card-subtitle>
-      <mat-card-subtitle>Creation Date : {{projectDetails!=null?projectDetails.addedOn :'' | date : 'dd/MM/yyyy'}}</mat-card-subtitle>
-
+      <mat-card-title
+        >Project Name :
+        {{
+          projectDetails != null ? projectDetails.projectName : ""
+        }}</mat-card-title
+      >
+      <mat-card-subtitle
+        >Creator Project :
+        {{
+          projectDetails != null ? projectDetails.createdBy : ""
+        }}</mat-card-subtitle
+      >
+      <mat-card-subtitle
+        >Creation Date :
+        {{
+          projectDetails != null
+            ? projectDetails.addedOn
+            : ("" | date : "dd/MM/yyyy")
+        }}</mat-card-subtitle
+      >
     </mat-card-header>
     <button mat-button (click)="capture()">
       <mat-icon>camera_alt</mat-icon>
     </button>
-    <mat-card-content  >
-    <mat-grid-list cols="{{ ( cardLayout | async )?.columns }}" rowHeight="200px">
-      <!--Mini Cards-->
-      <!-- <mat-grid-tile *ngFor="let mc of miniCardData" [colspan]="( cardLayout | async )?.miniCard.cols"
-      [rowspan]="( cardLayout | async )?.miniCard.rows">
-      <app-mini-card [icon]="mc.icon" [title]="mc.title" [value]="mc.value" [color]="mc.color" [isIncrease]="mc.isIncrease" duration="since last month" [percentValue]="mc.percentValue" [isCurrency]="mc. isCurrency"></app-mini-card>
-    </mat-grid-tile> -->
-
-
-      <mat-grid-tile *ngFor="let i of projectDetails.generalDetails" [colspan]="( cardLayout | async )?.miniCard.cols"
-        [rowspan]="( cardLayout | async )?.miniCard.rows">
-        <app-card title="{{i.category}}" bgColor="#E8F0F4" titleColor="#972ED1">
-
-          <app-number-counter
-          [number]="i.count"
-          [label]=""
-          [duration]="'0.4'"
-          [total]="i.total"
+    <mat-card-content>
+      <mat-grid-list
+        cols="{{ (cardLayout | async)?.columns }}"
+        rowHeight="200px"
+      >
+        <mat-grid-tile
+          *ngFor="let i of projectDetails.generalDetails"
+          [colspan]="(cardLayout | async)?.miniCard.cols"
+          [rowspan]="(cardLayout | async)?.miniCard.rows"
         >
-      </app-number-counter>
+          <app-card
+            title="{{ i.category }}"
+            bgColor="#E8F0F4"
+            titleColor="#972ED1"
+          >
+            <app-number-counter
+              [number]="i.count"
+              [label]=""
+              [duration]="'0.4'"
+              [total]="i.total"
+            >
+            </app-number-counter>
+          </app-card>
+        </mat-grid-tile>
 
-        </app-card>
-      </mat-grid-tile>
+        <mat-grid-tile
+          [colspan]="(cardLayout | async)?.table.cols"
+          [rowspan]="(cardLayout | async)?.table.rows"
+        >
+        <app-card title="Telemarketer Productivity">
 
+          <div class="table-container">
 
-      <!--Charts-->
-      <mat-grid-tile [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
-        <app-card title="Calls Data">
-          <section class="example-container mat-elevation-z8" tabindex="0">
-            <table mat-table [dataSource]="dataSource">
-              <!-- Name Column -->
-              <ng-container matColumnDef="category">
-                <th mat-header-cell *matHeaderCellDef> Category </th>
-                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-              </ng-container>
-
-              <!-- count Column -->
-              <ng-container matColumnDef="count">
-                <th mat-header-cell *matHeaderCellDef> Count </th>
-                <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-          </section>
-
-        </app-card>
-     </mat-grid-tile>
-
-
-
-     <mat-grid-tile    [colspan]="( cardLayout | async )?.chart.cols" [rowspan]="( cardLayout | async )?.chart.rows">
-      <app-card    title="Calls Chart" >
-        <app-bar [xLineData]="xLineBar" [yLineData]="yLineBar"  [chartId]="1"></app-bar>
-      </app-card>
-   </mat-grid-tile>
-   <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
-    <app-card title="Telamarketers Productivity">
-      <section class="example-container mat-elevation-z8" tabindex="0">
-        <table mat-table [dataSource]="productivityDataSource">
-          <!-- Name Column -->
-          <ng-container matColumnDef="telemarketer">
-            <th mat-header-cell *matHeaderCellDef> <Table></Table>Telemarketer </th>
-            <td mat-cell *matCellDef="let element"> {{element.telemarketer}} </td>
-          </ng-container>
-
-          <!-- count Column -->
-          <ng-container matColumnDef="assignedGSMs">
-            <th mat-header-cell *matHeaderCellDef> Assigned </th>
-            <td mat-cell *matCellDef="let element"> {{element.assignedGSMs}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="completed">
-            <th mat-header-cell *matHeaderCellDef> Complated </th>
-            <td mat-cell *matCellDef="let element"> {{element.completed}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="closed">
-            <th mat-header-cell *matHeaderCellDef> Closed </th>
-            <td mat-cell *matCellDef="let element"> {{element.closed}} </td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="closedRate">
-            <th mat-header-cell *matHeaderCellDef> Closed Rate </th>
-            <td mat-cell *matCellDef="let element"> {{element.closedRate | percent : '1.0-2'}} </td>
-          </ng-container>
-
-
-
-          <ng-container matColumnDef="completedRate">
-            <th mat-header-cell *matHeaderCellDef> Complated Rate </th>
-            <td mat-cell *matCellDef="let element"> {{element.completedRate | percent : '1.0-2'}} </td>
-          </ng-container>
-
-
-
-          <tr mat-header-row *matHeaderRowDef="productivityDisplayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: productivityDisplayedColumns;"></tr>
+        <table>
+          <thead >
+            <tr>
+              <th>Status</th>
+              <th *ngFor="let telemarketer of telemarketers">{{ telemarketer }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of tableData">
+              <td>{{ item.status }}</td>
+              <td *ngFor="let telemarketer of telemarketers">
+                {{ getGSMValue(item.telemarketerGSMs, telemarketer) }}
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td style="text-align: center;">Total</td>
+              <td *ngFor="let telemarketer of telemarketers">
+                {{ getTotalGSMs(telemarketer) }}
+              </td>
+            </tr>
+          </tfoot>
         </table>
-      </section>
+        </div>
+      </app-card>
+        </mat-grid-tile>
 
-    </app-card>
-  </mat-grid-tile>
+        <!--Table-->
+        <mat-grid-tile
+          [colspan]="(cardLayout | async)?.table.cols"
+          [rowspan]="(cardLayout | async)?.table.rows"
+        >
+          <app-card title="Quota Progress">
+            <app-line
+              [xLineData]="xLineLine"
+              [yLineData]="yLineLine"
+              [chartId]="2"
+            ></app-line>
+          </app-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
 
+    <mat-card-actions> </mat-card-actions>
+  </mat-card>
+  } @else if(projectDetails!=null &&
+  projectDetails.gsmStatusStatistics.length==0) {
 
-      <!--Table-->
-      <mat-grid-tile [colspan]="( cardLayout | async )?.table.cols" [rowspan]="( cardLayout | async )?.table.rows">
-        <app-card title="Quota Progress">
-         <app-line [xLineData]="xLineLine" [yLineData]="yLineLine"  [chartId]="2"></app-line>
-        </app-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content>
-
-  <mat-card-actions>
-
-  </mat-card-actions>
-
-</mat-card>
-}
-
-@else if(projectDetails!=null && projectDetails.gsmStatusStatistics.length==0) {
-
-  <div style="text-align: center;">
-  <h3 style="color: red;">No data found</h3>
+  <div style="text-align: center">
+    <h3 style="color: red">No data found</h3>
   </div>
-}
+  }
 
-    <!-- <mat-card style="margin: 5px; overflow:auto;display: flex;">
-      <app-data-table></app-data-table>
-    </mat-card> -->
 
-    <div style="text-align: center;position: fixed;bottom: 3px;width: 100%;">
-      <button style="height: 40px;" mat-raised-button color="primary" (click)="openBottomSheet()">
-         Dashboard Filter
-        <mat-icon>filter_list</mat-icon>
-
-      </button>
-
-    </div>
+  <div style="text-align: center; position: fixed; bottom: 3px; width: 100%">
+    <button
+      style="height: 40px"
+      mat-raised-button
+      color="primary"
+      (click)="openBottomSheet()"
+    >
+      Dashboard Filter
+      <mat-icon>filter_list</mat-icon>
+    </button>
   </div>
+</div>

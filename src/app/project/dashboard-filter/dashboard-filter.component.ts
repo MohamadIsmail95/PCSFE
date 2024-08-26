@@ -11,7 +11,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import { HttpService } from '../http.service';
 import { FilterModel } from '../../common/generic';
-import { StatisticsReportViewModel, projectListDto, statusCard } from '../project.const';
+import { StatisticsReportViewModel, employeeList, projectListDto, statusCard } from '../project.const';
 import { CommonModule } from '@angular/common';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -19,6 +19,7 @@ import {AsyncPipe} from '@angular/common';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {LocalStorageService} from '../local-storage.service'
+
 @Component({
   selector: 'app-dashboard-filter',
   standalone: true,
@@ -39,6 +40,7 @@ export class DashboardFilterComponent implements OnInit {
   filteredOptions: Observable<projectListDto[]>;
   dashStatics:StatisticsReportViewModel;
   newValue : any;
+  employees : employeeList[];
   constructor(private _bottomSheetRef: MatBottomSheetRef<DashboardFilterComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private fb:FormBuilder , protected projectService:HttpService,
@@ -49,14 +51,23 @@ export class DashboardFilterComponent implements OnInit {
     this.filterForm = this.fb.group({
       'dateFrom':['',Validators.required],
       'dateTo':['',Validators.required],
-      'projectId':['']
+      'projectId':[''],
+      'telemarketerIds':[''],
+      'lineType':[''],
+      'callStatus':[''],
+      'generation':[''],
+      'region':[''],
+      'city':[''],
+      'segment':[''],
+      'subSegment':[''],
+      'bundle':[''],
+      'contract':[''],
 
     })
   }
   ngOnInit(): void {
     this.getProjects();
-
-    console.log(this.newValue)
+    this.getEmployees();
   }
 
   openLink(event: MouseEvent): void {
@@ -68,7 +79,8 @@ export class DashboardFilterComponent implements OnInit {
     let pid=this.projects.filter(x=>x.name===this.myControl.value)[0];
      this.filterForm.get('projectId').setValue(pid.id);
 
-    this.projectService.getStatistics(this.filterForm.value).subscribe((res)=>{
+    this.projectService.getGeneralReport(this.filterForm.value).subscribe((res)=>{
+      console.log(res)
      this.data = {card:res , filter:this.filterForm.value}
       this.checkOnlocalStorage(this.data);
      this._bottomSheetRef.dismiss(this.data);
@@ -111,5 +123,14 @@ export class DashboardFilterComponent implements OnInit {
     this.filterForm.get('dateTo').setValue(project.dateTo);
 
     }
+
+
+  getEmployees()
+  {
+    this.projectService.getEmployees().subscribe((response)=>{
+      this.employees = response
+    })
+  }
+
 
 }

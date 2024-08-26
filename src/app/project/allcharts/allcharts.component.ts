@@ -19,7 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { DashboardFilterComponent } from '../dashboard-filter/dashboard-filter.component';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../http.service';
-import { StatisticsReportViewModel, categoryCounter, productivityVewModel, statusCard } from '../project.const';
+import { StatisticsReportViewModel, categoryCounter, productivityVewModel, statusCard, statusTelemarketer } from '../project.const';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxCaptureService } from 'ngx-capture';
 import { NgxCaptureModule } from 'ngx-capture';
@@ -50,7 +50,7 @@ export class AllchartsComponent implements OnInit  {
   productivityDisplayedColumns = ['telemarketer', 'assignedGSMs','completed','closed','closedRate','completedRate'];
 
   dataSource : categoryCounter[]=[];
-  productivityDataSource : productivityVewModel[]=[];
+  productivityDataSource : statusTelemarketer[]=[];
   projectDetails:any;
   xLineBar:string[];
   yLineBar:number[];
@@ -59,6 +59,10 @@ export class AllchartsComponent implements OnInit  {
   xLineLine:string[];
   yLineLine:number[];
   creationDate : Date;
+  tableData: any[] = [];
+  telemarketers: string[] = [];
+
+
   ngOnInit(): void {
     this.getLocalStorageData();
 
@@ -95,11 +99,11 @@ export class AllchartsComponent implements OnInit  {
     this.projectDetails = result != null ? result.card :this.projectDetails;
     this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
     this.dataSource = this.projectDetails.callStatuses
-    this.productivityDataSource = this.projectDetails.telemarketerProductivities;
-    this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
-    this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
-    this.xLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.date)
-    this.yLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.count)
+    this.productivityDataSource = this.projectDetails.statsticReport.data;
+    this.processData(this.productivityDataSource);
+    this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
+    this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
+
    })
 
   }
@@ -121,15 +125,53 @@ getLocalStorageData()
 {
   this.projectDetails=JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
   this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
-
   this.dataSource = this.projectDetails.callStatuses;
-  this.productivityDataSource = this.projectDetails.telemarketerProductivities;
-  this.xLineBar = this.projectDetails.callStatuses.map((x)=>x.category)
-  this.yLineBar = this.projectDetails.callStatuses.map((x)=>x.count)
-  this.xLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.date)
-  this.yLineLine = this.projectDetails.completedQuotaPerDays.map((x)=>x.count)
+  this.productivityDataSource = this.projectDetails.statsticReport.data;
+  this.processData(this.productivityDataSource);
+  this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
+  this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
+
 
 }
 
+processData(data: any[]): void {
+  const telemarketersSet = new Set<string>();
+
+  data.forEach(item => {
+    item.telemarketerGSMs.forEach((gsm: any) => {
+      telemarketersSet.add(gsm.telemarketer);
+    });
+  });
+
+  this.telemarketers = Array.from(telemarketersSet);
+  this.tableData = data;
+
+
+
 }
+
+
+
+getGSMValue(telemarketerGSMs: any[], telemarketer: string): number | string {
+  const gsm = telemarketerGSMs.find(t => t.telemarketer === telemarketer);
+  return gsm ? gsm.assignedGSMs : '-';
+}
+
+
+getTotalGSMs(telemarketer: string): number {
+  let total = 0;
+
+  this.tableData.forEach(item => {
+    const gsmData = item.telemarketerGSMs.find(t => t.telemarketer === telemarketer);
+    if (gsmData) {
+      total += gsmData.assignedGSMs;
+    }
+  });
+
+  return total;
+}
+
+
+}
+
 

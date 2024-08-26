@@ -106,7 +106,7 @@ getEmployeeList()
 }
 
 getTotalCost() {
-  return this.targetData.data.map(t => t.totalMinutes).reduce((acc, value) => acc + value, 0);
+  return this.targetData.hourlyStatusTargets.map(t => t.totalMinutes).reduce((acc, value) => acc + value, 0);
 }
 
 

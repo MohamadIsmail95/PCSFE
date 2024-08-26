@@ -113,8 +113,8 @@ export interface targetViewModel
 
 export interface  targetReport
 {
-  averageCompletedCalls:number;
-  data:targetViewModel[];
+  closedCallsAvg:number;
+  hourlyStatusTargets:targetViewModel[];
 }
 
 export interface mistakeViewModel
@@ -165,4 +165,56 @@ export interface hourlyTargetFilter
   projectId:number;
   telemarketerId : number;
   targetDate:Date;
+}
+
+
+export interface generalDashboardFilter
+{
+
+  projectId: number;
+  dateFrom : Date;
+  dateTo : Date;
+  telemarketerIds :number[];
+  lineType : string;
+  callStatus: string;
+  generation: string;
+  region: string;
+  city: string;
+  segment: string;
+  subSegment: string;
+  bundle: string;
+  contract: string;
+
+}
+
+
+export interface generalDashboardResponse
+{
+  projectName : string;
+  createdBy : string;
+  addedOn : Date;
+  generalDetails : categoryCounter[];
+  statsticReport
+
+}
+
+
+export interface telemarketerGSMs
+{
+  telemarketer : string;
+  assignedGSMs : number;
+}
+
+
+export interface statusTelemarketer
+{
+  status : string;
+  telemarketerGSMs : telemarketerGSMs[];
+}
+
+export class statsticReportData
+{
+  data : statusTelemarketer[];
+  footer : telemarketerGSMs[];
+  closedPerDays : progressQuotaVm[]
 }
