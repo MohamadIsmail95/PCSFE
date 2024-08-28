@@ -1,3 +1,5 @@
+import { columnFilters } from "../project/project.const";
+
 export interface DataWithSize<T> {
     data: T[];
     dataSize: number;
@@ -25,4 +27,5 @@ export class FilterModel
   createdBy : string[];
   typeIds : number[];
   projectId?:number;
+  columnFilters ? : columnFilters[];
 }

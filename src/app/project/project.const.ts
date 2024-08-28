@@ -44,13 +44,19 @@ export interface projectDetails
    region:string;
    city:string;
    lastUpdateDate: Date;
+
 }
 
 export interface projectDetailsList extends projectListDto
 {
   projectDetails:projectDetails[];
+  columnFilters : columnFilters[];
 }
 
+export class columnFilters{
+  columnName : string;
+  distinctValues : string[];
+}
 export class NotificationDto
 {
   projectId: number;

@@ -27,10 +27,12 @@ import {MatIconModule} from '@angular/material/icon';
 import * as XLSX from 'xlsx';
 import { AccountService } from '../../app-core/services/account.service';
 import { FilterModel } from '../../common/generic';
-import { Unsubscriber } from 'techteec-lib/common';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import { FilterDetailsDialogComponent } from '../filter-details-dialog/filter-details-dialog.component';
 
 @Component({
   selector: 'app-edit-project',
+
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [MatCardModule,MatButtonModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatSelectModule,
@@ -42,7 +44,7 @@ import { Unsubscriber } from 'techteec-lib/common';
 })
 export class EditProjectComponent  implements OnInit {
 
-  projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
+  projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null,columnFilters:null};
   excelFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   pageEvent: PageEvent;
   pageSize:number;
@@ -69,6 +71,8 @@ export class EditProjectComponent  implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   convertExcelData:any[]=[];
   isAdmin:boolean;
+
+
 
   constructor(private _formBuilder: FormBuilder,private route: ActivatedRoute,
     protected projectService:HttpService,private _snackBar: MatSnackBar,public dialog: MatDialog,
@@ -325,8 +329,43 @@ export class EditProjectComponent  implements OnInit {
   }
 
 
+  openFilterDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(FilterDetailsDialogComponent, {data:this.empDetails.columnFilters,
+      width: '50%',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.projectFilter.columnFilters = result.data;
+      console.log(this.projectFilter)
+      this.projectService.getById(this.empId ,this.projectFilter).subscribe((response: { data: projectDetailsList; dataSize: number })=>{
+        this.empDetails = response.data;
+        this.dataSource = new MatTableDataSource( this.empDetails.projectDetails);
+        this.currentEmp.next(this.empDetails.projectDetails);
+        this.totalItems = response.dataSize;
+        this.changeDetectorRefs.detectChanges();
+
+        this.firstFormGroup = this._formBuilder.group({
+          id:[this.empDetails.id,Validators.required],
+          name: [this.empDetails.name,Validators.required],
+          dateFrom: [this.empDetails.dateFrom, Validators.required],
+          dateTo: [this.empDetails.dateTo, Validators.required],
+          quota: [this.empDetails.quota, Validators.required],
+          typeId: [this.empDetails.typeId, Validators.required],
+          projectDetails: this._formBuilder.array([])
+        },
+        { validators: this.ConfirmedValidator('dateFrom','dateTo')
+        }
+        );
+
+       this.isLoad=true;
+       }
+       );
 
 
+    })
+  }
 
 }
 
