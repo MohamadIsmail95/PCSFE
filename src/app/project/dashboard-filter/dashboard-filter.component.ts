@@ -80,7 +80,6 @@ export class DashboardFilterComponent implements OnInit {
      this.filterForm.get('projectId').setValue(pid.id);
 
     this.projectService.getGeneralReport(this.filterForm.value).subscribe((res)=>{
-      console.log(res)
      this.data = {card:res , filter:this.filterForm.value}
       this.checkOnlocalStorage(this.data);
      this._bottomSheetRef.dismiss(this.data);

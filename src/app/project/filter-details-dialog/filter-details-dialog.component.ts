@@ -26,14 +26,14 @@ export class FilterDetailsDialogComponent implements OnInit {
      @Inject(MAT_DIALOG_DATA) public data: any,protected projectService:HttpService,
      private fb:FormBuilder)  {
 
-      this.filterForm = fb.group({
-        'columnName':[''],
-        'distinctValues':['']
-      })
+        this.filterForm = this.fb.group({
+          'columnName':[this.data.y != null ? this.data.y.map(x=>x.columnName).at(-1):''],
+          'distinctValues': [this.data.y != null ? this.data.y.map(x=>x.distinctValues).at(-1) :'']
+        });
+
     }
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
 
@@ -49,7 +49,9 @@ export class FilterDetailsDialogComponent implements OnInit {
 
   onSubmit()
   {
-    this.dialogRef.close({data:this.filterOptions});
+    let arrObject =[];
+    arrObject.push(this.filterForm.value)
+    this.dialogRef.close({data: this.filterOptions.length > 0 ?  this.filterOptions : arrObject});
 
   }
 }

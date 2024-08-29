@@ -2,10 +2,10 @@
 <mat-card class="table-container">
 <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
 
-  @for (item of data; track $index) {
+  @for (item of data.d; track $index) {
 
     <mat-form-field style="width: 100%;margin: 5px;">
-      <mat-select (selectionChange)="onSelectionChange($event,item.columnName)" placeholder="{{item.columnName}}"  multiple >
+      <mat-select   formControlName="distinctValues" (selectionChange)="onSelectionChange($event,item.columnName)" placeholder="{{item.columnName}}"  multiple >
         @for (filter of item.distinctValues; track filter) {
           <mat-option *ngIf="filter" [value]="filter">{{filter}}</mat-option>
         }
@@ -15,7 +15,7 @@
 
    <div style="text-align: center;">
     <button   type="submit" mat-raised-button color="primary"
-    [disabled]="!filterForm.valid">Filter</button>
+    >Filter</button>
   </div>
   <br>
   </form>

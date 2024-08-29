@@ -164,5 +164,27 @@ export class HttpService {
  }
 
 
+ exportProjects() : Observable<Blob>
+ {
+   return this.httpClient.get(this.url+'exportProjectsToExcel',{ responseType: 'blob' }).pipe(
+    catchError((error) => {
+      console.error('File download error:', error);
+      return throwError(() => new Error('File download failed'));
+    }));
+ }
+
+
+ exportProject(id : number) : Observable<Blob>
+ {
+   return this.httpClient.get(this.url+'exportProjectDetailsToExcel?projectId='+id,{ responseType: 'blob' }).pipe(
+    catchError((error) => {
+      console.error('File download error:', error);
+      return throwError(() => new Error('File download failed'));
+    }));
+ }
+
+
+
+
 
 }

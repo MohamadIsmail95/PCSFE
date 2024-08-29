@@ -230,6 +230,27 @@ exportexcel(): void
   }
 
 
+  expprtToExcelBackend()
+  {
+    this.projservice.exportProjects().subscribe((blob)=>{
+
+      // Create a link element
+       const a = document.createElement('a');
+       const objectUrl = URL.createObjectURL(blob);
+
+       // Set the download attribute and href
+        a.href = objectUrl;
+       a.download = 'Projects.xlsx'; // Replace with the desired file name
+
+    // Trigger the download
+     a.click();
+
+    // Clean up the object URL
+      URL.revokeObjectURL(objectUrl);
+
+    })
+  }
+
 
 }
 

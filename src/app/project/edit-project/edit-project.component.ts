@@ -330,7 +330,8 @@ export class EditProjectComponent  implements OnInit {
 
 
   openFilterDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const dialogRef = this.dialog.open(FilterDetailsDialogComponent, {data:this.empDetails.columnFilters,
+    const dialogRef = this.dialog.open(FilterDetailsDialogComponent, {
+      data: {d: this.empDetails.columnFilters,y:this.projectFilter.columnFilters},
       width: '50%',
       enterAnimationDuration,
       exitAnimationDuration,
@@ -338,7 +339,6 @@ export class EditProjectComponent  implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.projectFilter.columnFilters = result.data;
-      console.log(this.projectFilter)
       this.projectService.getById(this.empId ,this.projectFilter).subscribe((response: { data: projectDetailsList; dataSize: number })=>{
         this.empDetails = response.data;
         this.dataSource = new MatTableDataSource( this.empDetails.projectDetails);
@@ -366,6 +366,38 @@ export class EditProjectComponent  implements OnInit {
 
     })
   }
+
+
+  expprtToExcelBackend()
+  {
+    this.projectService.exportProject(this.empId).subscribe((blob)=>{
+
+      // Create a link element
+       const a = document.createElement('a');
+       const objectUrl = URL.createObjectURL(blob);
+
+       // Set the download attribute and href
+        a.href = objectUrl;
+       a.download = 'Project.xlsx'; // Replace with the desired file name
+
+    // Trigger the download
+     a.click();
+
+    // Clean up the object URL
+      URL.revokeObjectURL(objectUrl);
+
+    })
+  }
+
+
+
+
+
+
+
+
+
+
 
 }
 
