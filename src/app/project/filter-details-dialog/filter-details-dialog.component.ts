@@ -6,8 +6,8 @@ import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { MatListModule } from '@angular/material/list';
-import { FormBuilder, FormGroup,Validators, FormsModule, ReactiveFormsModule,FormArray } from '@angular/forms';
-import { columnFilters } from '../project.const';
+import { FormBuilder, FormGroup,Validators, FormsModule, ReactiveFormsModule,FormArray, FormControl } from '@angular/forms';
+import { columnFilters, FilterDic } from '../project.const';
 import {MatButtonModule} from '@angular/material/button';
 
 @Component({
@@ -20,22 +20,25 @@ import {MatButtonModule} from '@angular/material/button';
 export class FilterDetailsDialogComponent implements OnInit {
 
  filterForm : FormGroup;
- filterOptions : columnFilters[]=[];
+ optionsMap: { [key: string]: string[] } = {};
 
+ filterOptions : columnFilters[]=[];
+ convertDataArr : FilterDic []=[];
   constructor(public dialogRef: MatDialogRef<FilterDetailsDialogComponent>,
      @Inject(MAT_DIALOG_DATA) public data: any,protected projectService:HttpService,
      private fb:FormBuilder)  {
-
-        this.filterForm = this.fb.group({
-          'columnName':[this.data.y != null ? this.data.y.map(x=>x.columnName).at(-1):''],
-          'distinctValues': [this.data.y != null ? this.data.y.map(x=>x.distinctValues).at(-1) :'']
-        });
+      this.initializeForm();
 
     }
 
   ngOnInit(): void {
+    this.buildForm(this.data.d,this.data.y);
+   console.log(this.data.y)
   }
 
+  initializeForm(): void {
+    this.filterForm = this.fb.group({});
+  }
 
 
 
@@ -43,7 +46,15 @@ export class FilterDetailsDialogComponent implements OnInit {
     let data = new columnFilters();
      data.columnName = column;
      data.distinctValues = event.value;
-    this.filterOptions.push(data)
+
+     for (let i = this.filterOptions.length - 1; i >= 0; i--) {
+      if (this.filterOptions[i].columnName === column) {
+          this.filterOptions.splice(i, 1);
+      }
+  }
+
+
+     this.filterOptions.push(data)
 
   }
 
@@ -54,4 +65,41 @@ export class FilterDetailsDialogComponent implements OnInit {
     this.dialogRef.close({data: this.filterOptions.length > 0 ?  this.filterOptions : arrObject});
 
   }
+
+
+  buildForm(data: any , redData:any): void {
+    let transformedObject = this.transformColumnFilters(data);
+    let transRefDataObject = null;
+    if(redData != null)
+    {
+       transRefDataObject = this.transformColumnFilters(redData);
+
+    }
+
+    Object.keys(transformedObject).forEach(key => {
+      if(transRefDataObject != null)
+      {
+        this.filterForm.addControl(key, new FormControl(transRefDataObject[key] || []));
+
+      }
+      else
+      {
+        this.filterForm.addControl(key, new FormControl([]));
+
+      }
+      this.optionsMap[key] = transformedObject[key] || [];
+    });
+
+  }
+  getOptions(controlName: string): string[] {
+    return this.optionsMap[controlName] || [];
+  }
+  transformColumnFilters(columnFilters: Array<{ columnName: string, distinctValues: string[] }>): { [key: string]: string[] } {
+  return columnFilters.reduce((acc, filter) => {
+    acc[filter.columnName] = filter.distinctValues;
+    return acc;
+  }, {} as { [key: string]: string[] });
 }
+
+}
+

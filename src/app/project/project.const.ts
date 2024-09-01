@@ -224,3 +224,9 @@ export class statsticReportData
   footer : telemarketerGSMs[];
   closedPerDays : progressQuotaVm[]
 }
+
+export interface FilterDic
+{
+  key:string,
+  value: string[]
+}

@@ -1,27 +1,25 @@
 
 <mat-card class="table-container">
-<form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
 
-  @for (item of data.d; track $index) {
 
-    <mat-form-field style="width: 100%;margin: 5px;">
-      <mat-select   formControlName="distinctValues" (selectionChange)="onSelectionChange($event,item.columnName)" placeholder="{{item.columnName}}"  multiple >
-        @for (filter of item.distinctValues; track filter) {
-          <mat-option *ngIf="filter" [value]="filter">{{filter}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-   }
+      <mat-form-field *ngFor="let control of filterForm.controls | keyvalue" style="width: 100%;margin: 5px;">
 
-   <div style="text-align: center;">
-    <button   type="submit" mat-raised-button color="primary"
-    >Filter</button>
-  </div>
-  <br>
+        <mat-select    [formControlName]="control.key" (selectionChange)="onSelectionChange($event,control.key)" placeholder="{{control.key}}"  multiple >
+          <mat-option value="NA" *ngIf="control.key != 'CallStatus' && control.key != 'Employee'" >NA</mat-option>
+          <mat-option *ngFor="let option of getOptions(control.key)"  [value]="option">{{option}}</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+
+     <div style="text-align: center;">
+      <button   type="submit" mat-raised-button color="primary"
+      >Filter</button>
+    </div>
+    <br>
+
+
   </form>
 </mat-card>
-
-
-
-
 
