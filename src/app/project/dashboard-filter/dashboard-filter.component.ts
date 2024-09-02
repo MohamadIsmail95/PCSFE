@@ -52,7 +52,7 @@ export class DashboardFilterComponent implements OnInit {
       'dateFrom':['',Validators.required],
       'dateTo':['',Validators.required],
       'projectId':[''],
-      'telemarketerIds':[''],
+      'telemarketerIds':['',Validators.required],
       'lineType':[''],
       'callStatus':[''],
       'generation':[''],
