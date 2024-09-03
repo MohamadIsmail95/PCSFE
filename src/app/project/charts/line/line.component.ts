@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { BaseChartDirective } from 'ng2-charts';
 import { LocalStorageService } from '../../local-storage.service';
@@ -12,35 +12,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './line.component.html',
   styleUrl: './line.component.scss'
 })
-export class LineComponent  implements  OnInit ,OnChanges ,AfterViewInit{
+export class LineComponent  implements  OnInit {
 
   projectDetails:any;
   protected chart = new BehaviorSubject<Chart>(null);
   @Input() xLineData :string[];
   @Input() yLineData : number[];
-   lineChart : Chart;
-   @Input() chartId : number;
+  lineChart :  Chart | undefined;;
+  @Input() chartId : number;
 
    constructor(){}
 
-  ngAfterViewInit(): void {
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['xLineData'] && changes['yLineData']) {
-      this.lineChart.destroy();
 
-      this.createChart(this.xLineData,this.yLineData)
-    }
-  }
   ngOnInit(): void {
 
-    this.createChart(this.xLineData,this.yLineData)
+      this.initializeChart();
 
   }
 
-  createChart(xLineData:string[],yLineData:number[]){
-          console.log('ssss')
-     this.lineChart = new Chart("lineChart", {
+  createChart(xLineData:string[],yLineData:number[] , ctx: any){
+
+     this.lineChart = new Chart(ctx, {
       type: 'line', //this denotes tha type of chart
 
       data: {// values on X-Axis
@@ -82,6 +74,15 @@ export class LineComponent  implements  OnInit ,OnChanges ,AfterViewInit{
 
   }
 
+  initializeChart() {
+    const ctx = (document.getElementById('lineChart') as HTMLCanvasElement).getContext('2d');
+
+    // Check if the chart instance already exists and destroy it
+    if (this.lineChart) {
+      this.lineChart.destroy();
+    }
+
+    this.createChart(this.xLineData,this.yLineData,ctx)
 
 
-}
+  }}

@@ -48,7 +48,7 @@ export class AllchartsComponent implements OnInit  {
 
   displayedColumns = ['category', 'count'];
   productivityDisplayedColumns = ['telemarketer', 'assignedGSMs','completed','closed','closedRate','completedRate'];
-
+  lastFilter : any;
   dataSource : categoryCounter[]=[];
   productivityDataSource : statusTelemarketer[]=[];
   projectDetails:any;
@@ -64,7 +64,8 @@ export class AllchartsComponent implements OnInit  {
 
 
   ngOnInit(): void {
-    this.getLocalStorageData();
+    //this.getLocalStorageData();
+   this.getGeneralReport(this.lastFilter)
 
   }
 
@@ -103,7 +104,7 @@ export class AllchartsComponent implements OnInit  {
     this.processData(this.productivityDataSource);
     this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
     this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
-
+    this.lastFilter = result.filter;
    })
 
   }
@@ -130,7 +131,6 @@ getLocalStorageData()
   this.processData(this.productivityDataSource);
   this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
   this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
-
 
 }
 
@@ -170,6 +170,18 @@ getTotalGSMs(telemarketer: string): number {
 
   return total;
 }
+
+getGeneralReport(filter : any)
+{
+  if(filter != undefined)
+  {
+    this.projectService.getGeneralReport(filter).subscribe((res)=>{
+      this.projectDetails  = res;
+    })
+  }
+
+}
+
 
 
 }

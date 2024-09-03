@@ -61,8 +61,11 @@ export class FilterDetailsDialogComponent implements OnInit {
   onSubmit()
   {
     let arrObject =[];
+
     arrObject.push(this.filterForm.value)
-    this.dialogRef.close({data: this.filterOptions.length > 0 ?  this.filterOptions : arrObject});
+
+
+    this.dialogRef.close({data: this.filterOptions.length > 0 ?  this.filterOptions : this.convertStructure(arrObject)} );
 
   }
 
@@ -99,7 +102,29 @@ export class FilterDetailsDialogComponent implements OnInit {
     acc[filter.columnName] = filter.distinctValues;
     return acc;
   }, {} as { [key: string]: string[] });
-}
 
 }
+
+
+convertStructure(items : any) : columnFilters[]
+{
+   let convertedItems : columnFilters[] =[];
+
+   items.forEach(element => {
+
+    let cnv = Object.keys(element).map(columnName => {
+
+      convertedItems.push(
+      {columnName : columnName ,distinctValues: element[columnName]})
+
+    })
+   });
+
+   return convertedItems;
+
+}
+
+
+}
+
 
