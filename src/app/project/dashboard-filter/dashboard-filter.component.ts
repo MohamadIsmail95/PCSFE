@@ -35,12 +35,14 @@ export class DashboardFilterComponent implements OnInit {
   filterForm:FormGroup;
   projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:10000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   projects :projectListDto[];
-  myControl = new FormControl('');
   options: projectListDto[];
   filteredOptions: Observable<projectListDto[]>;
   dashStatics:StatisticsReportViewModel;
   newValue : any;
   employees : employeeList[];
+  lastFilter : any={};
+  myControl = new FormControl('');
+  lastData : any;
   constructor(private _bottomSheetRef: MatBottomSheetRef<DashboardFilterComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private fb:FormBuilder , protected projectService:HttpService,
@@ -48,22 +50,26 @@ export class DashboardFilterComponent implements OnInit {
   )
 
   {
+    this.getLocalStorageData();
+
     this.filterForm = this.fb.group({
-      'dateFrom':['',Validators.required],
-      'dateTo':['',Validators.required],
-      'projectId':[''],
-      'telemarketerIds':['',Validators.required],
-      'lineType':[''],
-      'callStatus':[''],
-      'generation':[''],
-      'region':[''],
-      'city':[''],
-      'segment':[''],
-      'subSegment':[''],
-      'bundle':[''],
-      'contract':[''],
+      'dateFrom':[this.lastFilter.dateFrom || '',Validators.required],
+      'dateTo':[this.lastFilter.dateTo || '',Validators.required],
+      'projectId':[this.lastFilter.projectId || ''],
+      'telemarketerIds':[this.lastFilter.telemarketerIds || '',Validators.required],
+      'lineType':[this.lastFilter.lineType || ''],
+      'callStatus':[this.lastFilter.callStatus || ''],
+      'generation':[this.lastFilter.generation || ''],
+      'region':[this.lastFilter.region || ''],
+      'city':[this.lastFilter.city || ''],
+      'segment':[this.lastFilter.segment || ''],
+      'subSegment':[this.lastFilter.subSegment || ''],
+      'bundle':[this.lastFilter.bundle || ''],
+      'contract':[this.lastFilter.contract || ''],
 
     })
+
+    this.myControl.setValue(this.lastData.projectName || '');
   }
   ngOnInit(): void {
     this.getProjects();
@@ -81,8 +87,10 @@ export class DashboardFilterComponent implements OnInit {
 
     this.projectService.getGeneralReport(this.filterForm.value).subscribe((res)=>{
      this.data = {card:res , filter:this.filterForm.value}
+
       this.checkOnlocalStorage(this.data);
      this._bottomSheetRef.dismiss(this.data);
+
 
     })
   }
@@ -130,6 +138,12 @@ export class DashboardFilterComponent implements OnInit {
       this.employees = response
     })
   }
+
+  getLocalStorageData()
+{
+  this.lastFilter = JSON.parse(this.localStorageService.getItem('dashboardData')).filter ;
+  this.lastData = JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
+}
 
 
 }

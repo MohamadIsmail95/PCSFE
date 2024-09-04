@@ -64,7 +64,7 @@ export class AllchartsComponent implements OnInit  {
 
 
   ngOnInit(): void {
-    //this.getLocalStorageData();
+    this.getLocalStorageData();
    this.getGeneralReport(this.lastFilter)
 
   }
@@ -76,7 +76,7 @@ export class AllchartsComponent implements OnInit  {
       if (matches) {
         return {
           columns: 1,
-          miniCard: { cols: 4, rows: 1 },
+          miniCard: { cols: 1, rows: 1 },
           chart: { cols: 1, rows: 2 },
           table: { cols: 1, rows: 2 },
         };
@@ -104,7 +104,7 @@ export class AllchartsComponent implements OnInit  {
     this.processData(this.productivityDataSource);
     this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
     this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
-    this.lastFilter = result.filter;
+    this.lastFilter = result != null ? result.filter : null;
    })
 
   }
@@ -124,13 +124,7 @@ capture() {
 
 getLocalStorageData()
 {
-  this.projectDetails=JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
-  this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
-  this.dataSource = this.projectDetails.callStatuses;
-  this.productivityDataSource = this.projectDetails.statsticReport.data;
-  this.processData(this.productivityDataSource);
-  this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
-  this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
+  this.lastFilter=JSON.parse(this.localStorageService.getItem('dashboardData')).filter ;
 
 }
 
@@ -173,17 +167,21 @@ getTotalGSMs(telemarketer: string): number {
 
 getGeneralReport(filter : any)
 {
+
   if(filter != undefined)
   {
     this.projectService.getGeneralReport(filter).subscribe((res)=>{
       this.projectDetails  = res;
+      this.projectDetails.addedOn = this.projectDetails.addedOn.substring(0, 10);
+      this.dataSource = this.projectDetails.callStatuses;
+      this.productivityDataSource = this.projectDetails.statsticReport.data;
+       this.processData(this.productivityDataSource);
+       this.xLineLine = this.projectDetails.closedPerDays.map((x)=>x.date)
+       this.yLineLine = this.projectDetails.closedPerDays.map((x)=>x.count)
     })
   }
 
 }
-
-
-
 }
 
 
