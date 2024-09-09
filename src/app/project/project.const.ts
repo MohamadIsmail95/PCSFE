@@ -230,3 +230,8 @@ export interface FilterDic
   key:string,
   value: string[]
 }
+
+export interface SegmantViewModel
+{
+  name : string;
+}

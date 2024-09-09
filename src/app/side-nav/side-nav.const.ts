@@ -64,47 +64,37 @@ export const items: IconNavItemWithRoles[] = [
 
     ],
   },
+
+
+
+
   {
-    title: 'Evaluations',
-    svgIcon: COUNTER_ICON,
-    postition: 'top',
-    roles: ['admin','Researcher'],
+    title: 'Setting',
+    svgIcon: ADMIN_ICON,
+    postition: 'bottom',
+    roles: ['admin'],
     children: [
+      // {
+      //   title: 'Devices',
+      //   svgIcon: DEVICE_ICON,
+      //   routerLink: 'admin/devices',
 
-
+      // },
+      {
+        title: 'Segmant',
+        svgIcon: SUBSET_ICON,
+        routerLink: 'setting/segmants'
+      },
+      // {
+      //   title: 'Counters',
+      //   svgIcon: COUNTER_ICON,
+      //   routerLink: 'admin/counters'
+      // },
+      {
+        title: 'Dictionary Mapping',
+        svgIcon: EXTRA_FIELDS_ICON,
+        routerLink: 'setting/dictionary'
+      },
     ],
   },
-
-
-
-  // {
-  //   title: 'Admin',
-  //   routerLink: 'admin',
-  //   svgIcon: ADMIN_ICON,
-  //   postition: 'bottom',
-  //   roles: ['admin'],
-  //   children: [
-  //     {
-  //       title: 'Devices',
-  //       svgIcon: DEVICE_ICON,
-  //       routerLink: 'admin/devices',
-
-  //     },
-  //     {
-  //       title: 'Subsets',
-  //       svgIcon: SUBSET_ICON,
-  //       routerLink: 'admin/subsets'
-  //     },
-  //     {
-  //       title: 'Counters',
-  //       svgIcon: COUNTER_ICON,
-  //       routerLink: 'admin/counters'
-  //     },
-  //     {
-  //       title: 'Extra Fields',
-  //       svgIcon: EXTRA_FIELDS_ICON,
-  //       routerLink: 'admin/extra-fields'
-  //     },
-  //   ],
-  // },
 ];

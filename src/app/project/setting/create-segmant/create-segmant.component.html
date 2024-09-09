@@ -1,0 +1,12 @@
+<mat-card style="margin: 5px;">
+  <mat-card-title>Segmant Form</mat-card-title>
+  <form [formGroup]="segmantForm" (ngSubmit)="onSubmit()" >
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Ex. Segmant" formControlName="name">
+    </mat-form-field>
+
+    <button  style="margin: 5px;" type="submit" mat-raised-button color="primary" [disabled]="!segmantForm.valid">Submit</button>
+
+  </form>
+
+</mat-card>

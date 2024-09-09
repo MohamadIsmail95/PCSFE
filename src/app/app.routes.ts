@@ -55,6 +55,20 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'setting/segmants',
+        loadComponent: () =>
+          import('./project/setting/segmant/segmant.component').then(
+            (c) => c.SegmantComponent
+          )
+      },
+      {
+        path: 'setting/create-segmant',
+        loadComponent: () =>
+          import('./project/setting/create-segmant/create-segmant.component').then(
+            (c) => c.CreateSegmantComponent
+          )
+      },
+      {
         path: 'mistakes/:id',
         loadComponent: () =>
           import('./project/mistakes/mistak-table/mistak-table.component').then(
