@@ -12,6 +12,7 @@ import { formatDate } from '@angular/common';
 export class HttpService {
   private url = environment.apiUrl+'Projects/';
   private dashboardUrl = environment.apiUrl+'ProjectsStatistics/';
+  private rootUrl = environment.apiUrl;
 
   private httpClient = inject(HttpClient);
   constructor() { }
@@ -50,6 +51,11 @@ export class HttpService {
     private loadingEvaluationList = new BehaviorSubject<boolean>(false);
     get loadingEvaluationList$(): Observable<boolean> {
       return this.loadingEvaluationList.asObservable();
+    }
+
+    private loadingSegmantList = new BehaviorSubject<boolean>(false);
+    get loadingSegmantList$(): Observable<boolean> {
+      return this.loadingSegmantList.asObservable();
     }
 
 
@@ -183,6 +189,13 @@ export class HttpService {
     }));
  }
 
+
+ getSegmants(): Observable<string[]>
+ {
+     this.loadingSegmantList.next(true);
+     return this.httpClient.get<string[]>(this.rootUrl+'Segments/getSegments')
+     .pipe(finalize(() => this.loadingSegmantList.next(false)))
+ }
 
 
 

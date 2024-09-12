@@ -1,16 +1,16 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { SegmantViewModel } from '../../project.const';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { provideRouter, Route, RouterLink } from '@angular/router';
+import { HttpService } from '../../http.service';
 
 @Component({
   selector: 'app-segmant',
@@ -21,24 +21,25 @@ import { provideRouter, Route, RouterLink } from '@angular/router';
   templateUrl: './segmant.component.html',
   styleUrl: './segmant.component.scss'
 })
-export class SegmantComponent  implements AfterViewInit{
+export class SegmantComponent  implements OnInit{
 
-  segmants : SegmantViewModel[] = []
+  segmants : string[] = []
   displayedColumns: string[] = ['name'];
-  dataSource: MatTableDataSource<SegmantViewModel>;
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-constructor(){
-  this.dataSource = new MatTableDataSource(this.segmants);
+constructor(private projectService : HttpService)
+{
 
 }
+  ngOnInit(): void {
 
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.getSegmants();
   }
+
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -47,6 +48,20 @@ constructor(){
       this.dataSource.paginator.firstPage();
     }
   }
+
+ getSegmants()
+ {
+    this.projectService.getSegmants().subscribe((response)=>{
+      this.segmants = response
+      this.dataSource = new MatTableDataSource(this.segmants);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+    })
+ }
+
+
+
 }
 
 

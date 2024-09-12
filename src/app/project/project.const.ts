@@ -231,7 +231,3 @@ export interface FilterDic
   value: string[]
 }
 
-export interface SegmantViewModel
-{
-  name : string;
-}

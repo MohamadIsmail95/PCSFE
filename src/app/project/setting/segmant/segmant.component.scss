@@ -1,5 +1,7 @@
 table {
   width: 100%;
+  border-collapse: collapse;
+
 }
 
 .mat-mdc-form-field {
@@ -7,6 +9,24 @@ table {
   width: 100%;
 }
 
-td, th {
-  width: 50%;
+::ng-deep .mat-sort-header-container {
+  display:flex;
+  justify-content:center;
+}
+
+tr,td{
+  text-align: center;
+}
+.table-container {
+  max-height: 400px; /* Set the maximum height for the table container */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  margin-top: 20px;  /* Optional: add some space above the table */
+  border: 1px solid #ddd; /* Optional: add a border to the table container */
+}
+th {
+  background-color: #f4f4f4;
+  color: #333;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
