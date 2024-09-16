@@ -62,6 +62,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'setting/dictionary',
+        loadComponent: () =>
+          import('./project/setting/dictionary-type/dictionary-type.component').then(
+            (c) => c.DictionaryTypeComponent
+          )
+      },
+      {
         path: 'setting/create-segmant',
         loadComponent: () =>
           import('./project/setting/create-segmant/create-segmant.component').then(

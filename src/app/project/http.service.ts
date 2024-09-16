@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, StatisticsReportViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -198,6 +198,21 @@ export class HttpService {
  }
 
 
+ CreateSegmant(name:string): Observable<any>
+ {
+     return this.httpClient.post<any>(this.rootUrl+'Segments/addSegment',name)
+
+ }
+
+ getDictionaryByTypeId(id:number):Observable<DictionaryViewModel[]>
+ {
+   return this.httpClient.get<DictionaryViewModel[]>(this.rootUrl+'ProjectsEvaluation/getProjectTypeDictionary?projecTypeId='+id)
+ }
+
+updateDictionaryType(input:UpdateDictionaryViewModel) : Observable<any>
+{
+   return this.httpClient.put<any>(this.rootUrl+'ProjectsEvaluation/updateProjectTypeDictionary',input)
+}
 
 
 }

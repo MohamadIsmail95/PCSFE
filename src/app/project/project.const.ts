@@ -231,3 +231,15 @@ export interface FilterDic
   value: string[]
 }
 
+export interface DictionaryViewModel
+{
+  rangFrom:number,
+  rangTo : number;
+  value : number;
+}
+
+export interface UpdateDictionaryViewModel
+{
+  projectTypeId:number;
+  dictionaryRanges:DictionaryViewModel[];
+}

@@ -5,6 +5,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {ReactiveFormsModule, FormControl} from '@angular/forms';
+import { HttpService } from '../../http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-segmant',
@@ -16,7 +18,7 @@ import {ReactiveFormsModule, FormControl} from '@angular/forms';
 export class CreateSegmantComponent implements OnInit {
   segmantForm : FormGroup;
 
- constructor(private fb:FormBuilder){
+ constructor(private fb:FormBuilder , private httpService:HttpService ,private router: Router){
   this.segmantForm = this.fb.group({
     'name' : ['',Validators.required]
   })
@@ -26,7 +28,10 @@ export class CreateSegmantComponent implements OnInit {
 
   onSubmit()
   {
-    console.log(this.segmantForm.value);
+    this.httpService.CreateSegmant(this.segmantForm.value).subscribe((response)=>{
+      this.router.navigate(['/setting/segmants']);
+
+    })
 
   }
 
