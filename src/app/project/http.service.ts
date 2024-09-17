@@ -206,7 +206,7 @@ export class HttpService {
 
  getDictionaryByTypeId(id:number):Observable<DictionaryViewModel[]>
  {
-   return this.httpClient.get<DictionaryViewModel[]>(this.rootUrl+'ProjectsEvaluation/getProjectTypeDictionary?projecTypeId='+id)
+   return this.httpClient.get<DictionaryViewModel[]>(this.rootUrl+'ProjectsEvaluation/getProjectTypeDictionary?projectTypeId='+id)
  }
 
 updateDictionaryType(input:UpdateDictionaryViewModel) : Observable<any>

@@ -83,6 +83,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'project-dictionary/:id',
+        loadComponent: () =>
+          import('./project/setting/project-dictionary/project-dictionary.component').then(
+            (c) => c.ProjectDictionaryComponent
+          )
+      },
+      {
         path: 'create-mistake/:id',
         loadComponent: () =>
           import('./project/mistakes/create-mistake/create-mistake.component').then(

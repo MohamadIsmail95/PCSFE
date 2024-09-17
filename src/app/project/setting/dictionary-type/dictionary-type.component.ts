@@ -28,7 +28,7 @@ export class DictionaryTypeComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   form: FormGroup;
   projectTypes : typeList[];
-  dictionaryList : DictionaryViewModel[]=[{rangFrom:1,rangTo:5,value:50}];
+  dictionaryList : DictionaryViewModel[]=[];
 
   constructor(private fb: FormBuilder , private httpservice:HttpService) {
 
@@ -38,9 +38,6 @@ export class DictionaryTypeComponent implements OnInit {
     },
     { validators: rangeValidator()}
   );
-
-
-
 
   }
 
