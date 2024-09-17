@@ -27,7 +27,8 @@ export class SegmantComponent  implements OnInit{
 
   segmants : string[] = []
   displayedColumns: string[] = ['name'];
-  dataSource: MatTableDataSource<string>;
+  dataSource= new MatTableDataSource<string>([]);
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   excelData : string[] = [];
@@ -36,6 +37,8 @@ constructor(protected projectService : HttpService)
 
 }
   ngOnInit(): void {
+
+
 
     this.getSegmants();
 
@@ -46,7 +49,7 @@ constructor(protected projectService : HttpService)
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
+    this.dataSource.filterPredicate = (data, filter) => data.indexOf(filter) != -1;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

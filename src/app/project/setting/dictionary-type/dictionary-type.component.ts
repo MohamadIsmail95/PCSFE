@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -13,17 +13,19 @@ import {MatSelectModule} from '@angular/material/select';
 import { rangeValidator } from './../../CustomValidators/rangeValidator';
 import { sequenceRangeValidator } from './../../CustomValidators/sequenceRangeValidator';
 import {MatGridListModule} from '@angular/material/grid-list';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dictionary-type',
   standalone: true,
   imports: [MatCardModule,ReactiveFormsModule,MatInputModule,MatButtonModule,
-    MatIconModule,MatFormFieldModule,CommonModule,MatSelectModule,MatGridListModule],
+    MatIconModule,MatFormFieldModule,CommonModule,MatSelectModule,MatGridListModule,MatSnackBarModule],
   templateUrl: './dictionary-type.component.html',
   styleUrl: './dictionary-type.component.scss'
 })
 export class DictionaryTypeComponent implements OnInit {
+  private _snackBar = inject(MatSnackBar);
   form: FormGroup;
   projectTypes : typeList[];
   dictionaryList : DictionaryViewModel[]=[{rangFrom:1,rangTo:5,value:50}];
@@ -83,7 +85,7 @@ onSubmit(): void {
 
 this.httpservice.updateDictionaryType(this.form.value).subscribe((response)=>{
   this.getDictionariesById(this.form.get('projectTypeId').value);
-
+  this.openSnackBar('Update Dictionary Successfully','Closed')
 })
 
 
@@ -135,6 +137,11 @@ populateFormArray(data: any[]): void {
     { validators: rangeValidator()}
   ));
   });
+}
+
+
+openSnackBar(message: string, action: string) {
+  this._snackBar.open(message, action);
 }
 
 }

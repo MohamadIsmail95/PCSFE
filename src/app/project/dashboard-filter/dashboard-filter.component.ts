@@ -53,23 +53,23 @@ export class DashboardFilterComponent implements OnInit {
     this.getLocalStorageData();
 
     this.filterForm = this.fb.group({
-      'dateFrom':[this.lastFilter.dateFrom || '',Validators.required],
-      'dateTo':[this.lastFilter.dateTo || '',Validators.required],
-      'projectId':[this.lastFilter.projectId || ''],
-      'telemarketerIds':[this.lastFilter.telemarketerIds || '',Validators.required],
-      'lineType':[this.lastFilter.lineType || ''],
-      'callStatus':[this.lastFilter.callStatus || ''],
-      'generation':[this.lastFilter.generation || ''],
-      'region':[this.lastFilter.region || ''],
-      'city':[this.lastFilter.city || ''],
-      'segment':[this.lastFilter.segment || ''],
-      'subSegment':[this.lastFilter.subSegment || ''],
-      'bundle':[this.lastFilter.bundle || ''],
-      'contract':[this.lastFilter.contract || ''],
+      'dateFrom':[this.lastFilter != null ? this.lastFilter.dateFrom : '',Validators.required],
+      'dateTo':[this.lastFilter != null ? this.lastFilter.dateTo : '',Validators.required],
+      'projectId':[this.lastFilter != null ? this.lastFilter.projectId : ''],
+      'telemarketerIds':[this.lastFilter != null ? this.lastFilter.telemarketerIds : '',Validators.required],
+      'lineType':[this.lastFilter != null ? this.lastFilter.lineType : ''],
+      'callStatus':[this.lastFilter != null ? this.lastFilter.callStatus :''],
+      'generation':[this.lastFilter != null ? this.lastFilter.generation : ''],
+      'region':[this.lastFilter != null ? this.lastFilter.region : ''],
+      'city':[this.lastFilter != null ? this.lastFilter.city : ''],
+      'segment':[this.lastFilter != null ? this.lastFilter.segment : ''],
+      'subSegment':[this.lastFilter != null ? this.lastFilter.subSegment : ''],
+      'bundle':[this.lastFilter != null ? this.lastFilter.bundle : ''],
+      'contract':[this.lastFilter != null ? this.lastFilter.contract : ''],
 
     })
 
-    this.myControl.setValue(this.lastData.projectName || '');
+    this.myControl.setValue(this.lastData != null ? this.lastData.projectName : '');
   }
   ngOnInit(): void {
     this.getProjects();
@@ -141,8 +141,8 @@ export class DashboardFilterComponent implements OnInit {
 
   getLocalStorageData()
 {
-  this.lastFilter = JSON.parse(this.localStorageService.getItem('dashboardData')).filter ;
-  this.lastData = JSON.parse(this.localStorageService.getItem('dashboardData')).card ;
+  this.lastFilter = this.localStorageService.getItem('dashboardData') != null ? JSON.parse(this.localStorageService.getItem('dashboardData')).filter : null;
+  this.lastData =  this.localStorageService.getItem('dashboardData') != null ?   JSON.parse(this.localStorageService.getItem('dashboardData')).card  : null;
 }
 
 

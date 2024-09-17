@@ -124,7 +124,8 @@ capture() {
 
 getLocalStorageData()
 {
-  this.lastFilter=JSON.parse(this.localStorageService.getItem('dashboardData')).filter ;
+  this.lastFilter= this.localStorageService.getItem('dashboardData') != null ?
+   JSON.parse(this.localStorageService.getItem('dashboardData')).filter : null ;
 
 }
 
