@@ -215,4 +215,15 @@ updateDictionaryType(input:UpdateDictionaryViewModel) : Observable<any>
 }
 
 
+getProjectDictionary(id:number):Observable<DictionaryViewModel[]>
+{
+  return this.httpClient.get<DictionaryViewModel[]>(this.rootUrl+'ProjectsEvaluation/getProjectDictionary?projectId='+id)
+}
+
+updateDictionaryProject(input:UpdateDictionaryViewModel) : Observable<any>
+{
+   return this.httpClient.put<any>(this.rootUrl+'ProjectsEvaluation/updateProjectDictionary',input)
+}
+
+
 }

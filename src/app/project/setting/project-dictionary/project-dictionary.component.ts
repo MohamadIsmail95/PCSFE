@@ -39,9 +39,11 @@ constructor( protected projservice:HttpService,private router: Router,
   private _snackBar: MatSnackBar ,private activateRoute: ActivatedRoute,
   private fb: FormBuilder
 ){
+  this.activateRoute.params.subscribe(params => {
+    this.projectId = params['id'];  });
 
   this.form = this.fb.group({
-    projectTypeId: ['', Validators.required],
+    projectId: [this.projectId, Validators.required],
     dictionaryRanges: this.fb.array([],sequenceRangeValidator()) // Initialize FormArray
   },
   { validators: rangeValidator()}
@@ -50,8 +52,9 @@ constructor( protected projservice:HttpService,private router: Router,
 
 
   ngOnInit(): void {
-    this.activateRoute.params.subscribe(params => {
-      this.projectId = params['id'];  });
+
+
+      this.getProjectDictionaryById();
   }
 
 
@@ -93,8 +96,12 @@ removeItem(index: number): void {
 // Submit handler to process the form
 onSubmit(): void {
 
+  this.projservice.updateDictionaryProject(this.form.value).subscribe((response)=>{
+    console.log(response);
+    this.populateFormArray(response);
+    this.openSnackBar('Update Dictionary Successfully','Closed')
+  })
 
-  console.log(this.form.value);
 
 }
 
@@ -118,7 +125,12 @@ populateFormArray(data: any[]): void {
 
 
 
-
+getProjectDictionaryById()
+{
+  this.projservice.getProjectDictionary(this.projectId).subscribe((response)=>{
+   this.populateFormArray(response)
+  })
+}
 
 
 

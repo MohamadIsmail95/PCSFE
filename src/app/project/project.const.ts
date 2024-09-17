@@ -243,3 +243,8 @@ export interface UpdateDictionaryViewModel
   projectTypeId:number;
   dictionaryRanges:DictionaryViewModel[];
 }
+export interface UpdateDictionaryViewModel
+{
+  projectId:number;
+  dictionaryRanges:DictionaryViewModel[];
+}
