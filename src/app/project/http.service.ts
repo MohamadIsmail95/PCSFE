@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, RdayViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, RdayViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -13,6 +13,7 @@ export class HttpService {
   private url = environment.apiUrl+'Projects/';
   private dashboardUrl = environment.apiUrl+'ProjectsStatistics/';
   private rootUrl = environment.apiUrl;
+  private evaluationUrl = environment.apiUrl+'ProjectsEvaluation/';
 
   private httpClient = inject(HttpClient);
   constructor() { }
@@ -56,6 +57,11 @@ export class HttpService {
     private loadingSegmantList = new BehaviorSubject<boolean>(false);
     get loadingSegmantList$(): Observable<boolean> {
       return this.loadingSegmantList.asObservable();
+    }
+
+    private loadingSegmantEvaluation = new BehaviorSubject<boolean>(false);
+    get loadingSegmantEvaluation$(): Observable<boolean> {
+      return this.loadingSegmantEvaluation.asObservable();
     }
 
 
@@ -234,5 +240,13 @@ getExpectedRemainingDays(id : number):Observable<RdayViewModel>
 {
   return this.httpClient.get<RdayViewModel>(this.url+'expectedRemainingDays?projectId='+id);
 }
+
+getSegmentEvaluationCard(projectId : number , segmentName : string) : Observable<EvaluationCard[]>
+{
+  this.loadingSegmantEvaluation.next(true);
+   return this.httpClient.get<EvaluationCard[]>(this.evaluationUrl+'getProjectSegmentEvaluationCards?projectId='+projectId+'&segmentName='+segmentName)
+   .pipe(finalize(() => this.loadingSegmantEvaluation.next(false)));;
+}
+
 
 }

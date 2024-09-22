@@ -90,6 +90,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'segment-evaluation/:id',
+        loadComponent: () =>
+          import('./project/segment-evaluation/segment-evaluation.component').then(
+            (c) => c.SegmentEvaluationComponent
+          )
+      },
+      {
         path: 'create-mistake/:id',
         loadComponent: () =>
           import('./project/mistakes/create-mistake/create-mistake.component').then(

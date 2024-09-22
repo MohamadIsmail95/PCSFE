@@ -254,3 +254,9 @@ export interface RdayViewModel
   key : string;
   remainingDays : number;
 }
+
+export interface EvaluationCard
+{
+  cardTitle : string;
+  value : number;
+}
