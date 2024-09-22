@@ -2,7 +2,7 @@
   <mat-progress-bar mode="indeterminate" *ngIf="(projectService.loadingDetails$| async)"></mat-progress-bar>
   <mat-progress-bar mode="indeterminate" *ngIf="(projectService.loadingEdit$| async)"></mat-progress-bar>
 
-  <mat-card-header>
+  <mat-card-header *ngIf="empDetails">
     <mat-card-title>Project :  {{empDetails.name}}  Details</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
@@ -68,12 +68,12 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Search in Gsm and Note" #input>
     </mat-form-field>
 
-    <button (click)="openFilterDialog('0ms', '0ms')"   mat-button color="primary" >
-      <mat-icon >filter_alt</mat-icon>
+    <button class="custom-icon-size"  (click)="openFilterDialog('0ms', '0ms')"   mat-button color="primary" >
+      <mat-icon class="custom-icon-size " >filter_alt</mat-icon>
 
     </button>
 
-    <section class="example-container mat-elevation-z8" tabindex="0">
+    <section style="margin: 5px;" class="example-container mat-elevation-z8" tabindex="0">
 
       <table mat-table [dataSource]="dataSource"  id="excel-table" >
 

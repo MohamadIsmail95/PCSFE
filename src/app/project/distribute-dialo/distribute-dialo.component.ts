@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
@@ -26,7 +26,6 @@ import { Unsubscriber } from 'techteec-lib/common';
 })
 export class DistributeDialoComponent extends Unsubscriber  implements OnInit
 {
-
   employeeData:employeeList[];
   selectedEmployees:string;
   constructor(public dialogRef: MatDialogRef<DistributeDialoComponent>,
@@ -43,6 +42,7 @@ export class DistributeDialoComponent extends Unsubscriber  implements OnInit
     this._otherSubscription = this.projectService.redistributeProject(this.data.id,this.selectedEmployees.toString())
      .subscribe((res)=>{
      })
+    this.dialogRef.close(true);
 
   }
   getEmployeeList()
@@ -53,6 +53,7 @@ export class DistributeDialoComponent extends Unsubscriber  implements OnInit
     }
     )
   }
+
 
 
 }

@@ -330,6 +330,7 @@ export class EditProjectComponent  implements OnInit {
 
 
   openFilterDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+
     const dialogRef = this.dialog.open(FilterDetailsDialogComponent, {
       data: {d: this.empDetails.columnFilters,y:this.projectFilter.columnFilters},
       width: '50%',
@@ -338,7 +339,8 @@ export class EditProjectComponent  implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.projectFilter.columnFilters = result.data;
+      this.projectFilter.columnFilters = result != null ? result.data : null;
+
       this.projectService.getById(this.empId ,this.projectFilter).subscribe((response: { data: projectDetailsList; dataSize: number })=>{
         this.empDetails = response.data;
         this.dataSource = new MatTableDataSource( this.empDetails.projectDetails);

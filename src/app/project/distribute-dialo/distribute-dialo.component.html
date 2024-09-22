@@ -1,15 +1,12 @@
 
 <h2 mat-dialog-title>Redistribute Project</h2>
 
-
-
 <mat-dialog-content>
 
   Would you like to Redistribute Project?
 
-  <mat-form-field style="width: 100%;">
-    <mat-label>Employees</mat-label>
-    <mat-select [(ngModel)]="selectedEmployees" multiple>
+  <mat-form-field  style="width: 100%;">
+    <mat-select  [(ngModel)]="selectedEmployees" multiple required >
 
       @for (state of employeeData; track state) {
 
@@ -22,5 +19,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close cdkFocusInitial>No</button>
-  <button mat-button (click)="onNoClick()" [mat-dialog-close]="data" >Save</button>
+  <button mat-button (click)="onNoClick()" [mat-dialog-close]="data" [disabled]="!selectedEmployees || selectedEmployees.length === 0">Save</button>
 </mat-dialog-actions>

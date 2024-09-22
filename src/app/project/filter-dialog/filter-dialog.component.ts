@@ -33,7 +33,7 @@ import {MatIconModule} from '@angular/material/icon';
 export class FilterDialogComponent  implements OnInit{
 
   filterForm:FormGroup;
-  employeeData:employeeList[];
+  adminData:employeeList[];
   typeData:typeList[];
 
   constructor(
@@ -57,7 +57,7 @@ export class FilterDialogComponent  implements OnInit{
 
   }
   ngOnInit(): void {
-    this.getEmployeeList();
+    this.getAdminList();
     this.getProjectType();
   }
 
@@ -74,11 +74,11 @@ export class FilterDialogComponent  implements OnInit{
     })
   }
 
-  getEmployeeList()
+  getAdminList()
   {
-    this.projectService.getEmployees().subscribe((data)=>
+    this.projectService.getAdmins().subscribe((data)=>
     {
-      this.employeeData=data;
+      this.adminData=data;
     }
     )
   }

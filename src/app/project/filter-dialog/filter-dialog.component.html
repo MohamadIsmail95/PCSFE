@@ -38,7 +38,7 @@
       <mat-label>Telemarketers</mat-label>
       <mat-form-field style="width: 100%;">
         <mat-select formControlName="createdBy" multiple>
-          @for (f of employeeData; track f) {
+          @for (f of adminData; track f) {
             <mat-option [value]="f.userName">{{f.userName}}</mat-option>
           }
         </mat-select>

@@ -32,8 +32,8 @@ export class FilterDetailsDialogComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.filterOptions = this.data.y != null  ? this.data.y : [];
     this.buildForm(this.data.d,this.data.y);
-   console.log(this.data.y)
   }
 
   initializeForm(): void {
@@ -43,6 +43,7 @@ export class FilterDetailsDialogComponent implements OnInit {
 
 
   onSelectionChange(event: MatSelectChange , column:string) {
+
     let data = new columnFilters();
      data.columnName = column;
      data.distinctValues = event.value;
@@ -61,10 +62,7 @@ export class FilterDetailsDialogComponent implements OnInit {
   onSubmit()
   {
     let arrObject =[];
-
     arrObject.push(this.filterForm.value)
-
-
     this.dialogRef.close({data: this.filterOptions.length > 0 ?  this.filterOptions : this.convertStructure(arrObject)} );
 
   }
@@ -94,6 +92,8 @@ export class FilterDetailsDialogComponent implements OnInit {
     });
 
   }
+
+
   getOptions(controlName: string): string[] {
     return this.optionsMap[controlName] || [];
   }

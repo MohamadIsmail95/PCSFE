@@ -225,5 +225,9 @@ updateDictionaryProject(input:UpdateDictionaryViewModel) : Observable<any>
    return this.httpClient.put<any>(this.rootUrl+'ProjectsEvaluation/updateProjectDictionary',input)
 }
 
+getAdmins():Observable<employeeList[]>
+{
+   return this.httpClient.get<employeeList[]>(this.url+"getAdmins");
+}
 
 }

@@ -202,12 +202,18 @@ exportexcel(): void
   }
 
   openDistributeDialog(project:any,enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DistributeDialoComponent, {data:project,
+    const dialogRef = this.dialog.open(DistributeDialoComponent, {data:project,
       width: '500px',
       enterAnimationDuration,
       exitAnimationDuration,
-    })
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+      {
+        this.openSnackBar('Redistributed project successfully','Closed')
+      }
 
+    })
   }
 
   openFilterDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
