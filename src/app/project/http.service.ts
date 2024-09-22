@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, RdayViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -227,7 +227,12 @@ updateDictionaryProject(input:UpdateDictionaryViewModel) : Observable<any>
 
 getAdmins():Observable<employeeList[]>
 {
-   return this.httpClient.get<employeeList[]>(this.url+"getAdmins");
+   return this.httpClient.get<employeeList[]>(this.url+'getAdmins');
+}
+
+getExpectedRemainingDays(id : number):Observable<RdayViewModel>
+{
+  return this.httpClient.get<RdayViewModel>(this.url+'expectedRemainingDays?projectId='+id);
 }
 
 }

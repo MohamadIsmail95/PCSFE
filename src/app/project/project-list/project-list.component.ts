@@ -1,7 +1,7 @@
 import { HttpService } from '../http.service';
 import { MatPaginatorModule, PageEvent,MatPaginator } from '@angular/material/paginator';
 import { Router, RouterOutlet } from '@angular/router';
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, ViewChild, input} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ExperimentalPendingTasks, Input, OnChanges, SimpleChanges, ViewChild, input} from '@angular/core';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { provideRouter, Route, RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { projectListDto, typeList } from '../project.const';
+import { projectListDto, RdayViewModel, typeList } from '../project.const';
 import { FilterModel } from '../../common/generic';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -59,6 +59,7 @@ export class ProjectListComponent extends Unsubscriber {
   typeData:typeList[];
   isAdmin:boolean;
   advanceFilter:any;
+  expectedDays :RdayViewModel;
 
   constructor( protected projservice:HttpService,private router: Router,
     public dialog: MatDialog,private _snackBar: MatSnackBar,
@@ -235,7 +236,6 @@ exportexcel(): void
 
   }
 
-
   expprtToExcelBackend()
   {
     this.projservice.exportProjects().subscribe((blob)=>{
@@ -257,7 +257,15 @@ exportexcel(): void
     })
   }
 
-
+  getRDays(id : number)
+  {
+     this.projservice.getExpectedRemainingDays(id).subscribe((response)=>{
+      this.expectedDays = response;
+      let formattedValue = this.expectedDays.remainingDays.toFixed(2); // Returns "7.22" as a string
+      let numberValue = parseFloat(formattedValue); // Converts back to a number if needed
+      this.openSnackBar('Remaining Days : '+ numberValue,'Closed')
+     })
+  }
 }
 
 

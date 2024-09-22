@@ -248,3 +248,9 @@ export interface UpdateDictionaryViewModel
   projectId:number;
   dictionaryRanges:DictionaryViewModel[];
 }
+
+export interface RdayViewModel
+{
+  key : string;
+  remainingDays : number;
+}
