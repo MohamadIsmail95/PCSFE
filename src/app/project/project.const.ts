@@ -260,3 +260,21 @@ export interface EvaluationCard
   cardTitle : string;
   value : number;
 }
+
+export interface SegmentTelemarketersEvaluationsViewModel
+{
+  employeeUserName : string;
+  segment : string;
+  workingHours : number;
+  closed : number;
+  closedPerHour : number;
+  segmentTarget : number;
+  achievement : number;
+  mark : number;
+}
+
+export interface EvaluationCardRequest
+{
+  segmentName : string;
+  projectId : number;
+}

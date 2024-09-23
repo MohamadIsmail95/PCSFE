@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, EvaluationCard, RdayViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -64,7 +64,20 @@ export class HttpService {
       return this.loadingSegmantEvaluation.asObservable();
     }
 
+    private loadingSegmantCardEvaluation = new BehaviorSubject<boolean>(false);
+    get loadingSegmantCardEvaluation$(): Observable<boolean> {
+      return this.loadingSegmantCardEvaluation.asObservable();
+    }
 
+    private loadingSegmantEvaluationTable = new BehaviorSubject<boolean>(false);
+    get loadingSegmantEvaluationTable$(): Observable<boolean> {
+      return this.loadingSegmantEvaluationTable.asObservable();
+    }
+
+    private SegmantEvaluationTable = new BehaviorSubject<boolean>(false);
+    get SegmantEvaluationTable$(): Observable<boolean> {
+      return this.SegmantEvaluationTable.asObservable();
+    }
 
     getProjects(filterM:FilterModel):Observable<{ data: projectListDto[]; dataSize: number }>
   {
@@ -241,12 +254,28 @@ getExpectedRemainingDays(id : number):Observable<RdayViewModel>
   return this.httpClient.get<RdayViewModel>(this.url+'expectedRemainingDays?projectId='+id);
 }
 
-getSegmentEvaluationCard(projectId : number , segmentName : string) : Observable<EvaluationCard[]>
+getSegmentEvaluationCard(input : EvaluationCardRequest) : Observable<EvaluationCard[]>
 {
   this.loadingSegmantEvaluation.next(true);
-   return this.httpClient.get<EvaluationCard[]>(this.evaluationUrl+'getProjectSegmentEvaluationCards?projectId='+projectId+'&segmentName='+segmentName)
+  this.loadingSegmantCardEvaluation.next(true);
+
+   return this.httpClient.get<EvaluationCard[]>(this.evaluationUrl+'getProjectSegmentEvaluationCards?projectId='+input.projectId+'&segmentName='+input.segmentName)
    .pipe(finalize(() => this.loadingSegmantEvaluation.next(false)));;
 }
 
+
+getSegmentEvaluationTable(input : EvaluationCardRequest) : Observable<SegmentTelemarketersEvaluationsViewModel[]>
+{
+  this.SegmantEvaluationTable.next(true);
+  this.loadingSegmantEvaluationTable.next(true);
+
+   return this.httpClient.post<SegmentTelemarketersEvaluationsViewModel[]>(this.evaluationUrl+'getProjectSegmentTelemarketersEvaluations',input)
+   .pipe(finalize(() => this.loadingSegmantEvaluationTable.next(false)));
+}
+
+getProjectSegment(id : number) : Observable<string[]>
+{
+   return this.httpClient.get<string[]>(this.rootUrl+'Segments/projectSegments?projectId='+id);
+}
 
 }

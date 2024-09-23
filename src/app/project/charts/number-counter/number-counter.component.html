@@ -1,4 +1,6 @@
 <div class="counter">
   <p class="label"><i>{{label}}</i></p>
-  <p class="number">{{counter | async}} / {{total}}</p>
+  @if (total != '0') {<p class="number">{{counter | async}} / {{total}}</p>}
+  @else {<p class="number">{{counter | async}}</p>}
+
 </div>
