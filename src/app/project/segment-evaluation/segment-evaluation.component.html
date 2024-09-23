@@ -52,7 +52,8 @@
 
 
     </mat-grid-tile>
-    <mat-grid-tile colspan="4">
+    <mat-grid-tile [colspan]="(cardLayout | async)?.table.cols"
+    [rowspan]="(cardLayout | async)?.table.rows">
       <mat-card>
 
         <mat-form-field>
@@ -78,35 +79,35 @@
             <!-- Name Column -->
             <ng-container matColumnDef="workingHours">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Working Hours </th>
-              <td mat-cell *matCellDef="let row"> {{row.workingHours}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.workingHours| number : '1.0-2'}} </td>
             </ng-container>
 
             <!-- Fruit Column -->
             <ng-container matColumnDef="closed">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Closed </th>
-              <td mat-cell *matCellDef="let row"> {{row.closed}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.closed| number : '1.0-2'}} </td>
             </ng-container>
 
 
             <ng-container matColumnDef="closedPerHour">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Closed/Hour </th>
-              <td mat-cell *matCellDef="let row"> {{row.closedPerHour}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.closedPerHour| number : '1.0-2'}} </td>
             </ng-container>
 
 
             <ng-container matColumnDef="segmentTarget">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Target </th>
-              <td mat-cell *matCellDef="let row"> {{row.segmentTarget}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.segmentTarget| number : '1.0-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="achievement">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Achievement </th>
-              <td mat-cell *matCellDef="let row"> {{row.achievement}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.achievement| number : '1.0-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="mark">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Mark </th>
-              <td mat-cell *matCellDef="let row"> {{row.mark}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.mark| number : '1.0-2'}} </td>
             </ng-container>
 
 
