@@ -42,7 +42,7 @@ export const items: IconNavItemWithRoles[] = [
     roles: ['admin','Researcher'],
     children: [
       {
-        title: 'General Report',
+        title: 'General Reports',
         svgIcon: REPORT_ICON,
         routerLink: 'charts'
       },
@@ -55,7 +55,7 @@ export const items: IconNavItemWithRoles[] = [
     ],
   },
    {
-    title: 'Mistake Report',
+    title: 'Mistake Reports',
     svgIcon: SUBSET_ICON,
     postition: 'top',
     roles: ['admin','Researcher'],
@@ -69,7 +69,7 @@ export const items: IconNavItemWithRoles[] = [
 
 
   {
-    title: 'Setting',
+    title: 'Settings',
     svgIcon: ADMIN_ICON,
     postition: 'bottom',
     roles: ['admin'],
@@ -81,7 +81,7 @@ export const items: IconNavItemWithRoles[] = [
 
       // },
       {
-        title: 'Segmant',
+        title: 'Segmants',
         svgIcon: SUBSET_ICON,
         routerLink: 'setting/segmants'
       },
