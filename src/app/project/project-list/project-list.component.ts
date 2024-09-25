@@ -263,7 +263,7 @@ exportexcel(): void
       this.expectedDays = response;
       let formattedValue = this.expectedDays.remainingDays.toFixed(2); // Returns "7.22" as a string
       let numberValue = parseFloat(formattedValue); // Converts back to a number if needed
-      this.openSnackBar('Remaining Days : '+ numberValue,'Closed')
+      this.openSnackBar('Expected Remaining Days : '+ numberValue,'Closed')
      })
   }
 }
