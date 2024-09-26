@@ -42,10 +42,10 @@
             titleColor="#972ED1"
           >
             <app-number-counter
-              [number]="cd.value.toString()"
+              [number]="cd.value"
               [label]=""
-              [duration]="'0.01'"
-              [total]="'0'"
+              [duration]="0.1"
+              [total]="0"
             >
             </app-number-counter>
           </app-card>
@@ -102,7 +102,7 @@
 
             <ng-container matColumnDef="achievement">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Achievement </th>
-              <td mat-cell *matCellDef="let row"> {{row.achievement| number : '1.0-2'}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.achievement| number : '1.0-2' | percent}} </td>
             </ng-container>
 
             <ng-container matColumnDef="mark">
