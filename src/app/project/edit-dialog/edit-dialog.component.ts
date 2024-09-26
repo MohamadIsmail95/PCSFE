@@ -46,8 +46,9 @@ export class EditDialogComponent  implements OnInit{
     this.data.details.callStatusId=this.data.status.filter(x=>x.id===this.data.details.callStatusId)[0].id;
     this.data.details.callStatus=this.data.status.filter(x=>x.id===this.data.details.callStatusId)[0].name;
      this.projectService.updateProjectDetail(this.data.details).subscribe((res)=>{
+      this.data.details.lastUpdateDate = res.lastUpdateDate;
      })
-    //this.dialogRef.close(this.data);
+    this.dialogRef.close(this.data);
   }
 
   IsAdminRole()
