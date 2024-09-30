@@ -1,0 +1,61 @@
+<mat-card appearance="outlined">
+  <mat-card-content>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-label> Project Dictionary</mat-label>
+
+  <div formArrayName="dictionaryRanges">
+    <div *ngFor="let item of dictionaryRanges.controls; let i = index" [formGroupName]="i">
+      <div *ngIf="item.hasError('invalidRange')">
+        <mat-error>Range From must be less than Range To</mat-error>
+      </div>
+      <mat-grid-list cols="4" rowHeight="100px">
+      <mat-grid-tile [colspan]="1">
+        <mat-label style="margin: 10px">From</mat-label>
+
+      <mat-form-field class="example-full-width">
+        <input type="number" matInput formControlName="rangFrom" placeholder="Enter Range From" />
+        <mat-error *ngIf="item.get('rangFrom')?.invalid && item.get('rangFrom')?.touched">
+          Range From is required and should be a non-negative number.
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1">
+      <mat-label style="margin: 10px">To</mat-label>
+      <mat-form-field class="example-full-width">
+        <input  matInput formControlName="rangTo" type="number" placeholder="Enter Range To" />
+        <mat-error *ngIf="item.get('rangTo')?.invalid && item.get('rangTo')?.touched">
+          Range To is required and should be a non-negative number.
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2">
+      <mat-label style="margin: 10px">Value</mat-label>
+      <mat-form-field class="example-full-width">
+        <input  matInput formControlName="value" type="text" placeholder="Enter value" />
+        <mat-error *ngIf="item.get('value')?.invalid && item.get('value')?.touched">
+          Value is required and should be a non-negative number.
+        </mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="warn" type="button" (click)="removeItem(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    </mat-grid-tile>
+
+      </mat-grid-list>
+    </div>
+  </div>
+
+  <button style="margin: 5px;" mat-raised-button color="primary" type="button" (click)="addItem()" [disabled]="!form.get('projectId').valid">Add</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="!form.valid">Save</button>
+</form>
+
+<div *ngIf="!dictionaryRanges.valid">
+  <mat-error>Each Range From must be sequence with previous Range To.</mat-error>
+</div>
+
+  </mat-card-content>
+
+  </mat-card>
+
+

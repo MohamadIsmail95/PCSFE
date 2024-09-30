@@ -54,19 +54,6 @@ export const items: IconNavItemWithRoles[] = [
 
     ],
   },
-   {
-    title: 'Mistake Reports',
-    svgIcon: SUBSET_ICON,
-    postition: 'top',
-    roles: ['admin','Researcher'],
-    children: [
-
-
-    ],
-  },
-
-
-
 
   {
     title: 'Settings',
@@ -93,7 +80,18 @@ export const items: IconNavItemWithRoles[] = [
       {
         title: 'Dictionary Mapping',
         svgIcon: EXTRA_FIELDS_ICON,
-        routerLink: 'setting/dictionary'
+        children :[
+          {
+            title: 'Project Type Dictionary',
+            svgIcon: EXTRA_FIELDS_ICON,
+            routerLink: 'setting/dictionary'
+          },
+          {
+            title: 'Mistake Type Dictionary',
+            svgIcon: COUNTER_ICON,
+            routerLink: 'setting/mistake-dictionary'
+          }
+        ]
       },
     ],
   },

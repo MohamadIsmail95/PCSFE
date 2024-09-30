@@ -1,10 +1,10 @@
 <mat-card style="margin: 5px;">
   <mat-card-header>
-    <mat-card-title>Project Mistakes</mat-card-title>
+    <mat-card-title>Mistakes</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
   <mat-card-content >
-    <div style = "display: flex; justify-content:flex-end;margin: 10px;">
+    <!-- <div style = "display: flex; justify-content:flex-end;margin: 10px;">
       <button  routerLink="/create-mistake/{{projectId}}" mat-button color="primary">
         <mat-icon >my_library_add  </mat-icon>
 
@@ -21,7 +21,7 @@
       </button>
 
 
-    </div>
+    </div> -->
 
     <mat-form-field>
       <mat-label>Filter</mat-label>
@@ -33,87 +33,49 @@
       <table id="excel-table" mat-table [dataSource]="dataSource" matSort >
 
         <!-- ID Column -->
-        <ng-container matColumnDef="surveyName" >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('surveyName')"> Survey Name </th>
-          <td mat-cell *matCellDef="let row"> {{row.surveyName}} </td>
+        <ng-container matColumnDef="month" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('month')"> Month </th>
+          <td mat-cell *matCellDef="let row"> {{row.month}} </td>
         </ng-container>
 
         <!-- Progress Column -->
-        <ng-container matColumnDef="telemarketerName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('telemarketerName')"> Telemarketer </th>
-          <td mat-cell *matCellDef="let row"> {{row.telemarketerName}} </td>
+        <ng-container matColumnDef="survey">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('survey')"> Survey </th>
+          <td mat-cell *matCellDef="let row"> {{row.survey}} </td>
         </ng-container>
 
 
-        <ng-container matColumnDef="mistakeType">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('mistakeType')"> Mistake Type </th>
-          <td mat-cell *matCellDef="let row"> {{row.mistakeType}} </td>
+        <ng-container matColumnDef="telemarketer">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('telemarketer')"> Telemarketer </th>
+          <td mat-cell *matCellDef="let row"> {{row.telemarketer}} </td>
         </ng-container>
 
 
-        <ng-container matColumnDef="gsm">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('gsm')"> GSM </th>
-          <td mat-cell *matCellDef="let row"> {{row.gsm}} </td>
+        <ng-container matColumnDef="complated">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('complated')"> Complated </th>
+          <td mat-cell *matCellDef="let row"> {{row.complated}} </td>
         </ng-container>
 
 
-        <ng-container matColumnDef="serial">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('serial')"> Serial </th>
-          <td mat-cell *matCellDef="let row"> {{row.serial}} </td>
+        <ng-container matColumnDef="mistakesCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('mistakesCount')"> Count </th>
+          <td mat-cell *matCellDef="let row"> {{row.mistakesCount}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="questionNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('questionNumber')"> Question Number </th>
-          <td mat-cell *matCellDef="let row"> {{row.questionNumber}} </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="segment">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('segment')"> Segment </th>
-          <td mat-cell *matCellDef="let row"> {{row.segment}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('Description')"> Description </th>
-          <td mat-cell *matCellDef="let row"> {{row.description}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="wieght">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('wieght')"> Wieght </th>
-          <td mat-cell *matCellDef="let row"> {{row.wieght}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="controller">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('controller')"> Controller </th>
-          <td mat-cell *matCellDef="let row"> {{row.controller}} </td>
+        <ng-container matColumnDef="mistakesPercentage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('mistakesPercentage')"> Percentage </th>
+          <td mat-cell *matCellDef="let row"> {{row.mistakesPercentage}} </td>
         </ng-container>
 
 
-        <ng-container matColumnDef="adminRemark">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('adminRemark')"> Admin Remark </th>
-          <td mat-cell *matCellDef="let row"> {{row.adminRemark}} </td>
+        <ng-container matColumnDef="available">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('available')"> Available </th>
+          <td mat-cell *matCellDef="let row"> {{row.available}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef > Actions </th>
-          <td mat-cell *matCellDef="let row">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-button color="primary" routerLink="/edit-mistake/{{row.id}}">
-                <mat-icon>mode_edit</mat-icon>
-                <span>Edit</span>
-
-              </button><br>
-              <button mat-button color="warn" (click)="openDialog(row.id,'0ms', '0ms')">
-                <mat-icon>delete_forever </mat-icon>
-                <span>Delete</span>
-
-              </button>
-
-            </mat-menu>
-          </td>
+        <ng-container matColumnDef="mark">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortByheader('mark')"> Mark </th>
+          <td mat-cell *matCellDef="let row"> {{row.mark}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

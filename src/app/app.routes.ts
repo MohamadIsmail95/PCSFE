@@ -69,6 +69,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'setting/mistake-dictionary',
+        loadComponent: () =>
+          import('./project/setting/mistake-dictionary-type/mistake-dictionary-type.component').then(
+            (c) => c.MistakeDictionaryTypeComponent
+          )
+      },
+      {
         path: 'setting/create-segmant',
         loadComponent: () =>
           import('./project/setting/create-segmant/create-segmant.component').then(
@@ -87,6 +94,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./project/setting/project-dictionary/project-dictionary.component').then(
             (c) => c.ProjectDictionaryComponent
+          )
+      },
+      {
+        path: 'mistake-dictionary/:id',
+        loadComponent: () =>
+          import('./project/setting/mistake-dictionary/mistake-dictionary.component').then(
+            (c) => c.MistakeDictionaryComponent
           )
       },
       {

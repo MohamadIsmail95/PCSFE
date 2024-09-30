@@ -98,7 +98,7 @@
               </button><br>
               <button mat-button color="primary" routerLink="/project-dictionary/{{row.id}}">
                 <mat-icon>visibility</mat-icon>
-                <span>Dictionary</span>
+                <span>Evaluation Dictionary</span>
 
               </button><br>
               <button mat-button color="primary" routerLink="/segment-evaluation/{{row.id}}">
@@ -114,13 +114,17 @@
 
               </button><br>
 
+              <button mat-button color="primary" routerLink="/mistake-dictionary/{{row.id}}">
+                <mat-icon>developer_board</mat-icon>
+                <span>Mistake Dictionary</span>
 
+              </button><br>
 
-              <!-- <button mat-button color="primary" routerLink="/mistakes/{{row.id}}">
-                <mat-icon> rss_feed</mat-icon>
+              <button mat-button color="primary" routerLink="/mistakes/{{row.id}}">
+                <mat-icon>warning</mat-icon>
                 <span>Mistake</span>
 
-              </button> -->
+              </button>
             </mat-menu>
           </td>
         </ng-container>

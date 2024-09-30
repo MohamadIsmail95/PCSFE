@@ -18,18 +18,16 @@ import { DictionaryViewModel } from '../../project.const';
 import { sequenceRangeValidator } from '../../CustomValidators/sequenceRangeValidator';
 import { rangeValidator } from '../../CustomValidators/rangeValidator';
 import { ReactiveFormsModule } from '@angular/forms';
-
 @Component({
-  selector: 'app-project-dictionary',
+  selector: 'app-mistake-dictionary',
   standalone: true,
   imports: [CommonModule,MatInputModule,MatFormFieldModule,MatCardModule,MatButtonModule,MatIconModule,
     MatProgressBarModule,MatSnackBarModule,MatGridListModule,ReactiveFormsModule
   ],
-  templateUrl: './project-dictionary.component.html',
-  styleUrl: './project-dictionary.component.scss'
+  templateUrl: './mistake-dictionary.component.html',
+  styleUrl: './mistake-dictionary.component.scss'
 })
-export class ProjectDictionaryComponent implements OnInit
- {
+export class MistakeDictionaryComponent implements OnInit {
 
   projectId:number;
   form: FormGroup;
@@ -131,6 +129,5 @@ getProjectDictionaryById()
    this.populateFormArray(response)
   })
 }
-
 
 }

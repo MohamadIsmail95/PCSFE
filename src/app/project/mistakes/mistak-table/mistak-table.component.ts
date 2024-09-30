@@ -40,8 +40,8 @@ export class MistakTableComponent implements OnInit {
   mistakeFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   excelFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
 
-  displayedColumns: string[] = ['surveyName','telemarketerName','mistakeType','gsm','serial',
-  'questionNumber','segment','description','wieght','controller','adminRemark','action'];
+  displayedColumns: string[] = ['month','survey','telemarketer','complated','mistakesCount',
+  'mistakesPercentage','available','mark'];
   dataSource= new MatTableDataSource<mistakeViewModel>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -97,7 +97,6 @@ handlePageEvent(event: PageEvent){
   this.mistakeFilter.projectId = this.advanceFilter!=null? this.advanceFilter.projectId : null;
 
    //this.getMistake(this.mistakeFilter)
-   console.log(this.mistakeFilter)
 }
 applyFilter(event: Event) {
 

@@ -125,21 +125,14 @@ export interface  targetReport
 
 export interface mistakeViewModel
 {
-  surveyName:string; //projectName
-  surveyId:number;
-  telemarketerName:string;
-  telemarketerId:number;
-  mistakeType:string;
-  mistakeTypeId:string;
-  gsm:string;
-  serial:string;
-  questionNumber:string;
-  segment:string;
-  description:string;
-  wieght:string;
-  controller:string;  //project type
-  controllerId:number;
-  adminRemark:string;
+  month : string;
+  survey : string;
+  telemarketer : string;
+  complated : string;
+  mistakesCount : string;
+  mistakesPercentage : string;
+  available : string;
+  mark : string;
 }
 
 export interface progressQuotaVm
