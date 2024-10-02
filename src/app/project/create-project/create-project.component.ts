@@ -198,4 +198,6 @@ export class CreateProjectComponent extends Unsubscriber implements OnInit
       this.typeData=res;
     })
   }
+
+
 }
