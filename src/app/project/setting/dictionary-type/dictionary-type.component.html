@@ -57,7 +57,9 @@
 </form>
 
 <div *ngIf="!dictionaryRanges.valid">
-  <mat-error>Each Range From must be sequence with previous Range To.</mat-error>
+  <mat-error>Warning : Sequence range must be as examble:
+    From : 0  to X  then from X.01 to  Y
+  </mat-error>
 </div>
 
   </mat-card-content>

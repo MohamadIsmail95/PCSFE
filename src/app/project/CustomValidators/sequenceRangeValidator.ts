@@ -13,7 +13,7 @@ export function sequenceRangeValidator(): ValidatorFn {
       const currentFrom = currentGroup.get('rangFrom')?.value;
 
       // If previous 'rangTo' is not less than current 'rangFrom', return error
-      if (prevTo !== null && currentFrom !== null && currentFrom != prevTo+1) {
+      if (prevTo !== null && currentFrom !== null && currentFrom != prevTo + 0.01) {
         return { invalidSequence: true }; // Invalid sequence detected
       }
     }
