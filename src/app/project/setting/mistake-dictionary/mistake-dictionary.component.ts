@@ -94,8 +94,7 @@ removeItem(index: number): void {
 // Submit handler to process the form
 onSubmit(): void {
 
-  this.projservice.updateDictionaryProject(this.form.value).subscribe((response)=>{
-    console.log(response);
+  this.projservice.updateMistakeDictionaryProject(this.form.value).subscribe((response)=>{
     this.populateFormArray(response);
     this.openSnackBar('Update Dictionary Successfully','Closed')
   })
@@ -106,7 +105,6 @@ onSubmit(): void {
 populateFormArray(data: any[]): void {
 
   this.dictionaryRanges.clear(); // Clears all controls from the FormArray
-  console.log(this.dictionaryRanges.value);
 
   let formArray = this.dictionaryRanges;
 
@@ -125,7 +123,7 @@ populateFormArray(data: any[]): void {
 
 getProjectDictionaryById()
 {
-  this.projservice.getProjectDictionary(this.projectId).subscribe((response)=>{
+  this.projservice.getMistakeProjectDictionary(this.projectId).subscribe((response)=>{
    this.populateFormArray(response)
   })
 }

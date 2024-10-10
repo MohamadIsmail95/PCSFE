@@ -14,6 +14,7 @@ export class HttpService {
   private dashboardUrl = environment.apiUrl+'ProjectsStatistics/';
   private rootUrl = environment.apiUrl;
   private evaluationUrl = environment.apiUrl+'ProjectsEvaluation/';
+  private mistakeUrl = environment.apiUrl+'MistakeReports/';
 
   private httpClient = inject(HttpClient);
   constructor() { }
@@ -276,6 +277,28 @@ getSegmentEvaluationTable(input : EvaluationCardRequest) : Observable<SegmentTel
 getProjectSegment(id : number) : Observable<string[]>
 {
    return this.httpClient.get<string[]>(this.rootUrl+'Segments/projectSegments?projectId='+id);
+}
+
+//------------------------------------------------------
+getMistakeDictionaryByTypeId(id:number):Observable<DictionaryViewModel[]>
+ {
+   return this.httpClient.get<DictionaryViewModel[]>(this.mistakeUrl+'projectTypeMistakeDictionary?projectTypeId='+id)
+ }
+
+updateMistakeDictionaryType(input:UpdateDictionaryViewModel) : Observable<any>
+{
+   return this.httpClient.put<any>(this.mistakeUrl+'updateProjectTypeMistakeDictionary',input)
+}
+
+
+getMistakeProjectDictionary(id:number):Observable<DictionaryViewModel[]>
+{
+  return this.httpClient.get<DictionaryViewModel[]>(this.mistakeUrl+'projectMistakeDictionary?projectId='+id)
+}
+
+updateMistakeDictionaryProject(input:UpdateDictionaryViewModel) : Observable<any>
+{
+   return this.httpClient.put<any>(this.mistakeUrl+'updateProjectMistakeDictionary',input)
 }
 
 }

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './line.component.html',
   styleUrl: './line.component.scss'
 })
-export class LineComponent  implements  OnInit {
+export class LineComponent  implements  OnInit ,OnChanges {
 
   projectDetails:any;
   protected chart = new BehaviorSubject<Chart>(null);
@@ -28,6 +28,13 @@ export class LineComponent  implements  OnInit {
 
       this.initializeChart();
 
+  }
+
+   // Detect changes in the @Input properties
+   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['xLineData'] || changes['yLineData']) {
+      this.initializeChart();
+    }
   }
 
   createChart(xLineData:string[],yLineData:number[] , ctx: any){

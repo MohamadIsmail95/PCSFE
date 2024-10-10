@@ -20,6 +20,15 @@ mat-card{
 .example-card {
   max-width: 100%;
   margin: 5px;
+  max-height: 400px; /* Set the maximum height for the table container */
+  overflow-y: auto;  /* Enable vertical scrolling */
+}
+
+.example-table{
+  max-width: 100%;
+  margin: 5px;
+  max-height: 400px; /* Set the maximum height for the table container */
+  overflow-y: auto;  /* Enable vertical scrolling */
 }
 
 .example-header-image {

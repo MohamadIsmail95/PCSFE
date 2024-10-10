@@ -79,7 +79,7 @@ removeItem(index: number): void {
 // Submit handler to process the form
 onSubmit(): void {
 
-this.httpservice.updateDictionaryType(this.form.value).subscribe((response)=>{
+this.httpservice.updateMistakeDictionaryType(this.form.value).subscribe((response)=>{
   this.getDictionariesById(this.form.get('projectTypeId').value);
   this.openSnackBar('Update Dictionary Successfully','Closed')
 })
@@ -99,7 +99,7 @@ getProjectType()
 
 getDictionaries(event : any)
 {
-  this.httpservice.getDictionaryByTypeId(event.value).subscribe((response)=>{
+  this.httpservice.getMistakeDictionaryByTypeId(event.value).subscribe((response)=>{
     this.populateFormArray(response)
 
   })
@@ -107,7 +107,7 @@ getDictionaries(event : any)
 
 getDictionariesById(id : number)
 {
-  this.httpservice.getDictionaryByTypeId(id).subscribe((response)=>{
+  this.httpservice.getMistakeDictionaryByTypeId(id).subscribe((response)=>{
     this.populateFormArray(response)
 
   })
