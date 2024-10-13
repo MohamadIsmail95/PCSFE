@@ -86,12 +86,14 @@
                 <span>Edit</span>
 
               </button><br>
-              <button mat-button color="warn" (click)="openDialog(row.id,'0ms', '0ms')" *ngIf="isAdmin">
+              <div *ngIf="isAdmin">
+
+              <button mat-button color="warn" (click)="openDialog(row.id,'0ms', '0ms')">
                 <mat-icon>delete_forever </mat-icon>
                 <span>Delete</span>
 
               </button><br>
-              <button mat-button color="Basic" (click)="openDistributeDialog(row,'0ms', '0ms')" *ngIf="isAdmin">
+              <button mat-button color="Basic" (click)="openDistributeDialog(row,'0ms', '0ms')">
                 <mat-icon>update</mat-icon>
                 <span>Redistribute</span>
 
@@ -125,6 +127,7 @@
                 <span>Mistake</span>
 
               </button>
+            </div>
             </mat-menu>
           </td>
         </ng-container>

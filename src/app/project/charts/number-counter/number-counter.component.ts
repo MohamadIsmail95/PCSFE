@@ -43,7 +43,7 @@ export class NumberCounterComponent implements OnInit, OnChanges, AfterViewInit
     let totalMilSecDur = this.duration * 1000; // Convert duration to milliseconds
     let incrementTime = totalMilSecDur / end;  // Calculate time between increments
 
-    let incrementValue = end / (totalMilSecDur / incrementTime);  // Calculate how much to increment per step
+    let incrementValue = end / this.duration;  // Calculate how much to increment per step
 
     let timer = setInterval(() => {
       start += incrementValue;
