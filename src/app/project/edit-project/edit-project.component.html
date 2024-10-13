@@ -77,47 +77,27 @@
 
       <table mat-table [dataSource]="dataSource"  id="excel-table" >
 
-        <!-- ID Column -->
-        <ng-container matColumnDef="gsm">
+        <ng-container matColumnDef="lastUpdateDate">
+          <th mat-header-cell *matHeaderCellDef > Last Update   </th>
+          <td mat-cell *matCellDef="let row"> {{row.lastUpdateDate | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+ <ng-container matColumnDef="gsm">
           <th mat-header-cell *matHeaderCellDef   > GSM </th>
           <td mat-cell *matCellDef="let row"> {{row.gsm}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="employeeUserName">
-          <th mat-header-cell *matHeaderCellDef  > Employee </th>
-          <td mat-cell *matCellDef="let row"> {{row.employeeUserName}} </td>
-        </ng-container>
-
-        <!-- Progress Column -->
-        <ng-container matColumnDef="callStatus">
+ <ng-container matColumnDef="callStatus">
           <th mat-header-cell *matHeaderCellDef  > Status </th>
           <td mat-cell *matCellDef="let row"> {{row.callStatus}} </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="lineType">
-          <th mat-header-cell *matHeaderCellDef > Type </th>
-          <td mat-cell *matCellDef="let row"> {{row.lineType}} </td>
+ <ng-container matColumnDef="note">
+          <th mat-header-cell *matHeaderCellDef > Note   </th>
+          <td mat-cell *matCellDef="let row"> {{row.note}} </td>
         </ng-container>
 
-        <!-- Fruit Column -->
-        <ng-container matColumnDef="generation">
-          <th mat-header-cell *matHeaderCellDef  > Generation  </th>
-          <td mat-cell *matCellDef="let row"> {{row.generation}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="region">
-          <th mat-header-cell *matHeaderCellDef  > Region  </th>
-          <td mat-cell *matCellDef="let row"> {{row.region}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef  > City  </th>
-          <td mat-cell *matCellDef="let row"> {{row.city}} </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="segment">
+ <ng-container matColumnDef="segment">
           <th mat-header-cell *matHeaderCellDef  > Segment  </th>
           <td mat-cell *matCellDef="let row"> {{row.segment}} </td>
         </ng-container>
@@ -128,13 +108,35 @@
           <td mat-cell *matCellDef="let row"> {{row.subSegment}} </td>
         </ng-container>
 
+ <ng-container matColumnDef="lineType">
+          <th mat-header-cell *matHeaderCellDef > Type </th>
+          <td mat-cell *matCellDef="let row"> {{row.lineType}} </td>
+        </ng-container>
 
-        <ng-container matColumnDef="bundle">
+
+ <ng-container matColumnDef="generation">
+          <th mat-header-cell *matHeaderCellDef  > Generation  </th>
+          <td mat-cell *matCellDef="let row"> {{row.generation}} </td>
+        </ng-container>
+
+ <ng-container matColumnDef="bundle">
           <th mat-header-cell *matHeaderCellDef   > Bundle   </th>
           <td mat-cell *matCellDef="let row"> {{row.bundle}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="contract">
+
+ <ng-container matColumnDef="region">
+          <th mat-header-cell *matHeaderCellDef  > Region  </th>
+          <td mat-cell *matCellDef="let row"> {{row.region}} </td>
+        </ng-container>
+
+
+  <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef  > City  </th>
+          <td mat-cell *matCellDef="let row"> {{row.city}} </td>
+        </ng-container>
+
+<ng-container matColumnDef="contract">
           <th mat-header-cell *matHeaderCellDef  > Contract  </th>
           <td mat-cell *matCellDef="let row"> {{row.contract}} </td>
         </ng-container>
@@ -145,16 +147,10 @@
         </ng-container>
 
 
-        <ng-container matColumnDef="note">
-          <th mat-header-cell *matHeaderCellDef > Note   </th>
-          <td mat-cell *matCellDef="let row"> {{row.note}} </td>
+ <ng-container matColumnDef="employeeUserName">
+          <th mat-header-cell *matHeaderCellDef  > Employee </th>
+          <td mat-cell *matCellDef="let row"> {{row.employeeUserName}} </td>
         </ng-container>
-
-        <ng-container matColumnDef="lastUpdateDate">
-          <th mat-header-cell *matHeaderCellDef > Last Update   </th>
-          <td mat-cell *matCellDef="let row"> {{row.lastUpdateDate | date:'dd/MM/yyyy'}} </td>
-        </ng-container>
-
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row (dblclick)="openDialog(row)" matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
