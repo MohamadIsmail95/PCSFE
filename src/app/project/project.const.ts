@@ -119,7 +119,8 @@ export interface targetViewModel
 
 export interface  targetReport
 {
-  closedCallsAvg:number;
+  totalMinutes : number;
+  closedCallsDurationAvg:number;
   hourlyStatusTargets:targetViewModel[];
 }
 
