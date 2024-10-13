@@ -35,24 +35,26 @@ export class NumberCounterComponent implements OnInit, OnChanges, AfterViewInit
     let start = 0;
     let end = parseFloat(this.number.toFixed(2)); // Ensure the target number is a float
 
-    if (start === end) {
-      return;
+    if (start === end || this.duration <= 0 || isNaN(end)) {
+      return; // Exit if no increment needed or invalid duration/number
     }
 
-    // find duration per increment
     let totalMilSecDur = this.duration * 1000; // Convert duration to milliseconds
-    let incrementTime = totalMilSecDur / end;  // Calculate time between increments
+    let incrementTime = totalMilSecDur / (end || 1);  // Avoid division by zero
+    let incrementValue = end / (totalMilSecDur / 16.67);  // Approximate 60 FPS updates
 
-    let incrementValue = end / this.duration;  // Calculate how much to increment per step
+    const updateCounter = () => {
+      start = Math.min(start + incrementValue, end);  // Increment and ensure not to exceed the end
+      this.counter.next(parseFloat(start.toFixed(2)));  // Update the counter with precision
 
-    let timer = setInterval(() => {
-      start += incrementValue;
-      this.counter.next(parseFloat(start.toFixed(2)));  // Update counter as a float with 2 decimal places
-
-      if (start >= end) {
-        this.counter.next(end);  // Ensure counter stops exactly at the end value
-        clearInterval(timer);
+      if (start < end) {
+        requestAnimationFrame(updateCounter);  // Continue animation
+      } else {
+        this.counter.next(end);  // Ensure the counter reaches exactly the end value
       }
-    }, incrementTime);
+    };
+
+    requestAnimationFrame(updateCounter);  // Start the animation
   }
+
 }
