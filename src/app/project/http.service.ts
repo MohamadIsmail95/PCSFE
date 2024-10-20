@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, MistakeReportResponse, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -78,6 +78,12 @@ export class HttpService {
     private SegmantEvaluationTable = new BehaviorSubject<boolean>(false);
     get SegmantEvaluationTable$(): Observable<boolean> {
       return this.SegmantEvaluationTable.asObservable();
+    }
+
+
+    private uploadingMitakeReport = new BehaviorSubject<boolean>(false);
+    get uploadingMitakeReport$(): Observable<boolean> {
+      return this.uploadingMitakeReport.asObservable();
     }
 
     getProjects(filterM:FilterModel):Observable<{ data: projectListDto[]; dataSize: number }>
@@ -300,5 +306,15 @@ updateMistakeDictionaryProject(input:UpdateDictionaryViewModel) : Observable<any
 {
    return this.httpClient.put<any>(this.mistakeUrl+'updateProjectMistakeDictionary',input)
 }
+
+
+UploadMistakeReport(input:FormData):Observable<{ data: MistakeReportResponse[]; dataSize: number }>
+  {
+    this.uploadingMitakeReport.next(true);
+
+    return this.httpClient.post<{ data: MistakeReportResponse[]; dataSize: number }>(this.mistakeUrl +"UploadMistakeReport",input)
+    .pipe(finalize(() => this.uploadingMitakeReport.next(false)));
+  }
+
 
 }

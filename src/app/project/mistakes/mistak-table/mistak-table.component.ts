@@ -1,7 +1,7 @@
 import { HttpService } from '../../http.service';
 import { MatPaginatorModule, PageEvent,MatPaginator } from '@angular/material/paginator';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {RouterLink } from '@angular/router';
@@ -12,14 +12,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { mistakeViewModel, projectListDto, typeList } from '../../project.const';
+import { MistakeReportResponse, mistakeViewModel } from '../../project.const';
 import { FilterModel } from '../../../common/generic';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import { NotificationService } from '../../notification.service';
-import { AccountService } from '../../../app-core/services/account.service';
 import { DialogMistakeComponent } from '../dialog-mistake/dialog-mistake.component';
 import { MistakeFilterDialogComponent } from '../mistake-filter-dialog/mistake-filter-dialog.component';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -27,13 +26,14 @@ import {inject} from '@angular/core';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-mistak-table',
   standalone: true,
   imports: [MatPaginatorModule,CommonModule,RouterOutlet,MatTableModule,MatInputModule,MatFormFieldModule,
     MatSortModule,MatCardModule,MatButtonModule,MatIconModule,MatProgressBarModule,RouterLink,
-    MatSnackBarModule,MatMenuModule,MatStepperModule,FormsModule,ReactiveFormsModule,MatExpansionModule],
+    MatSnackBarModule,MatMenuModule,MatStepperModule,FormsModule,ReactiveFormsModule,MatExpansionModule,MatTooltipModule],
    templateUrl: './mistak-table.component.html',
    providers: [
     {
@@ -49,12 +49,11 @@ export class MistakTableComponent implements OnInit {
   totalItems:number=0;
   mistakeFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   excelFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
-  displayedColumns: string[] = ['month','survey','telemarketer','complated','mistakesCount',
-  'mistakesPercentage','available','mark'];
-  dataSource= new MatTableDataSource<mistakeViewModel>([]);
+  displayedColumns: string[] = ['projectName','telemarketerName','mistakeType','gsm','serial',
+  'questionNumber','segment','mistakeDescription','mistakeWeight','controller'];
+  dataSource= new MatTableDataSource<MistakeReportResponse>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  excelData:mistakeViewModel[];
   pageEvent: PageEvent;
   pageSize:number;
   pageIndex:number;
@@ -63,15 +62,20 @@ export class MistakTableComponent implements OnInit {
   projectId:number;
   private _formBuilder = inject(FormBuilder);
   firstFormGroup : FormGroup;
+  uploadFile:File;
 
   constructor( protected projservice:HttpService,
     public dialog: MatDialog,private _snackBar: MatSnackBar,
     private activateRoute: ActivatedRoute,
      protected notificationService:NotificationService
     ){
+      this.activateRoute.params.subscribe(params => {
+        this.projectId = params['id'];  });
+
 
       this.firstFormGroup = this._formBuilder.group({
-        file: [''],
+        ProjectId: [this.projectId],
+        MistakeReport :['']
       });
 
 
@@ -81,20 +85,12 @@ export class MistakTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    this.activateRoute.params.subscribe(params => {
-      this.projectId = params['id'];  });
-
   }
   get sortingList$(): Observable<string> {
     return this.sortingList.asObservable();
   }
 
-  getProjects(filter:FilterModel)
-  {
-    this.dataSource= new MatTableDataSource<mistakeViewModel>([]);
-    this.mistakeFilter=filter;
-    filter.projectId = this.projectId;
-  }
+
 handlePageEvent(event: PageEvent){
   this.pageEvent = event;
   this.pageSize = event.pageSize;
@@ -147,7 +143,6 @@ openDialog(id:number,enterAnimationDuration: string, exitAnimationDuration: stri
 
      }
      this.sortingList.next(this.mistakeFilter.sortDirection);
-     this.getProjects(this.mistakeFilter);
 
   }
 
@@ -175,9 +170,29 @@ openDialog(id:number,enterAnimationDuration: string, exitAnimationDuration: stri
 
   }
 
+  readExcelFile(e:any){
+
+    const file =e.target.files[0];
+    this.uploadFile=file;
+  }
+
+
+
+
   onSubmit()
   {
-    console.log(this.firstFormGroup);
+    var formData: any = new FormData();
+    formData.append('ProjectId', this.firstFormGroup.get("ProjectId").value);
+    formData.append('MistakeReport', this.uploadFile);
+
+     this.projservice.UploadMistakeReport(formData).subscribe((response)=>{
+      this.dataSource.data = response.data;
+      this.totalItems = response.dataSize;
+
+
+      this.openSnackBar("Upload successfully","Close")
+
+     })
 
   }
 

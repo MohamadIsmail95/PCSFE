@@ -272,3 +272,20 @@ export interface EvaluationCardRequest
   segmentName : string;
   projectId : number;
 }
+
+
+export interface MistakeReportResponse
+{
+  projectName : string;
+  telemarketerName : string;
+  mistakeType : string;
+  gsm : string;
+  serial : string;
+  questionNumber : string;
+  segment : string;
+  mistakeDescription : string;
+  mistakeWeight : string;
+  controller : string;
+}
+
+
