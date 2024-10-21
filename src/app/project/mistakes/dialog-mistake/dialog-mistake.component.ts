@@ -10,7 +10,7 @@ import { FilterModel } from '../../../common/generic';
 import { CommonModule } from '@angular/common';
 import {Observable} from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
-import { employeeList, typeList } from '../../project.const';
+import { employeeList, LookupViewModel, MitakeReportFilter, typeList } from '../../project.const';
 import { HttpService } from '../../http.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -27,58 +27,69 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class DialogMistakeComponent implements OnInit {
   filterForm:FormGroup;
-  employeeData:employeeList[];
-  typeData:typeList[];
+  filter:MitakeReportFilter={filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
+    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
+    projectId:0,telemarketerIds:[],mistakeTypes:[]};
+  employeeData:LookupViewModel[];
+  typeData:LookupViewModel[];
 
   constructor(private fb:FormBuilder , protected projservice:HttpService,public dialogRef: MatDialogRef<DialogMistakeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any)
     {
     this.filterForm = this.fb.group({
-    'telemarketrerIds':[''],
-    'mistakeTypeIds':[''],
-    'gsm':[''],
-    'controllerIds':['']
+    'telemarketrerIds':[this.data.telemarketerIds != null ? this.data.telemarketerIds : []],
+    'mistakeTypeIds':[this.data.mistakeTypes != null ? this.data.mistakeTypes : []],
     })
   }
 
   ngOnInit(): void {
     this.getEmployeeList();
-    this.getProjectType();
+    this.getTypeList();
+
   }
   onSubmit()
   {
-    // this.projservice.getProjects(this.filterForm.value).subscribe((res)=>{
-    //   this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filterForm.value});
-    //  })
-    console.log(this.filterForm.value)
+    this.filter.projectId = this.data.projectId;
+    this.filter.telemarketerIds = this.filterForm.get('telemarketrerIds').value;
+    this.filter.mistakeTypes = this.filterForm.get('mistakeTypeIds').value;
+    this.projservice.getMistakeReportById(this.filter).subscribe((res)=>{
+      this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filter});
+     })
   }
 
-  getProjectType()
-  {
-    this.projservice.getTypes().subscribe((res)=>{
-      this.typeData=res;
-    })
-  }
+
 
   getEmployeeList()
   {
-    this.projservice.getEmployees().subscribe((data)=>
+    this.projservice.getMistakeTelemarketerByBroject(this.data.projectId).subscribe((data)=>
     {
       this.employeeData=data;
+    }
+    )
+  }
+
+  getTypeList()
+  {
+    this.projservice.getMistakeTypeByBroject(this.data.projectId).subscribe((data)=>
+    {
+
+      this.typeData=data;
     }
     )
   }
   resetFilter()
   {
    this.filterForm.reset();
-   this.filterForm.get('pageIndex').setValue(0);
-   this.filterForm.get('pageSize').setValue(5);
-   this.filterForm.get('sortActive').setValue('id');
-   this.filterForm.get('sortDirection').setValue('desc');
-
-  //  this.projservice.getMistakes(this.filterForm.value).subscribe((res)=>{
-  //    this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filterForm.value});
-  //   })
+   this.filter.filter.pageIndex = 0;
+   this.filter.filter.pageSize = 5;
+   this.filter.filter.sortActive = '';
+   this.filter.filter.sortDirection = '';
+   this.filter.projectId = this.data.projectId;
+   this.filter.telemarketerIds = [];
+   this.filter.mistakeTypes = [];
+   this.projservice.getMistakeReportById(this.filter).subscribe((res)=>{
+    this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filter});
+  })
   }
 
 

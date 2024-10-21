@@ -12,6 +12,7 @@ import {
   REPORT_ICON,
   SHARE_ICON,
   SUBSET_ICON,
+  TEAM_ICON,
 } from '../common/app-icons.const';
 import { IconNavItemWithRoles } from './side-nav';
 export const items: IconNavItemWithRoles[] = [
@@ -53,6 +54,13 @@ export const items: IconNavItemWithRoles[] = [
       }
 
     ],
+  },
+
+  {
+    title: 'Team Mistake',
+    svgIcon: TEAM_ICON,
+    postition: 'top',
+    routerLink: ''
   },
 
   {

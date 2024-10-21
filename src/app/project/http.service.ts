@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, MistakeReportResponse, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, LookupViewModel, MistakeReportResponse, MitakeReportFilter, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -316,5 +316,22 @@ UploadMistakeReport(input:FormData):Observable<{ data: MistakeReportResponse[]; 
     .pipe(finalize(() => this.uploadingMitakeReport.next(false)));
   }
 
+ getMistakeReportById(input : MitakeReportFilter) : Observable<{ data: MistakeReportResponse[]; dataSize: number }>
+ {
+   this.uploadingMitakeReport.next(true);
+   return this.httpClient.post<{ data: MistakeReportResponse[]; dataSize: number }>(this.mistakeUrl + 'MistakeReport',input)
+   .pipe(finalize(() => this.uploadingMitakeReport.next(false)));
+
+ }
+
+ getMistakeTelemarketerByBroject(projectId : number) : Observable<LookupViewModel[]>
+ {
+    return this.httpClient.get<LookupViewModel[]>(this.mistakeUrl + 'GetMistakeReportTelemarketers/'+projectId);
+ }
+
+ getMistakeTypeByBroject(projectId : number) : Observable<LookupViewModel[]>
+ {
+    return this.httpClient.get<LookupViewModel[]>(this.mistakeUrl + 'GetMistakeTypes/'+projectId);
+ }
 
 }

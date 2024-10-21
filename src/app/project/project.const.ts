@@ -1,3 +1,5 @@
+import { FilterModel } from "../common/generic";
+
 export interface projectListDto
 {
   id:number;
@@ -288,4 +290,16 @@ export interface MistakeReportResponse
   controller : string;
 }
 
+export interface MitakeReportFilter
+{
+  filter : FilterModel;
+  projectId : number;
+  telemarketerIds : number[];
+  mistakeTypes : number[];
+}
 
+export interface LookupViewModel
+{
+  id : number;
+  name : string;
+}

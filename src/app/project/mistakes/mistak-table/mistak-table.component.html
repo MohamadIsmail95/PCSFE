@@ -11,7 +11,7 @@
 
         <input style="margin: 5px;" type="file" (change)="readExcelFile($event)" accept=".xlsx"  formControlName="MistakeReport" /><br>
         <button style="margin: 5px; width: 100%;"
-        mat-stroked-button type="submit" color="primary">Upload</button>
+        mat-flat-button type="submit" color="primary" [disabled]="!firstFormGroup.valid">Upload</button>
 
     </form>
     </mat-expansion-panel>
@@ -22,31 +22,31 @@
     <mat-card-subtitle></mat-card-subtitle>
   </mat-card-header>
   <mat-card-content >
-    <!-- <div style = "display: flex; justify-content:flex-end;margin: 10px;">
-      <button  routerLink="/create-mistake/{{projectId}}" mat-button color="primary">
-        <mat-icon >my_library_add  </mat-icon>
+    <div style = "display: flex; justify-content:flex-end;margin: 10px;">
 
-      </button>
+      <a href="assets/MistakeReport.xlsx">
 
-      <button  (click)="exportexcel()" mat-button color="primary" >
-        <mat-icon >file_download </mat-icon>
+      <button   mat-button color="primary" >
+          <mat-icon >file_download</mat-icon>
 
-      </button>
+
+      </button>  </a>
 
       <button (click)="openFilterDialog('0ms', '0ms')"   mat-button color="primary" >
         <mat-icon >filter_alt</mat-icon>
 
       </button>
 
+    </div>
 
-    </div> -->
 
-    <mat-form-field>
+    <mat-form-field >
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
     </mat-form-field>
 
     <div class="mat-elevation-z8">
+
       <table id="excel-table" mat-table [dataSource]="dataSource" matSort >
 
         <!-- ID Column -->
