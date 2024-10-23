@@ -5,6 +5,7 @@ import {
   COUNTER_ICON,
   DASHBOARD_ICON,
   DEVICE_ICON,
+  DICTIONARY,
   EXTRA_FIELDS_ICON,
   HOME_ICON,
   KPI_ICON,
@@ -60,7 +61,7 @@ export const items: IconNavItemWithRoles[] = [
     title: 'Team Mistake',
     svgIcon: TEAM_ICON,
     postition: 'top',
-    routerLink: ''
+    routerLink: 'team-mistake'
   },
 
   {
@@ -80,11 +81,11 @@ export const items: IconNavItemWithRoles[] = [
         svgIcon: SUBSET_ICON,
         routerLink: 'setting/segmants'
       },
-      // {
-      //   title: 'Counters',
-      //   svgIcon: COUNTER_ICON,
-      //   routerLink: 'admin/counters'
-      // },
+      {
+        title: 'Mistake Type',
+        svgIcon: DICTIONARY,
+        routerLink: 'setting/mistake-type'
+      },
       {
         title: 'Dictionary Mapping',
         svgIcon: EXTRA_FIELDS_ICON,

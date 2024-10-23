@@ -1,0 +1,94 @@
+<mat-card style="margin: 5px;">
+  <mat-progress-bar mode="indeterminate" *ngIf="(projservice.loadingTeamMistake$ | async)"></mat-progress-bar>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Report Filter</mat-panel-title>
+        <mat-panel-description></mat-panel-description>
+      </mat-expansion-panel-header>
+       <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
+
+        <mat-label>Select Projects</mat-label>
+        <mat-form-field>
+          <mat-select [multiple]="true"  placeholder="Projects" formControlName="projectsIds">
+            <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-label>Select Telemarketers</mat-label>
+        <mat-form-field>
+          <mat-select [multiple]="true"  placeholder="Telemarketer" formControlName="telemarketersIds">
+            <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button style="margin: 5px; width: 100%;"
+        mat-flat-button type="submit" color="primary" [disabled]="!firstFormGroup.valid">Submit</button>
+    </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-card-header>
+    <mat-card-title>Team Mistakes</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content >
+
+    <mat-form-field >
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+
+      <table id="excel-table" mat-table [dataSource]="dataSource" matSort >
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="projectName" >
+          <th mat-header-cell *matHeaderCellDef> Project Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.projectName}} </td>
+        </ng-container>
+
+        <!-- Progress Column -->
+        <ng-container matColumnDef="telemarketer">
+          <th mat-header-cell *matHeaderCellDef > Telemarketer </th>
+          <td mat-cell *matCellDef="let row"> {{row.telemarketer}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="completedQuestionnaire">
+          <th mat-header-cell *matHeaderCellDef > Completed Questionnaire </th>
+          <td mat-cell *matCellDef="let row"> {{row.completedQuestionnaire}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="mistakesCount">
+          <th mat-header-cell *matHeaderCellDef > Mistakes Count </th>
+          <td mat-cell *matCellDef="let row"> {{row.mistakesCount}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="mistakesPercentage">
+          <th mat-header-cell *matHeaderCellDef > Mistakes Percentage </th>
+          <td mat-cell *matCellDef="let row"> {{row.mistakesPercentage}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+      <mat-paginator  [length]="totalItems" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="handlePageEvent($event)"
+      aria-label="Select page of project"></mat-paginator>
+    </div>
+
+
+  </mat-card-content>
+  <mat-card-actions >
+
+  </mat-card-actions>
+</mat-card>

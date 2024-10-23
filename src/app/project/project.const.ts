@@ -303,3 +303,26 @@ export interface LookupViewModel
   id : number;
   name : string;
 }
+
+export interface MistakTypeViewModel
+{
+  name : string;
+  weight : number;
+  description : string;
+}
+
+export interface TeamMistakeViewModel
+{
+  projectName : string;
+  telemarketer : string;
+  completedQuestionnaire : number;
+  mistakesCount : number;
+  mistakesPercentage : number;
+}
+
+export class TeamMitakeReportFilter
+{
+  filter :  FilterModel = new FilterModel();
+  projectsIds : number[];
+  telemarketersIds : number[];
+}

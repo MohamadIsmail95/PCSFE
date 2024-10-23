@@ -1,0 +1,22 @@
+.mat-table {
+  width: 100%;
+  table-layout: auto; /* Ensures the table cells auto-adjust to content */
+}
+
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  text-align: center;
+  align-items: center;
+}
+
+.mat-header-cell {
+  display: flex;
+  justify-content: center;  /* Centers the content horizontally */
+  text-align: center;
+  align-items: center;     /* Ensures the text is centered */
+}

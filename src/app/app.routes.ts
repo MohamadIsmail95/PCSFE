@@ -83,6 +83,13 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'setting/mistake-type',
+        loadComponent: () =>
+          import('./project/setting/mistake-type/mistake-type.component').then(
+            (c) => c.MistakeTypeComponent
+          )
+      },
+      {
         path: 'mistakes/:id',
         loadComponent: () =>
           import('./project/mistakes/mistak-table/mistak-table.component').then(
@@ -124,6 +131,13 @@ export const routes: Routes = [
             (c) => c.UpdateMistakeComponent
           )
       },
+      {
+        path: 'team-mistake',
+        loadComponent: () =>
+          import('./project/team-mistake/team-mistake.component').then(
+            (c) => c.TeamMistakeComponent
+          )
+      }
 
     ],
   },

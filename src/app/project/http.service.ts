@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, LookupViewModel, MistakeReportResponse, MitakeReportFilter, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, LookupViewModel, MistakTypeViewModel, MistakeReportResponse, MitakeReportFilter, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, TeamMistakeViewModel, TeamMitakeReportFilter, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -85,6 +85,19 @@ export class HttpService {
     get uploadingMitakeReport$(): Observable<boolean> {
       return this.uploadingMitakeReport.asObservable();
     }
+
+
+    private loadingMitakeType = new BehaviorSubject<boolean>(false);
+    get loadingMitakeType$(): Observable<boolean> {
+      return this.loadingMitakeType.asObservable();
+    }
+
+    private loadingTeamMistake = new BehaviorSubject<boolean>(false);
+    get loadingTeamMistake$(): Observable<boolean> {
+      return this.loadingTeamMistake.asObservable();
+    }
+
+
 
     getProjects(filterM:FilterModel):Observable<{ data: projectListDto[]; dataSize: number }>
   {
@@ -333,5 +346,24 @@ UploadMistakeReport(input:FormData):Observable<{ data: MistakeReportResponse[]; 
  {
     return this.httpClient.get<LookupViewModel[]>(this.mistakeUrl + 'GetMistakeTypes/'+projectId);
  }
+
+getMistakeTypeLookup() : Observable<MistakTypeViewModel[]>
+{
+   this.loadingMitakeType.next(true);
+   return this.httpClient.get<MistakTypeViewModel[]>(this.mistakeUrl + 'MistakeTypes')
+   .pipe(finalize(() => this.loadingMitakeType.next(false)));
+
+}
+
+
+
+getTeamMistakeReport(input : TeamMitakeReportFilter) : Observable<{ data: TeamMistakeViewModel[]; dataSize: number }>
+ {
+   this.loadingTeamMistake.next(true);
+   return this.httpClient.post<{ data: TeamMistakeViewModel[]; dataSize: number }>(this.mistakeUrl + 'GetTeamMistakeReport',input)
+   .pipe(finalize(() => this.loadingTeamMistake.next(false)));
+
+ }
+
 
 }
