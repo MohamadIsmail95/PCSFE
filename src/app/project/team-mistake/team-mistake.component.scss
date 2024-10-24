@@ -16,3 +16,11 @@ td, th {
 .mat-icon {
   font-size: 20px;
 }
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+.selected {
+  background-color: #e0e0e0; /* Change background color for selected items */
+}

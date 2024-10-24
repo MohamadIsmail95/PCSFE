@@ -1,30 +1,56 @@
 <mat-card style="margin: 5px;">
+
   <mat-progress-bar mode="indeterminate" *ngIf="(projservice.loadingTeamMistake$ | async)"></mat-progress-bar>
   <mat-accordion>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title>Report Filter</mat-panel-title>
+        <mat-panel-title style="font-size:large;">Report Filter</mat-panel-title>
         <mat-panel-description></mat-panel-description>
       </mat-expansion-panel-header>
-       <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
-
+      <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
         <mat-label>Select Projects</mat-label>
         <mat-form-field>
-          <mat-select [multiple]="true"  placeholder="Projects" formControlName="projectsIds">
-            <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
+
+          <mat-select formControlName="projectsIds" placeholder="Projects"
+            multiple>
+
+            <div style="background-color:gainsboro;color: black;">
+              <h5>Search by name:
+                <input placeholder="Search by name" matInput (input)="onSearch($event)" />
+              </h5>
+            </div>
+
+            <!-- Display filtered options -->
+            <mat-option  *ngFor="let item of filteredDropdownData"
+            [value]="item.id">
+              {{ item.name }}
+            </mat-option>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+              <button mat-button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+              <span>Page {{ currentPage }} of {{ totalPage }} | Total Item :  {{totalItems}}</span>
+
+
+              <button mat-button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= totalItems">Next</button>
+            </div>
+
           </mat-select>
         </mat-form-field>
 
 
         <mat-label>Select Telemarketers</mat-label>
         <mat-form-field>
-          <mat-select [multiple]="true"  placeholder="Telemarketer" formControlName="telemarketersIds">
+          <mat-select [multiple]="true"  placeholder="Telemarketers" formControlName="telemarketersIds">
+            <!-- <mat-option #allSelectedEmployee (click)="toggleAllSelectionEmployees()" [value]="0">All</mat-option> -->
+
             <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
           </mat-select>
         </mat-form-field>
         <button style="margin: 5px; width: 100%;"
         mat-flat-button type="submit" color="primary" [disabled]="!firstFormGroup.valid">Submit</button>
     </form>
+
     </mat-expansion-panel>
   </mat-accordion>
 
@@ -81,7 +107,7 @@
           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
       </table>
-      <mat-paginator  [length]="totalItems" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[5, 10, 25, 100]"
+      <mat-paginator  [length]="totalItemsMistake" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[5, 10, 25, 100]"
       (page)="handlePageEvent($event)"
       aria-label="Select page of project"></mat-paginator>
     </div>
