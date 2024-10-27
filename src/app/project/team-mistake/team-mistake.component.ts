@@ -47,7 +47,7 @@ export class TeamMistakeComponent implements OnInit {
   fileName= 'mistakes.xlsx';
   totalItems:number=0;
 
-  mistakeFilter:TeamMitakeReportFilter = {filter : {searchQuery:"",pageIndex:0,pageSize:25,sortActive:'id',
+  mistakeFilter:TeamMitakeReportFilter = {filter : {searchQuery:"",pageIndex:0,pageSize:1000,sortActive:'id',
     sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
     projectsIds:[25],telemarketersIds:[]};
 
@@ -65,7 +65,7 @@ export class TeamMistakeComponent implements OnInit {
   uploadFile:File;
   employeeData:employeeList[];
    selectedItems : any[] = [];
-  projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:25,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
+  projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   filteredDropdownData: any[] = [];
   @ViewChild('allSelected') private allSelected: MatOption;
   @ViewChild('allSelectedEmployee') private allSelectedEmployee: MatOption;
