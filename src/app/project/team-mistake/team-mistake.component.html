@@ -96,7 +96,7 @@
 
         <ng-container matColumnDef="mistakesPercentage">
           <th mat-header-cell *matHeaderCellDef > Mistakes Percentage </th>
-          <td mat-cell *matCellDef="let row"> {{row.mistakesPercentage}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.mistakesPercentage | number : '1.0-2' | percent}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

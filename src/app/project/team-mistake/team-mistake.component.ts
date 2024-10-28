@@ -47,16 +47,16 @@ export class TeamMistakeComponent implements OnInit {
   fileName= 'mistakes.xlsx';
   totalItems:number=0;
 
-  mistakeFilter:TeamMitakeReportFilter = {filter : {searchQuery:"",pageIndex:0,pageSize:1000,sortActive:'id',
+  mistakeFilter:TeamMitakeReportFilter = {filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
     sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
-    projectsIds:[25],telemarketersIds:[]};
+    projectsIds:[],telemarketersIds:[]};
 
   displayedColumns: string[] = ['projectName','telemarketer','completedQuestionnaire','mistakesCount','mistakesPercentage'];
   dataSource= new MatTableDataSource<TeamMistakeViewModel>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   pageEvent: PageEvent;
-  pageSize:number = 25;
+  pageSize:number = 5;
   pageIndex:number;
   advanceFilter:any;
   projectId:number;
@@ -105,8 +105,8 @@ export class TeamMistakeComponent implements OnInit {
 
 handlePageEvent(event: PageEvent){
   this.pageEvent = event;
-  this.pageSize = event.pageSize;
-  this.pageIndex = event.pageIndex;
+  //this.pageSize = event.pageSize;
+ // this.pageIndex = event.pageIndex;
   this.mistakeFilter.filter.pageIndex = event.pageIndex;
   this.mistakeFilter.filter.pageSize=event.pageSize;
   this.mistakeFilter.filter.dateFrom = this.advanceFilter!=null? this.advanceFilter.dateFrom :null;
@@ -186,14 +186,14 @@ applyFilter(event: Event) {
 
   getTeamReport(input : TeamMitakeReportFilter)
   {
-    this.mistakeFilter.projectsIds = this.firstFormGroup.get('projectsIds').value;
-    this.mistakeFilter.telemarketersIds = this.firstFormGroup.get('telemarketersIds').value;
-    this.mistakeFilter.filter = {searchQuery:"",pageIndex:0,pageSize:10,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
-    this.projservice.getTeamMistakeReport(this.mistakeFilter).subscribe((response)=>{
+     this.mistakeFilter.projectsIds = this.firstFormGroup.get('projectsIds').value;
+     this.mistakeFilter.telemarketersIds = this.firstFormGroup.get('telemarketersIds').value;
+    // this.mistakeFilter.filter = {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
+    this.projservice.getTeamMistakeReport(input).subscribe((response)=>{
 
       this.dataSource.data = response.data;
       this.totalItemsMistake = response.dataSize;
-      this.openSnackBar("Fetching  successfully","Close")
+      this.openSnackBar("Fetch  successfully","Close")
 
      })
   }

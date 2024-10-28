@@ -1,143 +1,105 @@
-<mat-grid-list cols="4" rowHeight="100px">
+<mat-grid-list cols="4" rowHeight="100px" class="grid-list">
+  <!-- Filter Form Card -->
   <mat-grid-tile [colspan]="4" [rowspan]="4">
-    <mat-card class="example-card" appearance="outlined">
+    <mat-card class="filter-card">
       <mat-card-content>
         <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
-          <mat-label>Select Project</mat-label>
-          <mat-form-field>
-            <input type="text"
-                   placeholder="Pick project"
-                   aria-label="Number"
-                   matInput
-                   [formControl]="myControl"
-                   [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
-              @for (option of filteredOptions | async; track option) {
-                <mat-option [value]="option.name">{{option.name}}</mat-option>
-              }
-            </mat-autocomplete>
-          </mat-form-field>
+          <div class="form-field">
+            <mat-label>Select Project</mat-label>
+            <mat-form-field appearance="outline">
+              <input
+                type="text"
+                placeholder="Pick project"
+                aria-label="Project"
+                matInput
+                [formControl]="myControl"
+                [matAutocomplete]="auto"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                  {{ option.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
 
-          <mat-label>Select Telemarketer</mat-label>
-          <mat-form-field>
-            <mat-select [multiple]="true" [(ngModel)]="selectedTeleId" placeholder="Telemarketer" formControlName="telemarketerIds">
-              <mat-option   *ngFor="let x of employeeData" value={{x.id}}>{{x.userName}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="form-field">
+            <mat-label>Select Telemarketer</mat-label>
+            <mat-form-field appearance="outline">
+              <mat-select [multiple]="true" [(ngModel)]="selectedTeleId" placeholder="Telemarketer" formControlName="telemarketerIds">
+                <mat-option *ngFor="let x of employeeData" [value]="x.id">{{ x.userName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-          <mat-label >Select Day</mat-label>
-      <mat-form-field class="example-full-width">
-        <input  matInput  [matDatepicker]="picker" formControlName="targetDate">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+          <div class="form-field">
+            <mat-label>Select Day</mat-label>
+            <mat-form-field appearance="outline">
+              <input matInput [matDatepicker]="picker" formControlName="targetDate" placeholder="MM/DD/YYYY">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
 
-          <mat-label>Select Hour</mat-label>
-          <mat-form-field>
+          <div class="form-field">
+            <mat-label>Select Hour</mat-label>
+            <mat-form-field appearance="outline">
+              <input matInput [ngxMatTimepicker]="picker2" formControlName="hour" [format]="24" />
+              <ngx-mat-timepicker #picker2></ngx-mat-timepicker>
+            </mat-form-field>
+          </div>
 
-            <input matInput  [ngxMatTimepicker]="picker2" formControlName="hour" [format]="24">
-             <ngx-mat-timepicker #picker2  [format]="24"></ngx-mat-timepicker>
-          </mat-form-field>
-
-          <button  mat-raised-button color="primary" type="submit" [disabled]="filterForm.invalid" >Filter</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="filterForm.invalid">Filter</button>
         </form>
-
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>
-
-
-  <mat-grid-tile [colspan]="4" [rowspan]="5" *ngIf="(httpService.loadingEvaluationList$ | async) && targetData">
-    <mat-card class="example-card" appearance="outlined">
-      <mat-card-header>
-
-        <mat-card-title>Telemarketers Target</mat-card-title>
-        <mat-card-subtitle >Average Closed Duration Calls : {{targetData.closedCallsDurationAvg| number : '1.0-2'}} </mat-card-subtitle>
-        <mat-card-subtitle >Total Minutes : {{targetData.totalMinutes| number : '1.0-2'}} </mat-card-subtitle>
-
-      </mat-card-header>
-      <mat-card-content>
-
-          <mat-grid-list cols="4" rowHeight="100px">
-            <mat-grid-tile  [colspan]="4" [rowspan]="3">
-              <mat-card class="example-container">
-
-                <table class="example-table" mat-table  [dataSource]="targetData.hourlyStatusTargets">
-                  <ng-container matColumnDef="status">
-                    <th  mat-header-cell *matHeaderCellDef>
-                      <span>Status</span>
-
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{ request.status }}</td>
-                    <td style="font-weight: bold" mat-footer-cell *matFooterCellDef>Total</td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="totalMinutes">
-                    <th  mat-header-cell *matHeaderCellDef>
-                      <span>Total Minutes</span>
-
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{ request.totalMinutes | number : '1.0-2' }}</td>
-                    <td style="font-weight: bold" mat-footer-cell *matFooterCellDef>{{ getTotalCost()  | number : '1.0-2'}}</td>
-
-                  </ng-container>
-
-                  <ng-container matColumnDef="hourPercentage">
-                    <th class="header amount-column" mat-header-cell *matHeaderCellDef>
-                      <span>Hour Percentage (60 min)</span>
-
-                    </th>
-                    <td mat-cell *matCellDef="let request">
-                      {{request.hourPercentage | percent : '1.0-2'}}
-                    </td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="rate">
-                    <th class="header status-column" mat-header-cell *matHeaderCellDef>
-                      <span>Rate</span>
-
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{ (request.rate | number:"1.0-2") }}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                  </ng-container>
-
-
-                  <ng-container matColumnDef="target">
-                    <th class="header status-column" mat-header-cell *matHeaderCellDef>
-                      <span>Traget</span>
-
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{ request.target | number:"1.0-2" }}</td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                  </ng-container>
-
-
-
-
-
-
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let request; columns: displayedColumns"></tr>
-                  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-                </table>
-
-              </mat-card>
-
-            </mat-grid-tile>
-
-
-        </mat-grid-list>
-
-
-      </mat-card-content>
-      <mat-card-actions>
-      </mat-card-actions>
-    </mat-card>
-
-  </mat-grid-tile>
-
 </mat-grid-list>
 
+  <!-- Telemarketer Target Data -->
+    <mat-card class="target-card" *ngIf="(httpService.loadingEvaluationList$ | async) && targetData">
+      <mat-card-header>
+        <mat-card-title>Telemarketers Target</mat-card-title>
+        <mat-card-subtitle>Average Closed Duration Calls: {{ targetData.closedCallsDurationAvg | number : '1.0-2' }}</mat-card-subtitle>
+        <mat-card-subtitle>Total Minutes: {{ targetData.totalMinutes | number : '1.0-2' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+            <mat-card class="target-table-card">
+              <table mat-table [dataSource]="targetData.hourlyStatusTargets" class="example-table">
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let request">{{ request.status }}</td>
+                  <td mat-footer-cell *matFooterCellDef>Total</td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalMinutes">
+                  <th mat-header-cell *matHeaderCellDef>Total Minutes</th>
+                  <td mat-cell *matCellDef="let request">{{ request.totalMinutes | number : '1.0-2' }}</td>
+                  <td mat-footer-cell *matFooterCellDef>{{ getTotalCost() | number : '1.0-2' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="hourPercentage">
+                  <th mat-header-cell *matHeaderCellDef>Hour Percentage (60 min)</th>
+                  <td mat-cell *matCellDef="let request">{{ request.hourPercentage | percent : '1.0-2' }}</td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="rate">
+                  <th mat-header-cell *matHeaderCellDef>Rate</th>
+                  <td mat-cell *matCellDef="let request">{{ request.rate | number : '1.0-2' }}</td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="target">
+                  <th mat-header-cell *matHeaderCellDef>Target</th>
+                  <td mat-cell *matCellDef="let request">{{ request.target | number : '1.0-2' }}</td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let request; columns: displayedColumns"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+              </table>
+            </mat-card>
+      </mat-card-content>
+    </mat-card>

@@ -20,14 +20,14 @@ mat-card{
 .example-card {
   max-width: 100%;
   margin: 5px;
-  max-height: 400px; /* Set the maximum height for the table container */
+  max-height: 600px; /* Set the maximum height for the table container */
   overflow-y: auto;  /* Enable vertical scrolling */
 }
 
 .example-table{
   max-width: 100%;
   margin: 5px;
-  max-height: 400px; /* Set the maximum height for the table container */
+  max-height: 100%; /* Set the maximum height for the table container */
   overflow-y: auto;  /* Enable vertical scrolling */
 }
 
@@ -40,4 +40,10 @@ mat-card{
   width: 100%;
   margin: 5px;
   overflow: auto;
+}
+
+
+.target-card {
+  padding: 16px;
+  margin: 8px 0;
 }
