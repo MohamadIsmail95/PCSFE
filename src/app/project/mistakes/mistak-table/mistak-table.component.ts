@@ -50,8 +50,7 @@ export class MistakTableComponent implements OnInit {
   totalItems:number=0;
 
   mistakeFilter:MitakeReportFilter={filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
-    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
-    projectId:0,telemarketerIds:[],mistakeTypes:[]};
+    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,telemarketerIds:[],mistakeTypes:[]};
 
   displayedColumns: string[] = ['projectName','telemarketerName','mistakeType','gsm','serial',
   'questionNumber','segment','mistakeDescription','mistakeWeight','controller'];
@@ -105,7 +104,6 @@ handlePageEvent(event: PageEvent){
   this.mistakeFilter.filter.dateTo = this.advanceFilter!=null? this.advanceFilter.dateTo :null;
   this.mistakeFilter.filter.createdBy = this.advanceFilter!=null? this.advanceFilter.createdBy :null;
   this.mistakeFilter.filter.typeIds = this.advanceFilter!=null? this.advanceFilter.typeIds : null;
-  this.mistakeFilter.projectId = this.advanceFilter!=null? this.advanceFilter.projectId : null;
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
   }
@@ -120,7 +118,6 @@ applyFilter(event: Event) {
   this.mistakeFilter.filter.dateTo = this.advanceFilter!=null? this.advanceFilter.dateTo:null;
   this.mistakeFilter.filter.createdBy = this.advanceFilter!=null? this.advanceFilter.createdBy:null;
   this.mistakeFilter.filter.typeIds = this.advanceFilter!=null? this.advanceFilter.typeIds:null;
-  this.mistakeFilter.projectId = this.advanceFilter!=null? this.advanceFilter.projectId : null;
   this.getMistakeReportById(this.mistakeFilter);
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
@@ -165,7 +162,6 @@ applyFilter(event: Event) {
       this.dataSource.data=result.data;
       this.totalItems = result.counter;
 
-      this.mistakeFilter.projectId = result.filter.projectId;
       this.mistakeFilter.mistakeTypes = result.filter.mistakeTypes;
       this.mistakeFilter.telemarketerIds = result.filter.telemarketerIds;
       this.mistakeFilter.filter = result.filter.filter;
@@ -198,7 +194,7 @@ applyFilter(event: Event) {
 
   getMistakeReportById(input:MitakeReportFilter)
   {
-    this.projservice.getMistakeReportById(input).subscribe((response) =>
+    this.projservice.getMistakes(input).subscribe((response) =>
     {
       this.dataSource.data = response.data;
       this.totalItems = response.dataSize;

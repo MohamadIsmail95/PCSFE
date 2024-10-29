@@ -28,8 +28,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class DialogMistakeComponent implements OnInit {
   filterForm:FormGroup;
   filter:MitakeReportFilter={filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
-    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
-    projectId:0,telemarketerIds:[],mistakeTypes:[]};
+    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null},telemarketerIds:[],mistakeTypes:[]};
   employeeData:employeeList[];
   typeData:MistakTypeViewModel[];
 
@@ -49,10 +48,9 @@ export class DialogMistakeComponent implements OnInit {
   }
   onSubmit()
   {
-    this.filter.projectId = this.data.projectId;
     this.filter.telemarketerIds = this.filterForm.get('telemarketrerIds').value;
     this.filter.mistakeTypes = this.filterForm.get('mistakeTypeIds').value;
-    this.projservice.getMistakeReportById(this.filter).subscribe((res)=>{
+    this.projservice.getMistakes(this.filter).subscribe((res)=>{
       this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filter});
      })
   }
@@ -84,10 +82,9 @@ export class DialogMistakeComponent implements OnInit {
    this.filter.filter.pageSize = 5;
    this.filter.filter.sortActive = '';
    this.filter.filter.sortDirection = '';
-   this.filter.projectId = this.data.projectId;
    this.filter.telemarketerIds = [];
    this.filter.mistakeTypes = [];
-   this.projservice.getMistakeReportById(this.filter).subscribe((res)=>{
+   this.projservice.getMistakes(this.filter).subscribe((res)=>{
     this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filter});
   })
   }

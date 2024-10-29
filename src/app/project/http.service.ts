@@ -329,7 +329,7 @@ UploadMistakeReport(input:FormData):Observable<{ data: MistakeReportResponse[]; 
     .pipe(finalize(() => this.uploadingMitakeReport.next(false)));
   }
 
- getMistakeReportById(input : MitakeReportFilter) : Observable<{ data: MistakeReportResponse[]; dataSize: number }>
+ getMistakes(input : MitakeReportFilter) : Observable<{ data: MistakeReportResponse[]; dataSize: number }>
  {
    this.uploadingMitakeReport.next(true);
    return this.httpClient.post<{ data: MistakeReportResponse[]; dataSize: number }>(this.mistakeUrl + 'MistakeReport',input)

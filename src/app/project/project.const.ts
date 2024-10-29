@@ -293,7 +293,6 @@ export interface MistakeReportResponse
 export interface MitakeReportFilter
 {
   filter : FilterModel;
-  projectId : number;
   telemarketerIds : number[];
   mistakeTypes : number[];
 }
