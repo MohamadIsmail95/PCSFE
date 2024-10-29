@@ -159,16 +159,14 @@ applyFilter(event: Event) {
     dialogRef.afterClosed().subscribe(result => {
       this.changeDetectorRefs.detectChanges();
 
-      this.advanceFilter=result.filter;
-      this.dataSource.data=result.data;
-      this.totalItems = result.counter;
+      this.advanceFilter=result?.filter;
+      this.dataSource.data=result?.data;
+      this.totalItems = result?.counter;
 
-      this.mistakeFilter.projectIds = result.filter.projectIds;
-      this.mistakeFilter.mistakeTypes = result.filter.mistakeTypes;
-      this.mistakeFilter.telemarketerIds = result.filter.telemarketerIds;
-      this.mistakeFilter.filter = result.filter.filter;
-
-
+      this.mistakeFilter.projectIds =  result?.filter.projectIds;
+      this.mistakeFilter.mistakeTypes = result?.filter.mistakeTypes;
+      this.mistakeFilter.telemarketerIds = result?.filter.telemarketerIds;
+      this.mistakeFilter.filter = result?.filter.filter;
 
     })
 

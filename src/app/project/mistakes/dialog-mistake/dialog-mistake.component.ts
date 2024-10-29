@@ -66,6 +66,7 @@ export class DialogMistakeComponent implements OnInit {
     'projectIds':[this.data.projectIds != null ? this.data.projectIds : []],
 
     })
+
   }
 
   ngOnInit(): void {
@@ -80,6 +81,8 @@ export class DialogMistakeComponent implements OnInit {
     this.filter.telemarketerIds = this.filterForm.get('telemarketrerIds').value;
     this.filter.mistakeTypes = this.filterForm.get('mistakeTypeIds').value;
     this.filter.projectIds = this.filterForm.get('projectIds').value;
+    this.selectedItems = this.allItems.filter(x =>  this.filter.projectIds.includes(x.id)).map(x => x.name)
+
     this.projservice.getMistakes(this.filter).subscribe((res)=>{
       this.dialogRef.close({data:res.data , counter: res.dataSize ,filter:this.filter});
      })
@@ -133,6 +136,7 @@ export class DialogMistakeComponent implements OnInit {
 
   )  : of(this.allItems)
 
+  this.selectedItems = this.allItems.filter(x => this.data.projectIds.includes(x.id)).map(x => x.name)
 
   })
 }
@@ -158,6 +162,9 @@ remove(item: string): void {
   if (index >= 0) {
     this.selectedItems.splice(index, 1);
   }
+
+  this.filterForm.get('projectIds')
+  .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
 }
 
 selected(event: MatAutocompleteSelectedEvent): void {
