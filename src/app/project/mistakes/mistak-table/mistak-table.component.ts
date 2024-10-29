@@ -50,7 +50,8 @@ export class MistakTableComponent implements OnInit {
   totalItems:number=0;
 
   mistakeFilter:MitakeReportFilter={filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
-    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,telemarketerIds:[],mistakeTypes:[]};
+    sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
+    telemarketerIds:[],mistakeTypes:[],projectIds:[]};
 
   displayedColumns: string[] = ['projectName','telemarketerName','mistakeType','gsm','serial',
   'questionNumber','segment','mistakeDescription','mistakeWeight','controller'];
@@ -162,6 +163,7 @@ applyFilter(event: Event) {
       this.dataSource.data=result.data;
       this.totalItems = result.counter;
 
+      this.mistakeFilter.projectIds = result.filter.projectIds;
       this.mistakeFilter.mistakeTypes = result.filter.mistakeTypes;
       this.mistakeFilter.telemarketerIds = result.filter.telemarketerIds;
       this.mistakeFilter.filter = result.filter.filter;

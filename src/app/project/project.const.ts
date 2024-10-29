@@ -295,6 +295,7 @@ export interface MitakeReportFilter
   filter : FilterModel;
   telemarketerIds : number[];
   mistakeTypes : number[];
+  projectIds : number[];
 }
 
 export interface LookupViewModel

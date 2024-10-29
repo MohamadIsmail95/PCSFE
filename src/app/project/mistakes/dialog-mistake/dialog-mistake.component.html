@@ -11,6 +11,46 @@
   <mat-card-content>
 <mat-nav-list>
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
+    <mat-label>Select Projects</mat-label>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-chip-grid  #chipList>
+        <mat-chip-row
+          *ngFor="let item of selectedItems"
+          [removable]="true"
+          (removed)="remove(item)"
+        >
+          {{ item }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip-row>
+        <input
+          placeholder="New item..."
+          formControlName="projectIds"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-grid>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+      <mat-option *ngFor="let item of (filteredItems | async)" [value]="item.id">
+        {{ item.name }}
+      </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
     <mat-label>Telemarketers</mat-label>
 
     <mat-form-field>
