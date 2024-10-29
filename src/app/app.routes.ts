@@ -90,7 +90,7 @@ export const routes: Routes = [
           )
       },
       {
-        path: 'mistakes/:id',
+        path: 'mistakes',
         loadComponent: () =>
           import('./project/mistakes/mistak-table/mistak-table.component').then(
             (c) => c.MistakTableComponent

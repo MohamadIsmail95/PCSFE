@@ -10,7 +10,7 @@ import { FilterModel } from '../../../common/generic';
 import { CommonModule } from '@angular/common';
 import {Observable} from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
-import { employeeList, LookupViewModel, MitakeReportFilter, typeList } from '../../project.const';
+import { employeeList, LookupViewModel, mistakeViewModel, MistakTypeViewModel, MitakeReportFilter, typeList } from '../../project.const';
 import { HttpService } from '../../http.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -30,8 +30,8 @@ export class DialogMistakeComponent implements OnInit {
   filter:MitakeReportFilter={filter : {searchQuery:"",pageIndex:0,pageSize:5,sortActive:'id',
     sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null} ,
     projectId:0,telemarketerIds:[],mistakeTypes:[]};
-  employeeData:LookupViewModel[];
-  typeData:LookupViewModel[];
+  employeeData:employeeList[];
+  typeData:MistakTypeViewModel[];
 
   constructor(private fb:FormBuilder , protected projservice:HttpService,public dialogRef: MatDialogRef<DialogMistakeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any)
@@ -61,7 +61,7 @@ export class DialogMistakeComponent implements OnInit {
 
   getEmployeeList()
   {
-    this.projservice.getMistakeTelemarketerByBroject(this.data.projectId).subscribe((data)=>
+    this.projservice.getEmployees().subscribe((data)=>
     {
       this.employeeData=data;
     }
@@ -70,7 +70,7 @@ export class DialogMistakeComponent implements OnInit {
 
   getTypeList()
   {
-    this.projservice.getMistakeTypeByBroject(this.data.projectId).subscribe((data)=>
+    this.projservice.getMistakeTypeLookup().subscribe((data)=>
     {
 
       this.typeData=data;

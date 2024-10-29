@@ -1,6 +1,6 @@
 import { HttpService } from '../../http.service';
 import { MatPaginatorModule, PageEvent,MatPaginator } from '@angular/material/paginator';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -12,8 +12,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { LookupViewModel, MistakeReportResponse, mistakeViewModel, MitakeReportFilter } from '../../project.const';
-import { FilterModel } from '../../../common/generic';
+import {MistakeReportResponse, MitakeReportFilter } from '../../project.const';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
@@ -26,7 +25,7 @@ import {inject} from '@angular/core';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 
 @Component({
@@ -56,6 +55,7 @@ export class MistakTableComponent implements OnInit {
 
   displayedColumns: string[] = ['projectName','telemarketerName','mistakeType','gsm','serial',
   'questionNumber','segment','mistakeDescription','mistakeWeight','controller'];
+
   dataSource= new MatTableDataSource<MistakeReportResponse>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -64,7 +64,6 @@ export class MistakTableComponent implements OnInit {
   pageIndex:number;
   previousPageIndex:number;
   advanceFilter:any;
-  projectId:number;
   private _formBuilder = inject(FormBuilder);
   firstFormGroup : FormGroup;
   uploadFile:File;
@@ -72,17 +71,14 @@ export class MistakTableComponent implements OnInit {
 
   constructor( protected projservice:HttpService,
     public dialog: MatDialog,private _snackBar: MatSnackBar,
-    private activateRoute: ActivatedRoute,
      protected notificationService:NotificationService,
      private changeDetectorRefs: ChangeDetectorRef
     ){
 
-      this.activateRoute.params.subscribe(params => {
-        this.projectId = params['id'];  });
+
 
 
       this.firstFormGroup = this._formBuilder.group({
-        ProjectId: [this.projectId , Validators.required],
         MistakeReport :['',Validators.required]
       });
 
@@ -133,14 +129,6 @@ applyFilter(event: Event) {
 
 }
 
-openDialog(id:number,enterAnimationDuration: string, exitAnimationDuration: string): void {
-  this.dialog.open( MistakeFilterDialogComponent, {data:id,
-    width: '500px',
-    enterAnimationDuration,
-    exitAnimationDuration,
-  })
-
-}
 
   sortByheader(keyName:string)
   {
@@ -197,14 +185,11 @@ openDialog(id:number,enterAnimationDuration: string, exitAnimationDuration: stri
   onSubmit()
   {
     var formData: any = new FormData();
-    formData.append('ProjectId', this.firstFormGroup.get("ProjectId").value);
     formData.append('MistakeReport', this.uploadFile);
 
      this.projservice.UploadMistakeReport(formData).subscribe((response)=>{
       this.dataSource.data = response.data;
       this.totalItems = response.dataSize;
-
-
       this.openSnackBar("Upload successfully","Close")
 
      })
@@ -213,11 +198,9 @@ openDialog(id:number,enterAnimationDuration: string, exitAnimationDuration: stri
 
   getMistakeReportById(input:MitakeReportFilter)
   {
-    input.projectId = this.projectId;
     this.projservice.getMistakeReportById(input).subscribe((response) =>
     {
       this.dataSource.data = response.data;
-
       this.totalItems = response.dataSize;
 
     })

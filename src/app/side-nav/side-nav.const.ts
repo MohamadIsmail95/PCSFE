@@ -10,6 +10,8 @@ import {
   HOME_ICON,
   KPI_ICON,
   LIST_ICON,
+  MISTAKE,
+  MISTAKE_LIST,
   REPORT_ICON,
   SHARE_ICON,
   SUBSET_ICON,
@@ -58,12 +60,26 @@ export const items: IconNavItemWithRoles[] = [
   },
 
   {
-    title: 'Team Mistake',
-    svgIcon: TEAM_ICON,
+    title: 'Mistakes',
+    svgIcon: MISTAKE,
     postition: 'top',
-    routerLink: 'team-mistake'
-  },
+    roles: ['admin'],
+    children: [
+      {
+        title: 'Mistake List',
+        svgIcon: MISTAKE_LIST,
+        postition: 'top',
+        routerLink: 'mistakes'
+      },
+      {
+        title: 'Team Mistake',
+        svgIcon: TEAM_ICON,
+        postition: 'top',
+        routerLink: 'team-mistake'
+      },
 
+    ],
+  },
   {
     title: 'Settings',
     svgIcon: ADMIN_ICON,
