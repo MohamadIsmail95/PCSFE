@@ -15,10 +15,8 @@ import { HttpService } from '../../http.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 
@@ -46,16 +44,11 @@ export class DialogMistakeComponent implements OnInit {
   typeData:MistakTypeViewModel[];
   projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:10000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   projects :projectListDto[];
-  myControl = new FormControl('');
   options: projectListDto[];
-  filteredOptions: Observable<projectListDto[]>;
 
   allItems: projectListDto[] = [];
   selectedItems: string[] = [];
   filteredItems: Observable<projectListDto[]>;
-
-
-
 
   constructor(private fb:FormBuilder , protected projservice:HttpService,public dialogRef: MatDialogRef<DialogMistakeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any)
@@ -174,14 +167,20 @@ selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedItems.push(value);
   }
 
-  this.filterForm.get('projectIds')
-  .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
+
+    this.filterForm.get('projectIds')
+    .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
+
+
 }
 
 
-private _filter(value: string): projectListDto[] {
-  const filterValue = value.toLowerCase();
+private _filter(value: string | null): projectListDto[] {
+  if (!value || typeof value !== 'string') {
+    return this.allItems.slice(); // Return all items if value is null or not a string
+  }
 
+  const filterValue = value.toLowerCase();
   return this.allItems.filter(item => item.name.toLowerCase().includes(filterValue));
 }
 

@@ -12,7 +12,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, startWith } from 'rxjs';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -25,12 +25,16 @@ import {MatOption, MatSelectChange, MatSelectModule} from '@angular/material/sel
 import { employeeList, projectListDto, TeamMistakeViewModel, TeamMitakeReportFilter } from '../project.const';
 import { HttpService } from '../http.service';
 import { FilterModel } from '../../common/generic';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 @Component({
   selector: 'app-team-mistake',
   standalone: true,
   imports: [MatPaginatorModule,CommonModule,RouterOutlet,MatTableModule,MatInputModule,MatFormFieldModule,
     MatSortModule,MatCardModule,MatButtonModule,MatIconModule,MatProgressBarModule,RouterLink,
-    MatSnackBarModule,MatMenuModule,MatStepperModule,FormsModule,
+    MatSnackBarModule,MatMenuModule,MatStepperModule,FormsModule,MatAutocompleteModule,MatChipsModule,
     ReactiveFormsModule,MatExpansionModule,MatTooltipModule,MatSelectModule],
     providers: [
       {
@@ -64,7 +68,6 @@ export class TeamMistakeComponent implements OnInit {
   firstFormGroup : FormGroup;
   uploadFile:File;
   employeeData:employeeList[];
-   selectedItems : any[] = [];
   projectFilter:FilterModel={searchQuery:"",pageIndex:0,pageSize:1000,sortActive:'id',sortDirection:'desc',dateFrom:null,dateTo:null,createdBy:null,typeIds:null};
   filteredDropdownData: any[] = [];
   @ViewChild('allSelected') private allSelected: MatOption;
@@ -75,6 +78,9 @@ export class TeamMistakeComponent implements OnInit {
   totalItemsMistake : number = 0;
   lastSelected : any[];
 
+  allItems: projectListDto[] = [];
+  selectedItems: string[] = [];
+  filteredItems: Observable<projectListDto[]>;
 
   constructor( protected projservice:HttpService,
     public dialog: MatDialog,private _snackBar: MatSnackBar,
@@ -84,6 +90,14 @@ export class TeamMistakeComponent implements OnInit {
         projectsIds: [[]],
         telemarketersIds :[[]]
       });
+
+      this.filteredItems =
+      this.firstFormGroup.get('projectsIds').valueChanges.pipe(
+       startWith(''),
+       map((value: string | null) => (value ? this._filter(value) : this.allItems.slice()))
+
+     )
+
 
 
     }
@@ -212,44 +226,69 @@ loadDropdownData(input : any) {
 
   this.projservice.getProjects(this.projectFilter).subscribe(data => {
     this.filteredDropdownData = data.data;
-    this.totalItems = data.dataSize // Initialize filtered data
-    this.totalPage = Math.floor(this.totalItems / this.itemsPerPage) + (this.totalItems % this.itemsPerPage > 0 ? 1 : 0);
-    this.selectedItems = input
+    this.allItems=data.data
 
+    this.filteredItems =
+    this.firstFormGroup.get('projectsIds').valueChanges.pipe(
+     startWith(''),
+     map((value: string | null) => (value ? this._filter(value) : this.allItems.slice()))
+
+   )
+
+   this.selectedItems = this.allItems.filter(x => this.firstFormGroup.get('projectsIds').value.includes(x.id)).map(x => x.name)
   });
 }
 
-onSearch(event: Event): void {
+add(event: MatChipInputEvent): void {
+  const value = (event.value || '').trim();
 
-  this.projectFilter.searchQuery = (event.target as HTMLInputElement).value;
-  this.loadDropdownData(this.lastSelected);
-}
-
-onDropdownOpened(): void {
-  this.projectFilter.pageIndex = this.currentPage -1;
-  this.loadDropdownData(this.lastSelected);
-}
-
-
-// Next and Previous pagination methods
-nextPage() {
-
-  if ((this.currentPage * this.projectFilter.pageSize) < this.totalItems) {
-    this.currentPage++;
-    this.projectFilter.pageIndex = this.currentPage -1;
-    this.loadDropdownData(this.lastSelected);
+  // Add item
+  if (value && !this.selectedItems.includes(value)) {
+    this.selectedItems.push(value);
   }
+
+  // Clear the input value
+  event.chipInput!.clear();
+
+  this.firstFormGroup.get('projectsIds')
+  .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
+
+
+
 }
 
-previousPage() {
+remove(item: string): void {
+  const index = this.selectedItems.indexOf(item);
 
-  if (this.currentPage > 1) {
-    this.currentPage--;
-    this.projectFilter.pageIndex = this.currentPage -1;
-
-    this.loadDropdownData(this.lastSelected);
+  if (index >= 0) {
+    this.selectedItems.splice(index, 1);
   }
+
+  this.firstFormGroup.get('projectsIds')
+  .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
 }
+
+selected(event: MatAutocompleteSelectedEvent): void {
+  const value = event.option.viewValue;
+
+  if (!this.selectedItems.includes(value)) {
+    this.selectedItems.push(value);
+  }
+
+  this.firstFormGroup.get('projectsIds')
+  .setValue(this.allItems.filter(x => this.selectedItems.includes(x.name)).map(x =>x.id));
+}
+
+
+private _filter(value: string | null): projectListDto[] {
+  if (!value || typeof value !== 'string') {
+    return this.allItems.slice(); // Return all items if value is null or not a string
+  }
+
+  const filterValue = value.toLowerCase();
+  return this.allItems.filter(item => item.name.toLowerCase().includes(filterValue));
+}
+
 
 
 
