@@ -326,3 +326,46 @@ export class TeamMitakeReportFilter
   projectsIds : number[];
   telemarketersIds : number[];
 }
+
+
+export interface WeightVsSurveyViewModel
+{
+  mistakeType : string;
+  telemarketerMistakes : TelemarketerMistakeViewModel[]
+}
+
+export interface TelemarketerMistakeViewModel
+{
+  telemarketer : string;
+  mistakesCount : number;
+}
+
+
+export interface WeightVsSurveyFilter
+{
+  mistakeTypes : string[];
+  employeeIds : number[];
+}
+
+
+export interface WeightVsSurveyLineChart
+{
+  mistakeType : string;
+  telemarketerMistakesCount : number;
+}
+
+
+export class BarchartDataset
+{
+  label: string;
+  data: number[];
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+}
+
+export interface MistakeSummaryReport
+{
+  mistakeType : string;
+  count : number;
+}

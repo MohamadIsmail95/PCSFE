@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataWithSize, FilterModel } from '../common/generic';
 import { BehaviorSubject, Observable, catchError, finalize, retry, throwError } from 'rxjs';
-import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, LookupViewModel, MistakTypeViewModel, MistakeReportResponse, MitakeReportFilter, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, TeamMistakeViewModel, TeamMitakeReportFilter, UpdateDictionaryViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
+import { DashboardFilter, DictionaryViewModel, EvaluationCard, EvaluationCardRequest, LookupViewModel, MistakTypeViewModel, MistakeReportResponse, MistakeSummaryReport, MitakeReportFilter, RdayViewModel, SegmentTelemarketersEvaluationsViewModel, StatisticsReportViewModel, TeamMistakeViewModel, TeamMitakeReportFilter, UpdateDictionaryViewModel, WeightVsSurveyFilter, WeightVsSurveyLineChart, WeightVsSurveyViewModel, employeeList, generalDashboardFilter, hourlyTargetFilter, projectDetails, projectDetailsList, projectListDto, statsticReportData, statusCard, targetReport, typeList } from './project.const';
 import { environment } from '../../environments/environment';
 import { formatDate } from '@angular/common';
 
@@ -97,6 +97,20 @@ export class HttpService {
       return this.loadingTeamMistake.asObservable();
     }
 
+    private loadingMistakeSurvy = new BehaviorSubject<boolean>(false);
+    get loadingMistakeSurvy$(): Observable<boolean> {
+      return this.loadingMistakeSurvy.asObservable();
+    }
+
+    private loadingGeneralDash = new BehaviorSubject<boolean>(false);
+    get loadingGeneralDash$(): Observable<boolean> {
+      return this.loadingGeneralDash.asObservable();
+    }
+
+    private loadingSummary = new BehaviorSubject<boolean>(false);
+    get loadingSummary$(): Observable<boolean> {
+      return this.loadingSummary.asObservable();
+    }
 
 
     getProjects(filterM:FilterModel):Observable<{ data: projectListDto[]; dataSize: number }>
@@ -205,7 +219,9 @@ export class HttpService {
 
  getGeneralReport(input : generalDashboardFilter) : Observable<statsticReportData>
  {
-    return this.httpClient.post<statsticReportData>(this.dashboardUrl+'generalReport',input);
+  this.loadingGeneralDash.next(true);
+    return this.httpClient.post<statsticReportData>(this.dashboardUrl+'generalReport',input)
+    .pipe(finalize(() => this.loadingGeneralDash.next(false)));;
  }
 
 
@@ -364,6 +380,27 @@ getTeamMistakeReport(input : TeamMitakeReportFilter) : Observable<{ data: TeamMi
    .pipe(finalize(() => this.loadingTeamMistake.next(false)));
 
  }
+
+getWeightVsSurveyReport(input : WeightVsSurveyFilter) : Observable<WeightVsSurveyViewModel[]>
+{
+  this.loadingMistakeSurvy.next(true);
+  return this.httpClient.post<WeightVsSurveyViewModel[]>(this.mistakeUrl+'WeightVsSurveyReport',input)
+  .pipe(finalize(() => this.loadingMistakeSurvy.next(false)));
+}
+
+getWeightVsSurveyChart(input : WeightVsSurveyFilter) : Observable<WeightVsSurveyLineChart[]>
+{
+   return this.httpClient.post<WeightVsSurveyLineChart[]>(this.mistakeUrl+'WeightVsSurveyLineChart',input)
+}
+
+getMistakeSummaryReport() : Observable<MistakeSummaryReport[]>
+{
+  this.loadingSummary.next(true);
+  return this.httpClient.get<MistakeSummaryReport[]>(this.mistakeUrl+'GetAll')
+  .pipe(finalize(() => this.loadingSummary.next(false)));
+}
+
+
 
 
 }

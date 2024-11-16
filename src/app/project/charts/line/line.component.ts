@@ -1,14 +1,12 @@
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { BaseChartDirective } from 'ng2-charts';
-import { LocalStorageService } from '../../local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-line',
   standalone: true,
-  imports: [BaseChartDirective,CommonModule],
+  imports: [CommonModule],
   templateUrl: './line.component.html',
   styleUrl: './line.component.scss'
 })
@@ -18,7 +16,7 @@ export class LineComponent  implements  OnInit ,OnChanges {
   protected chart = new BehaviorSubject<Chart>(null);
   @Input() xLineData :string[];
   @Input() yLineData : number[];
-  lineChart :  Chart | undefined;;
+  lineChart :  Chart | undefined;
   @Input() chartId : number;
 
    constructor(){}
@@ -46,7 +44,7 @@ export class LineComponent  implements  OnInit ,OnChanges {
         labels: xLineData,
 	       datasets: [
           {
-            label: "Quota Progress",
+            label: "",
             data: yLineData,
                  backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',

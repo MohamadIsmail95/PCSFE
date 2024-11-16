@@ -1,38 +1,32 @@
-import { Component, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map, tap } from 'rxjs/operators';
-import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {CardComponent} from '../charts/card/card.component';
-import{BarComponent} from '../charts/bar/bar.component';
 import { LineComponent } from '../charts/line/line.component';
-import { PieComponent } from '../charts/pie/pie.component';
-import { RadarComponent } from '../charts/radar/radar.component';
-import { DataTableComponent } from '../charts/data-table/data-table.component';
 //----------------------------------------------
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NumberCounterComponent} from './../charts/number-counter/number-counter.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
-import { MatBottomSheet,MatBottomSheetModule, MatBottomSheetRef,} from '@angular/material/bottom-sheet';
-import {MatListModule} from '@angular/material/list';
+import { MatBottomSheet,MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatButtonModule} from '@angular/material/button';
 import { DashboardFilterComponent } from '../dashboard-filter/dashboard-filter.component';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpService } from '../http.service';
-import { StatisticsReportViewModel, categoryCounter, productivityVewModel, statusCard, statusTelemarketer } from '../project.const';
+import {categoryCounter, statusTelemarketer } from '../project.const';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxCaptureService } from 'ngx-capture';
 import { NgxCaptureModule } from 'ngx-capture';
-import { Subscription } from 'rxjs';
 import { LocalStorageService } from '../local-storage.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-allcharts',
   standalone: true,
-  imports: [MatGridListModule,CommonModule,CardComponent,BarComponent,LineComponent,
-    PieComponent,RadarComponent,DataTableComponent,NumberCounterComponent,
-    MatTableModule,MatCardModule,MatBottomSheetModule,MatButtonModule,
+  imports: [MatGridListModule,CommonModule,CardComponent,LineComponent,
+    NumberCounterComponent,
+    MatTableModule,MatCardModule,MatButtonModule,
      MatBottomSheetModule,MatIconModule,MatProgressBarModule,NgxCaptureModule],
   templateUrl: './allcharts.component.html',
   styleUrl: './allcharts.component.scss',
@@ -140,9 +134,6 @@ processData(data: any[]): void {
 
   this.telemarketers = Array.from(telemarketersSet);
   this.tableData = data;
-
-
-
 }
 
 

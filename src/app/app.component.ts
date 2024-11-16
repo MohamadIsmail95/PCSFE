@@ -1,13 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, provideRouter, withHashLocation } from '@angular/router';
-import { SideNavComponent } from './side-nav/side-nav.component';
+import { RouterOutlet } from '@angular/router';
 import { NotificationService } from './project/notification.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SideNavComponent],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

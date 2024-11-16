@@ -19,14 +19,15 @@ import {AsyncPipe} from '@angular/common';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {LocalStorageService} from '../local-storage.service'
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dashboard-filter',
   standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [MatListModule,MatFormFieldModule, MatDatepickerModule,
-    FormsModule, ReactiveFormsModule,MatButtonModule,CommonModule,
-     JsonPipe,MatSelectModule,MatInputModule,MatAutocompleteModule,AsyncPipe],
+    FormsModule, ReactiveFormsModule,MatButtonModule,CommonModule,MatProgressBarModule,
+    MatSelectModule,MatInputModule,MatAutocompleteModule,AsyncPipe],
   templateUrl: './dashboard-filter.component.html',
   styleUrl: './dashboard-filter.component.scss'
 })

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-pie',
   standalone: true,
-  imports: [BaseChartDirective,CommonModule],
+  imports: [CommonModule],
   templateUrl: './pie.component.html',
   styleUrl: './pie.component.scss'
 })

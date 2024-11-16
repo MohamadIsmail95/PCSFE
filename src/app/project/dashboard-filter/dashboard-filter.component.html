@@ -1,4 +1,8 @@
 <mat-nav-list>
+  <mat-progress-bar
+  mode="indeterminate"
+  *ngIf="projectService.loadingGeneralDash$ | async"
+></mat-progress-bar>
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
 
     <mat-label>Select Project</mat-label>

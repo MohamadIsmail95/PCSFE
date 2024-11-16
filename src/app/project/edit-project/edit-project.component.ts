@@ -35,7 +35,8 @@ import { FilterDetailsDialogComponent } from '../filter-details-dialog/filter-de
 
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [MatCardModule,MatButtonModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,MatSelectModule,
+  imports: [MatCardModule,MatButtonModule,MatInputModule,MatFormFieldModule,MatDatepickerModule,
+    MatSelectModule,
     MatTableModule,MatSnackBarModule,ReactiveFormsModule,FormsModule,MatStepperModule,
     MatProgressBarModule,CommonModule,MatRippleModule,MatDialogModule,MatPaginatorModule, MatSortModule,MatIconModule
     ],

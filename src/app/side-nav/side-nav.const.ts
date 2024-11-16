@@ -77,6 +77,18 @@ export const items: IconNavItemWithRoles[] = [
         postition: 'top',
         routerLink: 'team-mistake'
       },
+      {
+        title: 'Weight Vs Survey',
+        svgIcon: DICTIONARY,
+        postition: 'top',
+        routerLink: 'weight-survey'
+      },
+      {
+        title: 'Summary',
+        svgIcon: DEVICE_ICON,
+        postition: 'top',
+        routerLink: 'mistake-summary'
+      }
 
     ],
   },
@@ -86,12 +98,7 @@ export const items: IconNavItemWithRoles[] = [
     postition: 'bottom',
     roles: ['admin'],
     children: [
-      // {
-      //   title: 'Devices',
-      //   svgIcon: DEVICE_ICON,
-      //   routerLink: 'admin/devices',
 
-      // },
       {
         title: 'Segmants',
         svgIcon: SUBSET_ICON,
@@ -99,7 +106,7 @@ export const items: IconNavItemWithRoles[] = [
       },
       {
         title: 'Mistake Type',
-        svgIcon: DICTIONARY,
+        svgIcon: COUNTER_ICON,
         routerLink: 'setting/mistake-type'
       },
       {
@@ -110,12 +117,8 @@ export const items: IconNavItemWithRoles[] = [
             title: 'Project Type Dictionary',
             svgIcon: EXTRA_FIELDS_ICON,
             routerLink: 'setting/dictionary'
-          },
-          {
-            title: 'Mistake Type Dictionary',
-            svgIcon: COUNTER_ICON,
-            routerLink: 'setting/mistake-dictionary'
           }
+
         ]
       },
     ],

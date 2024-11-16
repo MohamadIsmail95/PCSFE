@@ -1,0 +1,77 @@
+
+<mat-card>
+  <mat-progress-bar mode="indeterminate" *ngIf="(httpService.loadingMistakeSurvy$| async)"></mat-progress-bar>
+  <mat-card-title style="margin: 5px;" >Mistake VS Survey</mat-card-title>
+  <mat-card-content>
+    <mat-accordion style="margin: 5px;">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Report Filters </mat-panel-title>
+          <mat-panel-description> Select your filters </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" >
+          <mat-label>Telemarketers</mat-label>
+          <mat-form-field>
+            <mat-select  formControlName="employeeIds" multiple>
+              @for (f of employeeData; track f) {
+                <mat-option  [value]="f.id">{{f.userName}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-label>Type</mat-label>
+          <mat-form-field>
+            <mat-select  formControlName="mistakeTypes"  multiple>
+              @for (f of mistakeTypeData; track f) {
+                <mat-option  [value]="f.name">{{f.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+
+          <button  style="margin: 5px;" type="submit" mat-raised-button color="primary" >Submit</button>
+          </form>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+
+    <div *ngIf="tableData.length > 0">
+      <table>
+        <thead >
+          <tr>
+            <th>Mistake Type</th>
+            <th *ngFor="let telemarketer of telemarketers">{{ telemarketer }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData">
+            <td>{{ item.mistakeType }}</td>
+            <td *ngFor="let telemarketer of telemarketers">
+              {{ getSurveyValue(item.telemarketerMistakes, telemarketer) }}
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="text-align: center;">Total</td>
+            <td *ngFor="let telemarketer of telemarketers">
+              {{ getTotalGSMs(telemarketer) }}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="tableData.length > 0">
+  <app-bar
+    [xLineData]="xLineLine"
+    [yLineData]="yLineLine"
+  ></app-bar>
+
+</mat-card>
+

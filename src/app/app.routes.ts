@@ -97,6 +97,20 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'weight-survey',
+        loadComponent: () =>
+          import('./project/weight-survey/weight-survey.component').then(
+            (c) => c.WeightSurveyComponent
+          )
+      },
+      {
+        path: 'mistake-summary',
+        loadComponent: () =>
+          import('./project/summary-report/summary-report.component').then(
+            (c) => c.SummaryReportComponent
+          )
+      },
+      {
         path: 'project-dictionary/:id',
         loadComponent: () =>
           import('./project/setting/project-dictionary/project-dictionary.component').then(
