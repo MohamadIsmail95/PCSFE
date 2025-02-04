@@ -53,7 +53,9 @@ export const items: IconNavItemWithRoles[] = [
       {
         title: 'Hourly Targets',
         svgIcon: KPI_ICON,
-        routerLink: 'evaluations'
+        routerLink: 'evaluations',
+        roles: ['admin'],
+
       }
 
     ],
