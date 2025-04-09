@@ -23,41 +23,38 @@ export const items: IconNavItemWithRoles[] = [
     title: 'Home',
     svgIcon: HOME_ICON,
     postition: 'top',
-    routerLink: 'home'
+    routerLink: 'home',
   },
   {
     title: 'Projects',
     svgIcon: KPI_ICON,
     postition: 'top',
-    roles: ['admin','Telemarketer'],
+    roles: ['admin', 'Telemarketer', 'Researcher'],
     children: [
       {
         title: 'Project List',
         svgIcon: LIST_ICON,
-        routerLink: 'projects'
-      }
-
+        routerLink: 'projects',
+      },
     ],
   },
   {
     title: 'Statistics',
     svgIcon: DASHBOARD_ICON,
     postition: 'top',
-    roles: ['admin','Researcher'],
+    roles: ['admin', 'Researcher', 'Telemarketer'],
     children: [
       {
         title: 'General Reports',
         svgIcon: REPORT_ICON,
-        routerLink: 'charts'
+        routerLink: 'charts',
       },
       {
         title: 'Hourly Targets',
         svgIcon: KPI_ICON,
         routerLink: 'evaluations',
         roles: ['admin'],
-
-      }
-
+      },
     ],
   },
 
@@ -71,27 +68,26 @@ export const items: IconNavItemWithRoles[] = [
         title: 'Mistake List',
         svgIcon: MISTAKE_LIST,
         postition: 'top',
-        routerLink: 'mistakes'
+        routerLink: 'mistakes',
       },
       {
         title: 'Team Mistake',
         svgIcon: TEAM_ICON,
         postition: 'top',
-        routerLink: 'team-mistake'
+        routerLink: 'team-mistake',
       },
       {
         title: 'Weight Vs Survey',
         svgIcon: DICTIONARY,
         postition: 'top',
-        routerLink: 'weight-survey'
+        routerLink: 'weight-survey',
       },
       {
         title: 'Summary',
         svgIcon: DEVICE_ICON,
         postition: 'top',
-        routerLink: 'mistake-summary'
-      }
-
+        routerLink: 'mistake-summary',
+      },
     ],
   },
   {
@@ -100,28 +96,26 @@ export const items: IconNavItemWithRoles[] = [
     postition: 'bottom',
     roles: ['admin'],
     children: [
-
       {
         title: 'Segmants',
         svgIcon: SUBSET_ICON,
-        routerLink: 'setting/segmants'
+        routerLink: 'setting/segmants',
       },
       {
         title: 'Mistake Type',
         svgIcon: COUNTER_ICON,
-        routerLink: 'setting/mistake-type'
+        routerLink: 'setting/mistake-type',
       },
       {
         title: 'Dictionary Mapping',
         svgIcon: EXTRA_FIELDS_ICON,
-        children :[
+        children: [
           {
             title: 'Project Type Dictionary',
             svgIcon: EXTRA_FIELDS_ICON,
-            routerLink: 'setting/dictionary'
-          }
-
-        ]
+            routerLink: 'setting/dictionary',
+          },
+        ],
       },
     ],
   },
