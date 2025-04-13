@@ -152,9 +152,9 @@
               ><br />
 
               <button
-                *ngIf="isResearcher"
+                *ngIf="isResearcher || isAdmin"
                 mat-button
-                color="warn"
+                color="primary"
                 (click)="exportDistributionExcel(row.id)"
               >
                 <mat-icon>file_download</mat-icon>
@@ -195,7 +195,7 @@
                   <span>Evaluation</span></button
                 ><br />
 
-                <button mat-button color="Basic" (click)="getRDays(row.id)">
+                <button mat-button color="primary" (click)="getRDays(row.id)">
                   <mat-icon>help_outline</mat-icon>
                   <span>R-Days</span></button
                 ><br />
