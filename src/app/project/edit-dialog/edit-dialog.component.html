@@ -17,8 +17,12 @@
       }
     </mat-select>
   </mat-form-field>
-  <mat-label>Choose a date</mat-label>
-  <mat-form-field class="example-full-width" style="width: 100%">
+  <mat-label *ngIf="isAdmin">Choose a date</mat-label>
+  <mat-form-field
+    class="example-full-width"
+    style="width: 100%"
+    *ngIf="isAdmin"
+  >
     <input
       [(ngModel)]="data.details.lastUpdateDate"
       matInput

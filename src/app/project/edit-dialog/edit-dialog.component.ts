@@ -59,6 +59,11 @@ export class EditDialogComponent implements OnInit {
     this.data.details.callStatus = this.data.status.filter(
       (x) => x.id === this.data.details.callStatusId
     )[0].name;
+
+    if (!this.isAdmin) {
+      this.data.details.lastUpdateDate = null;
+    }
+
     this.projectService
       .updateProjectDetail(this.data.details)
       .subscribe((res) => {
